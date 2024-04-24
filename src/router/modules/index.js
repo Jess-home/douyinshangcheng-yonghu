@@ -56,7 +56,7 @@ export default [
     }
   },
   {
-    path: '/orderInfo/:id',
+    path: '/orderInfo/:id?',
     name: 'OrderInfo',
     component: () => import('@/views/OrderInfo/index.vue'),
     meta: {
@@ -297,7 +297,7 @@ export default [
   },
   //detail
   {
-    path: '/detail/:product/:mer', // 子路由的路径为空表示它是默认子路由
+    path: '/detail/:product?/:mer?', // 子路由的路径为空表示它是默认子路由
     name: 'Detail',
     component: () => import('@/views/Detail/index.vue'),
     meta: {
@@ -361,7 +361,7 @@ export default [
     }
   },
   {
-    path: '/addressForm/:id',
+    path: '/addressForm/:id?',
     name: 'AddressForm',
     component: () => import('@/views/AddressForm/index.vue'),
     meta: {
@@ -371,7 +371,7 @@ export default [
     }
   },
   {
-    path: '/shop/:id',
+    path: '/shop/:id?',
     name: 'Shop',
     component: () => import('@/views/Shop/index.vue'),
     meta: {

@@ -91,12 +91,14 @@ const handlerPut=()=>{
 }
 const route=useRoute()
 onMounted(()=>{
-    toast.loading()
-    getAddressInfo({address_id:route.params.id}).then(res=>{
-        form.value=res.data
-    }).catch(err=>err).finally(()=>{
-        toast.close()
-    })
+    if(route.params?.id){
+        toast.loading()
+        getAddressInfo({address_id:route.params.id}).then(res=>{
+            form.value=res.data
+        }).catch(err=>err).finally(()=>{
+            toast.close()
+        })
+    }
 })
 </script>
 <style lang="scss" scoped>
