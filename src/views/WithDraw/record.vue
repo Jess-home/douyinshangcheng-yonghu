@@ -3,6 +3,16 @@
         title="提现记录"
     />
     <div class="container">
+        <div class="tabs">
+            <van-tabs 
+                v-model:active="tabActive" @change="statusChange"
+            >
+                <van-tab 
+                    v-for="item in tabs" :key="item.value" 
+                    :name="item.value" :title="item.name"
+                />
+            </van-tabs>
+        </div>
         <refresh-list
             class="content"
             :data="refreshData"
@@ -57,6 +67,12 @@ import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import { depositRecord as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
+const tabActive=ref('all')
+const tabs=ref([
+    { value: -1, name: '未通过' },
+    { value: 0, name: '审核中' },
+    { value: 1, name: '已提现' }
+])
 const data = ref([])
 const count = ref(0)
 const queryParams = ref({

@@ -114,6 +114,7 @@ const statusChange=val=>{
     queryParams.value.type=val
     queryParams.value.page=1
     handleQuery()
+    
 }
 handleQuery()
 </script>
