@@ -180,7 +180,17 @@ export default [
     name: 'WithDraw',
     component: () => import('@/views/WithDraw/index.vue'),
     meta: {
-      title: 'withDraw',
+      title: '提现',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
+  {
+    path: '/depositRecord',
+    name: 'DepositRecord',
+    component: () => import('@/views/WithDraw/record.vue'),
+    meta: {
+      title: '提现记录',
       requireAuth: false,
       keepAlive: true
     }
@@ -214,6 +224,16 @@ export default [
     component: () => import('@/views/CardTopUp/index.vue'),
     meta: {
       title: '银行卡充值',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
+  {
+    path: '/topUpRecord',
+    name: 'TopUpRecord',
+    component: () => import('@/views/WalletTopUp/record.vue'),
+    meta: {
+      title: '充值记录',
       requireAuth: false,
       keepAlive: true
     }

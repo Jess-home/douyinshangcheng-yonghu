@@ -75,8 +75,11 @@ const handlerFollowShop=()=>{
     follow({
         mer_id:queryParams.value.mer_id
     }).then(res=>{
+        toast.success({msg:(shopData.value.is_follow ? '取消关注':'关注成功')})
         shopData.value.is_follow=1
-        toast.success({msg:'关注成功'})
+        shopDetail(queryParams.value).then(res=>{
+            shopData.value=res.data
+        }).catch(err=>err)
     }).catch(err=>err)
 }
 const categories = ref([])

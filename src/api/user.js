@@ -211,3 +211,28 @@ export function verifyPay(data) {
     data: data
   })
 }
+
+/**
+ * 查询用户充值记录
+ *
+ * @returns 返回一个Promise对象，表示请求的结果
+ */
+export function rechargeRecord() {
+  return service({
+    url: '/api/user/recharge_log',
+    method: 'get',
+  })
+}
+
+
+/**
+ * 获取提现记录
+ *
+ * @returns 返回一个Promise对象，resolve时返回提现记录数据
+ */
+export function depositRecord() {
+  return service({
+    url: '/api/user/extract_log',
+    method: 'get',
+  })
+}

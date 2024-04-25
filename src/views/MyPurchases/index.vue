@@ -130,7 +130,11 @@ const handleQuery = async () => {
   toast.loading({ msg: '加载中...' })
   const res = await listData()
   data.value = res.data.list.map(item=>{
-    item.status_text=tabs.value.find(s=>(s.value===(item.status+''))).name
+    if(item.refund_status>0){
+        item.status_text=item.refund_status===1?'退款中':'已退款'
+    }else{
+        item.status_text=tabs.value.find(s=>(s.value===(item.status+''))).name
+    }
     return item
   })
   refreshData.value.disabled = false

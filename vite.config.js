@@ -5,6 +5,7 @@ import { VantResolver } from '@vant/auto-import-resolver';
 import { defineConfig } from 'vite'; // 引入 defineConfig 函数
 import { resolve } from 'path';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
 
 export default defineConfig({ // 使用 defineConfig 函数
@@ -17,7 +18,12 @@ export default defineConfig({ // 使用 defineConfig 函数
             ],
         }),
         Components({
-            resolvers: [VantResolver()],
+            resolvers: [
+                VantResolver(),
+                AntDesignVueResolver({
+                    importStyle: false, // css in js
+                }),
+            ] ,
         }),
         VueSetupExtend()
     ],

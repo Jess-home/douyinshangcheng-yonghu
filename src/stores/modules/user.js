@@ -65,6 +65,14 @@ const useUserStore = defineStore('user', {
           })
       })
     },
+    invalidToken(){
+      return new Promise((resolve, reject) => {
+        this.token = ''
+        this.userInfo = null
+        removeToken()
+        resolve()
+      })
+    },
     afterRePwd(){
       return new Promise((resolve, reject) => {
         this.token = ''

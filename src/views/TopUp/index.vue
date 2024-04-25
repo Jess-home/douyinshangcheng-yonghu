@@ -3,20 +3,20 @@ import NavBar from '@/components/CustomNavBar/index.vue'
 const list = [
   { path: '/walletTopUp', name: '链上充值', icon: 'bitcoin' },
   // { path: '/cardTopUp', name: '银行卡充值', icon: 'bank-card' },
-  { path: '', name: '人工充值', icon: 'headset-one' }
+  { path: '/service', name: '人工充值', icon: 'headset-one' }
 ]
 const router = useRouter()
 const goRoute = (item) => {
   router.push({ path: item.path })
 }
 const goRecord = () => {
-  router.push({ name: 'CapitalRecord' })
+  router.push({ name: 'TopUpRecord' })
 }
 </script>
 <template>
-  <NavBar title="充值" @right-click="goRecord">
+  <NavBar title="充值">
     <template #right>
-      <div style="padding-right: 1rem; font-size: 1.2rem">记录</div>
+      <div @click="goRecord" style="padding-right: 1rem; font-size: 1.2rem">记录</div>
     </template>
   </NavBar>
   <main class="mx-3">

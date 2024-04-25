@@ -1,18 +1,8 @@
 <template>
     <nav-bar 
-        title="资金记录"
+        title="提现记录"
     />
     <div class="container">
-        <div class="tabs">
-            <van-tabs 
-                v-model:active="tabActive" @change="statusChange"
-            >
-                <van-tab 
-                    v-for="item in tabs" :key="item.value" 
-                    :name="item.value" :title="item.name"
-                />
-            </van-tabs>
-        </div>
         <refresh-list
             class="content"
             :data="refreshData"
@@ -30,12 +20,17 @@
                     <icon-park name="finance" size="2.5rem" />
                 </div>
                 <div class="flex-auto flex flex-col justify-center">
-                    <span class="text-base font-normal">
-                    <!-- {{ item.type === 'recharge' ? '充值' : '提现' }} -->
-                    {{ item.title }}
+                    <span 
+                        class="text-base font-normal truncate"
+                        style="width:220px;"
+                    >
+                    {{ item.mark }}
                     </span>
                     <span class="text-sm opacity-80">
                     {{ item.createtime }}
+                    </span>
+                    <span class="text-sm opacity-80">
+                    审核结果: {{ item.admin_msg }}
                     </span>
                 </div>
                 <div class="flex justify-center items-center mx-3">
@@ -48,7 +43,7 @@
                         class="text-base font-medium"
                         :class="item.type === 'recharge' ? 'text-green' : 'text-red'"
                     >
-                    {{ item.money }}
+                    {{ item.extract_price }}
                     </span>
                 </div>
             </div>
@@ -60,20 +55,13 @@
 <script setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
-import { billList as list } from '@/api/user.js'
+import { depositRecord as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
-const tabActive=ref('all')
-const tabs=ref([
-    { value: 'all', name: '全部' },
-    { value: 'recharge', name: '充值' },
-    { value: 'extract', name: '提现' }
-])
 const data = ref([])
 const count = ref(0)
 const queryParams = ref({
   page: 1,
   limit: 10,
-  type: 'all'
 })
 const refreshData = ref({
   loading: false,
@@ -122,16 +110,10 @@ handleQuery()
 .container {
     overflow-y: hidden;
     padding: 0;
-    .tabs{
-        height: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
     .content{
         padding: 0;
         overflow-y: auto;
-        height: calc(100dvh - 100px);
+        height: calc(100dvh - 50px);
         .text-green {
             color: #00b557;
         }

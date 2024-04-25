@@ -180,7 +180,8 @@ const handlerSubmit = () => {
   toast.loading({ msg: '提交中...' })
   recharge(form.value)
     .then((res) => {
-      toast.success({ msg: '充值成功' })
+      router.back()
+      toast.success({ msg: res.msg})
     })
     .catch((err) => err)
     .finally(() => {

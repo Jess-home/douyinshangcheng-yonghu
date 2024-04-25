@@ -94,7 +94,7 @@
         <van-button 
             round block color="#000000"
             native-type="submit"
-        > Submit </van-button>
+        >提交</van-button>
       </div>
     </van-form>
   </div>
@@ -131,7 +131,7 @@ import toast from '@/utils/toast.js';
 import { multiply } from '@/utils/math.js'
 const router = useRouter()
 const goRecord = () => {
-  router.push({ name: 'CapitalRecord' })
+  router.push({ name: 'DepositRecord' })
 }
 const types=ref([
   {name:'银行卡',value:0},

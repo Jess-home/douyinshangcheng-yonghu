@@ -203,9 +203,9 @@ const payAction=()=>{
     out_trade_no:payData.value.out_trade_no,
     total_price:payData.value.total_price,
   }).then(res=>{
-    toast.success({msg:'支付成功'})
     showActionSheet.value = false
     router.back()
+    toast.success({msg:'支付成功'})
   }).catch(err=>{
     toast.fail({msg:'支付失败'})
   })

@@ -266,9 +266,9 @@ const payAction=()=>{
   pay({
     order_id:orderData.value.order_id
   }).then(res=>{
-    toast.success({msg:'支付成功'})
     showActionSheet.value = false
     router.back()
+    toast.success({msg:'支付成功'})
   }).catch(err=>{
     toast.err({msg:'支付失败'})
   })
