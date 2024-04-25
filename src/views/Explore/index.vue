@@ -173,10 +173,12 @@ onMounted(async () => {
   padding: 0;
   overflow-y: hidden;
   .content {
+    padding: 0 1rem 1.2rem 1rem;
     height: calc(100dvh - (50px + 50px));
     .tag-row {
       min-height: 3.2rem;
       flex-wrap: nowrap;
+      align-items: center;
       overflow-x: auto;
       .tag {
         white-space: nowrap;

@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <App-Header title="Change Password" />
+    <App-Header title="登录密码" />
     <van-form @submit="handlerChangePwd">
       <div class="content">
-        <div class="top-tip">The new password must be different from the current password</div>
+        <div class="top-tip">
+          新密码必须与旧密码不同
+        </div>
         <div class="forms">
           <Custom-Input
             label="Your Mobile"
@@ -30,12 +32,12 @@
           <div class="tips">
             <div>
               <van-icon name="success" />
-              &nbsp; There must be at least 8 characters
+              &nbsp; 密码长度至少为6
             </div>
-            <div style="padding-top: 0.5em">
+            <!-- <div style="padding-top: 0.5em">
               <van-icon name="success" />
               &nbsp; There must be a unique code like @!#
-            </div>
+            </div> -->
           </div>
           <Custom-Input
             label="New Password"
@@ -85,6 +87,8 @@ import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
 import { regMobile } from '@/utils/regExp.js'
+import useUserStore from '@/stores/modules/user.js'
+const userStore = useUserStore()
 const form = ref({
   mobile:undefined,
   oldPassword: undefined,
@@ -121,8 +125,8 @@ const newPwdValidator = (val) => {
   if(!val){
         return '请填写新密码'
   }else{
-      if(val.length < 8||!checkPwd(val)){
-        return '请填写正确的密码'
+      if(val.length < 6){
+        return '请按要求填写密码'
       }
       return true
   }
@@ -146,7 +150,9 @@ const handlerChangePwd = () => {
     oldpassword:form.value.oldPassword
   }).then(res=>{
     toast.success('修改成功')
-    router.push({name: 'Login'})
+    userStore.afterRePwd().then(()=>{
+      router.push({name:'Login'})
+    })
   }).catch(err=>err)
 }
 </script>

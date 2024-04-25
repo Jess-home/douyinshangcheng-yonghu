@@ -1,6 +1,6 @@
 <template>
   <div class="cart-item-container">
-    <div class="item-img">
+    <div class="item-img" @click="handlerGoDetail">
       <van-image width="6.5rem" height="auto" :src="product.goods?.image" />
     </div>
     <div class="item-info">
@@ -11,23 +11,22 @@
         {{ product.goods?.sales_price }}
         <div class="spec">{{ product.goods?.spec || product.spec || '未选规格' }}</div>
       </div>
-      <div class="number-ctl">
-        <!-- <van-icon name="minus" color="#191919" size="1.4rem" @click="minus" />
-                <div class="number-word">{{ product.cart_num }}</div>
-                <van-icon name="plus" color="#191919" size="1.4rem" @click="plus" /> -->
+      <div v-if="readonly && product.cart_id">
+          数量:&nbsp;&nbsp;{{ value }}
+        </div>
+      <div  v-else class="number-ctl">
         <van-stepper
           v-model="value"
-          :before-change="changeCartNum"
-          :disabled="readonly && product.cart_id"
+          :min="1"
         />
       </div>
       <div class="total">总计: &nbsp;${{ product.total_price }}</div>
     </div>
     <van-checkbox
+      v-if="!readonly"
       icon-size="2.2rem"
       v-model="product.checked"
       checked-color="#191919"
-      :disabled="readonly"
     />
   </div>
 </template>
@@ -45,10 +44,27 @@ const props = defineProps({
     default: false
   }
 })
-const value=computed(()=>{
-  return props.product.cart_num
-})
 const emit = defineEmits(['changeNum'])
+const value=computed({
+  get(){
+    return props.product.cart_num
+  },
+  set(val){
+    if(val<=0||isNaN(val)){
+      return
+    }
+    if (props.product.cart_id) {
+      emit('changeNum',{
+          cart_id: props.product.cart_id,
+          num: val
+        }
+      )
+    }else{
+      props.product.cart_num = val
+      emit('changeNum')
+    }
+  }
+})
 const changeCartNum = async (num) => {
   if (props.product.cart_id) {
     toast.loading({
@@ -73,18 +89,6 @@ const changeCartNum = async (num) => {
     emit('changeNum')
   }
 }
-// const emit=defineEmits(['changeNum'])
-// const minus=()=>{
-//     if(props.product.cart_num===1){
-//         return
-//     }
-//     props.product.cart_num-=1;
-//     emit('changeNum')
-// }
-// const plus=()=>{
-//     props.product.cart_num+=1;
-//     emit('changeNum')
-// }
 </script>
 <style lang="scss" scoped>
 .cart-item-container {

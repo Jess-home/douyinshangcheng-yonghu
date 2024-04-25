@@ -1,6 +1,6 @@
 <template>
-  <div class="container safari_only">
-    <App-Header title="Forgot Password" />
+  <div class="container">
+    <App-Header title="忘记密码" />
     <van-form @submit="handlerGoChangePwd">
     <div class="content">
       <div class="forgot-content-top">
@@ -53,8 +53,7 @@ const handlerGoChangePwd=()=>{
 .container {
   padding: 0;
   .content {
-    padding: 1rem 1rem 0 1rem;
-    height: calc(100dvh - (50px + 70px));
+    height: calc(100dvh - 120px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

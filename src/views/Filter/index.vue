@@ -85,7 +85,7 @@ import toast from '@/utils/toast.js';
 import { languageList,setDefaultLanguage } from '@/api/user.js';
 const userStore = useUserStore();
 const userInfo = computed(() => {
-  return userStore.userInfo;
+  return userStore.userInfo|| {};
 });
 const user_contacts=computed(()=>{
   return userStore.userInfo.email

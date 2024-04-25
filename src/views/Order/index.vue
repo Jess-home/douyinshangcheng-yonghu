@@ -89,6 +89,7 @@ import toast from '@/utils/toast.js'
 import { submitOrder,merPay } from '@/api/order.js'
 import { verifyPay } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user'
+import { showConfirmDialog } from 'vant'
 const userStore = useUserStore()
 const orderData = ref({
   product: [],
@@ -97,6 +98,7 @@ const orderData = ref({
 const address = computed(() => {
   if(userStore.backData.address){
     const _address = userStore.backData.address
+    orderData.value.address=_address
       return {
         name:  _address.name + _address.country,
         label: _address.tag
@@ -113,34 +115,6 @@ const address = computed(() => {
   return null
 })
 const addresses = ref([
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  },
-  {
-    name: 'Jane Cooper',
-    address: '华盛顿大道 4517 号曼彻斯特'
-  }
 ])
 const total = computed(() => {
   let _total = 0
@@ -170,6 +144,21 @@ const chooseAddress = (item) => {
 const showActionSheet = ref(false)
 const payData = ref({})
 const handlerSubmitOrder = () => {
+  if(!orderData.value.address){
+    toast.show({msg:'请选择收货地址'})
+    return
+  }
+  if(!userStore.userInfo.have_pay){
+    showConfirmDialog({
+      message: '你还未设置支付密码?',
+      confirmButtonText:'去设置'
+    })
+      .then(() => {
+        router.push({name:'ChangePayPwd'})
+      })
+      .catch(() => {})
+    return
+  }
   toast.loading({ msg: '提交订单...' })
   const _data = {
     address_id: orderData.value.address.address_id,
@@ -205,7 +194,6 @@ const verifyPwd=pwd=>{
   verifyPay({
     password_pay:pwd
   }).then(res=>{
-    console.log(res)
     payAction()
   }).catch(err=>err)
 }
@@ -219,7 +207,7 @@ const payAction=()=>{
     showActionSheet.value = false
     router.back()
   }).catch(err=>{
-    toast.err({msg:'支付失败'})
+    toast.fail({msg:'支付失败'})
   })
 }
 onMounted(() => {

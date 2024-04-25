@@ -78,14 +78,14 @@
         <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" />
       </div>
     </div>
-    <div class="social-container">
+    <!-- <div class="social-container">
       <van-divider>社交账号登录</van-divider>
       <div class="social-items">
         <van-image @click="handlerSocialLogin" width="4rem" height="auto" :src="Twitter" />
         <van-image @click="handlerSocialLogin" width="4rem" height="auto" :src="FaceBook" />
         <van-image @click="handlerSocialLogin" width="4rem" height="auto" :src="Google" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -160,7 +160,7 @@ const handlerSocialLogin = () => {
       line-height: 1.6rem;
     }
     .welcome {
-      padding-top: 1rem;
+      padding-top: 2rem;
       font-weight: 600;
       font-size: 2rem;
       color: #191919;
@@ -205,11 +205,11 @@ const handlerSocialLogin = () => {
         }
       }
       .pwd-input {
-        padding-top: 1.5rem;
+        padding-top: 2rem;
       }
     }
     .forget-pwd {
-      padding: 1.5rem 1rem 0 0;
+      padding: 2rem 1rem 0 0;
       font-weight: 400;
       font-size: 0.72rem;
       color: #000000;
@@ -220,7 +220,7 @@ const handlerSocialLogin = () => {
       padding-top: 6.5rem;
     }
     .go-register {
-      padding-top: 2.2rem;
+      padding-top: 3rem;
       font-weight: 500;
       font-size: 1rem;
       color: #191919;

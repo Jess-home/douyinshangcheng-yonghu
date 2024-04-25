@@ -23,7 +23,7 @@ const menus = ref([
   {
     name: '修改密码',
     iconName: 'shield',
-    routeName: 'ChangePassword'
+    routeName: 'Passwords'
   },
   {
     name: '帮助与支持',

@@ -11,9 +11,6 @@
                 <span class="user-name">{{ address.name }}</span>
                 {{ address.mobile }}
             </div>
-            <div class="city location">
-                {{ detailAddress }}
-            </div>
             <div class="location detail">
                 {{ address.detail }}
             </div>
@@ -37,10 +34,6 @@ const props=defineProps({
 })
 const isDefault = computed(()=>{
     return props.address.is_default===1
-})
-const detailAddress=computed(()=>{
-    const _address=props.address
-    return _address.province.name+_address.city.name+_address.area.name
 })
 const emit=defineEmits(['edit'])
 const editAddress=()=>{
@@ -103,7 +96,7 @@ const editAddress=()=>{
             padding-top: 0.2rem;
         }
         .detail{
-            padding-top: 0.1rem;
+            padding-top: 0.2rem;
             display: -webkit-box;
             -webkit-line-clamp: 2; /* 指定行数 */
             -webkit-box-orient: vertical;

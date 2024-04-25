@@ -30,7 +30,7 @@
           >
             {{ item.keyword }}
           </div>
-        </van-space>
+        </van-space>       
       </div>
     </div>
     <refresh-list
@@ -161,14 +161,13 @@ init()
 .container {
   padding: 0;
   .top {
-    padding: 0 1rem 0 1rem;
-    height: 120px;
+    padding:0 1rem  0.5rem 1rem;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: stretch;
     .filter-row {
-      padding-top: 1rem;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -204,6 +203,7 @@ init()
     }
   }
   .content {
+    padding: 0 1rem 1.2rem 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;

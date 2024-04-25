@@ -67,6 +67,21 @@
           >
             立即付款
           </van-button>
+          <div style="width:1rem;" />
+          <van-button 
+            round block
+            @click="handlerCancel"
+          >
+            取消
+          </van-button>
+        </div>
+        <div v-if="canReceived" class="button">
+          <van-button 
+            block round color="#191919"
+            @click="handlerConfirmReceived"
+          >
+            确认收货
+          </van-button>
         </div>
       </div>
       <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
@@ -95,9 +110,11 @@ import CartItem from '@/components/CartItem/info.vue'
 import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
 import Payment from '@/components/Peyment/index.vue'
 import toast from '@/utils/toast.js'
-import { detail,pay } from '@/api/order.js'
+import { detail,pay,cancelOrder,received as confirmReceived} from '@/api/order.js'
 import { verifyPay } from '@/api/user.js'
 import { order_statuses } from '@/utils/constants.js'
+import useUserStore from '@/stores/modules/user.js'
+const userStore = useUserStore()
 const orderData = ref({})
 const status = computed(() => {
     const _status=order_statuses.find(item=>(item.value===(orderData.value.status+'')))
@@ -106,13 +123,16 @@ const status = computed(() => {
 const canPay=computed(()=>{
     return orderData.value.status=== 0
 })
+const canReceived=computed(()=>{
+  return orderData.value.status=== 2
+})
 const hasDeliveryInfo=computed(()=>{
     return !!orderData.value.delivery_id
 })
 const address=computed(()=>{
     return {
         name:orderData.value.user_address,
-        label:orderData.value.real_name,
+        label:orderData.value.real_name+'  '+orderData.value.user_phone,
     }
 })
 const allTotal = computed(() => {
@@ -122,14 +142,56 @@ const floatingPanel = ref(null)
 const router=useRouter()
 const showActionSheet = ref(false)
 const handlerPay = () => {
-    showActionSheet.value = true
+  if(!userStore.userInfo.have_pay){
+    showConfirmDialog({
+      message: '你还未设置支付密码?',
+      confirmButtonText:'去设置'
+    })
+      .then(() => {
+        router.push({name:'ChangePayPwd'})
+      })
+      .catch(() => {})
+    return
+  }
+  showActionSheet.value = true
+}
+const handlerCancel=()=>{
+  showConfirmDialog({
+      message: '是否确认取消该订单?',
+    })
+      .then(() => {
+        cancel()
+      })
+      .catch(() => {})
+}
+const handlerConfirmReceived=()=>{
+  showConfirmDialog({
+      message: '是否确认收货?',
+    })
+      .then(() => {
+        received()
+      })
+      .catch(() => {})
+}
+const cancel=()=>{
+  toast.loading()
+  cancelOrder({order_id:orderData.value.order_id}).then(res=>{
+    toast.success({msg:res.msg})
+    router.back()
+  }).catch(err=>err)
+}
+const received=()=>{
+  toast.loading()
+  confirmReceived({order_id:orderData.value.order_id}).then(res=>{
+    toast.success({msg:res.msg})
+    router.back()
+  }).catch(err=>err)
 }
 const verifyPwd=pwd=>{
   toast.loading()
   verifyPay({
       password_pay:pwd
   }).then(res=>{
-      console.log(res)
       payAction()
   }).catch(err=>err)
 }
@@ -154,22 +216,6 @@ onMounted(() => {
     }).catch(err => err).finally(() => {
         toast.close()
     })
-    // const _data = JSON.parse(route.query.orderData)
-    // _data.product = _data.product.map((item) => {
-    //     return {
-    //     ...item,
-    //     checked: true,
-    //     cart_num: item.number,
-    //     total_price: multiply(item.sales_price, item.number),
-    //     goods: {
-    //         spec: item.spec,
-    //         image: item.image,
-    //         title: item.title,
-    //         sales_price: item.sales_price
-    //     }
-    //     }
-    // })
-    // orderData.value = _data
 })
 </script>
   <style lang="scss" scoped>
@@ -219,7 +265,7 @@ onMounted(() => {
     }
     .bottom {
       .total-price {
-        flex: 3;
+        flex: 2;
         font-weight: 500;
         font-size: 1rem;
         color: #191919;
@@ -229,14 +275,17 @@ onMounted(() => {
         align-items: center;
         .total-number {
           padding-left: 0.25rem;
-          font-weight: 500;
-          font-size: 2rem;
+          font-weight: 600;
+          font-size: 1.4rem;
           color: #fe4857;
-          line-height: 2rem;
+          line-height: 1.6rem;
         }
       }
       .button {
-        flex: 2;
+        flex: 3;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
       }
     }
     ::v-deep(.van-action-sheet) {

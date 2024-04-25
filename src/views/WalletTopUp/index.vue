@@ -4,7 +4,7 @@
     <div class="content">
       <main class="mx-3">
         <div class="qrcode-row">
-          <canvas style="width: 10rem; height: 10rem" ref="qrcodeRef" />
+          <canvas style="width: 8rem; height: 8rem" ref="qrcodeRef" />
         </div>
         <!-- <div class="flex justify-center items-center my-2">
           <div class="w-40 h-40 bg-white rounded-md">
@@ -211,10 +211,6 @@ getBlockchain()
     flex-direction: column;
     align-items: stretch;
     .qrcode-row {
-      background: #ffffff;
-      width: 100%;
-      height: 12rem;
-      padding: 1rem 0;
       display: flex;
       flex-direction: row;
       justify-content: center;

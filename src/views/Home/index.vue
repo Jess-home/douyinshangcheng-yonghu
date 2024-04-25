@@ -93,6 +93,7 @@
   <AppTabbar/>
 </template>
 <script name="Home" setup>
+import to from 'await-to-js';
 import tiktok from '@/assets/image/titok-wholesale.png';
 import CustomInput from '@/components/Input/index.vue';
 import homeBoard from '@/assets/image/home-board.png';
@@ -107,7 +108,7 @@ import useBasicData from '@/stores/modules/basicData.js';
 import useUserStore from '@/stores/modules/user.js';
 import AppTabbar from '@/components/AppTabbar/index.vue';
 import {setDefaultLanguage} from '@/api/user.js';
-
+import { setLocalLang } from '@/utils/auth.js'
 const basicData = useBasicData();
 const userStore = useUserStore();
 const languages=ref([])
@@ -115,21 +116,28 @@ const floatingPanel=ref(null)
 const handlerShowLang=()=>{
   floatingPanel.value.show = true;
 }
-const handlerLanguageChoose = (language) => {
-  floatingPanel.value.show = false;
+const handlerLanguageChoose = async(language) => {
   toast.loading();
-  setDefaultLanguage({lang_id:language.id}).then(res=>{
-    toast.success({msg:'设置成功'});
-    userStore.setLanguage(language);
-    languages.value.forEach(l=>{
-      if(l.id===language.id){
-        l.is_default=1;
-      }else{
-        l.is_default=0;
-      }
-    })
-  }).catch(err=>err)
-
+  floatingPanel.value.show = false;
+  const [err,res]=await to(userStore.isLogin())
+  if(res){
+    const [err,res]=await to(setDefaultLanguage({lang_id:language.id}))
+    if(err){
+      toast.error({msg:'设置失败'});
+      return
+    }
+    userStore.setLanguage(language)
+  }else{
+    setLocalLang(language)
+  }
+  languages.value.forEach(l=>{
+    if(l.id===language.id){
+      l.is_default=1;
+    }else{
+      l.is_default=0;
+    }
+  })
+  toast.success({msg:'设置成功'});
 };
 const swipeImgs = ref([homeBoard, homeBoard]);
 const categories = ref([]);
@@ -146,15 +154,14 @@ const handlerClassClick = (item) => {
     category_id: item.category_id,
     page: 1,
     limit: 8
+  }).then((res) => {
+    selectedClass.value = item;
+    hotProducts.value = splitArray(res.data.list, 4);
   })
-      .then((res) => {
-        selectedClass.value = item;
-        hotProducts.value = splitArray(res.data.list, 4);
-      })
-      .catch((err) => err)
-      .finally(() => {
-        toast.close();
-      });
+  .catch((err) => err)
+  .finally(() => {
+    toast.close();
+  });
 };
 const goDetail = (product) => {
   router.push({
@@ -163,7 +170,6 @@ const goDetail = (product) => {
 };
 onMounted(async () => {
   toast.loading({msg: '加载中...'});
-  console.log(languages.value);
   const responses1 = await Promise.all([
     banner()
         .then((res) => res)

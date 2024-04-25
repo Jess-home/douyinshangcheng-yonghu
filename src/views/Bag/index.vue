@@ -4,7 +4,9 @@
     <div class="content">
       <div v-if="carts.length" class="products">
         <van-swipe-cell class="cart-item-container" v-for="(item, index) in carts" :key="index">
-          <cart-item :product="item" @changeNum="changeNumSuccess" />
+          <cart-item 
+            :product="item" @changeNum="changeNum" 
+          />
           <template #right>
             <div class="cart-item-del" @click="removeItem(item.cart_id)">删除</div>
           </template>
@@ -28,15 +30,26 @@
   <AppTabbar />
 </template>
 <script setup name="Bag">
+import throttle from 'lodash/throttle'
 import NavBar from '@/components/CustomNavBar/index.vue'
 import CartItem from '@/components/CartItem/index.vue'
 import toast from '@/utils/toast.js'
-import { getCartList, delCarts } from '@/api/cart.js'
+import { getCartList, delCarts,setCartNum } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { plus } from '@/utils/math.js'
 const changeNumSuccess = () => {
   handlerQuery()
 }
+const changeNum=throttle((data)=>{
+  setCartNum(data).then(res1=>{
+    return getCartList()
+  }).then(res2=>{
+    carts.value = res2.data.carts.map((item) => ({
+        ...item,
+        checked: true
+      }))
+  }).catch(err=>err)
+}, 1200)  
 const removeItem = (id) => {
   toast.loading({ msg: '删除中...' })
   delCarts(id).then(() => {

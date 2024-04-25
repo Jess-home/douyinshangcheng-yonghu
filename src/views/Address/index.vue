@@ -3,12 +3,11 @@
         <nav-bar title="收货地址" />
         <refresh-list
             class="content"
-            v-if="data.length"
             :data="refreshData"
             @refresh="onRefresh"
             @load="onLoad"
         >
-            <van-space fill direction="vertical" size="0.6rem">
+            <van-space v-if="data.length" fill direction="vertical" size="0.6rem">
               <van-swipe-cell 
                 class="address-container" 
                 v-for="item in data" :key="item.address_id"

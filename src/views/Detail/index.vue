@@ -34,6 +34,7 @@
                 单价
                 <span class="product-price">${{ detail.goods?.sales_price }}</span>
               </div>
+              <div>库存 {{ detail.goods?.stock }}</div>
               <div>销量 {{ detail.sales }}</div>
             </div>
           </div>
@@ -92,7 +93,10 @@
           <div class="product-info-item">
             <div class="product-info-item-content">
               <div>已选数量</div>
-              <van-stepper v-model="detail.number" step="1" />
+              <van-stepper 
+                v-model="detail.number" 
+                step="1" 
+              />
             </div>
           </div>
         </div>
@@ -254,7 +258,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const total = computed(() => {
   if (detail.value.goods) {
-    return multiply(detail.value.goods.sales_price, detail.value.number)
+    return multiply(detail.value.goods.sales_price, detail.value.number||0)
   }
   return 0
 })

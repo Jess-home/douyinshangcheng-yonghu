@@ -55,6 +55,14 @@ export function resetpwd(data) {
   })
 }
 
+export function resetPaypwd(data) {
+  return service({
+    url: '/api/user/resetPay',
+    method: 'post',
+    data: data
+  })
+}
+
 export function followList(data) {
   return service({
     url: '/api/user/follow_list',

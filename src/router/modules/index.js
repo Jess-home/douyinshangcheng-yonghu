@@ -142,6 +142,16 @@ export default [
       keepAlive: true
     }
   },
+  {
+    path: '/changePayPwd',
+    name: 'ChangePayPwd',
+    component: () => import('@/views/ChangePayPwd/index.vue'),
+    meta: {
+      title: 'changePassword',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
   //  help and support
   {
     path: '/helpAndSupport',
@@ -397,6 +407,16 @@ export default [
     component: () => import('@/views/Service/index.vue'),
     meta: {
       title: '客服',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
+  {
+    path: '/passwords',
+    name: 'Passwords',
+    component: () => import('@/views/Passwords/index.vue'),
+    meta: {
+      title: '修改密码',
       requireAuth: false,
       keepAlive: true
     }
