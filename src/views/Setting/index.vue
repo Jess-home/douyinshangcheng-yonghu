@@ -15,11 +15,11 @@ import useUserStore from '@/stores/modules/user.js'
 import { showConfirmDialog } from 'vant'
 import toast from '@/utils/toast.js'
 const menus = ref([
-  {
-    name: '忘记密码',
-    iconName: 'setting-two',
-    routeName: 'ForgotPassword'
-  },
+  // {
+  //   name: '忘记密码',
+  //   iconName: 'setting-two',
+  //   routeName: 'ForgotPassword'
+  // },
   {
     name: '修改密码',
     iconName: 'shield',

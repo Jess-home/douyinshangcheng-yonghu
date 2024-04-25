@@ -6,7 +6,7 @@
                 <div class="tips">
                     <div>
                     <van-icon name="success" />
-                    &nbsp; 密码长度必须为6,仅支持数字
+                    &nbsp; 密码长度必须为6位,仅支持数字
                     </div>
                     <div style="padding-top: 0.5em">
                     <van-icon name="success" />
@@ -17,20 +17,36 @@
                     :value="form.oldpassword"
                     label="旧密码"
                     placeholder="请输入旧密码"
-                    type="digit"
                     @blur="val=>form.oldpassword=val"
                     :rules="[{ validator:oldPwdValidator, trigger:'onSubmit' }]"
-                />
+                    :type="showPwd? 'text' : 'password'"
+                >
+                    <template #right>
+                        <icon-park 
+                            :name="showPwd? 'preview-close-one' : 'preview-open'" 
+                            size="1.5rem" 
+                            @click.stop="showPwd = !showPwd"
+                        />
+                    </template>
+                </custom-input>
                 <custom-input 
                     style="margin-top: 1.5rem"
                     :value="form.newpassword"
                     label="新密码"
                     required
-                    type="digit"
                     placeholder="请输入新密码"
                     @blur="val=>form.newpassword=val"
+                    :type="showNewPwd? 'text' : 'password'"
                     :rules="[{ validator:newPwdValidator, trigger:'onSubmit' }]"
-                />
+                >
+                    <template #right>
+                        <icon-park 
+                            :name="showNewPwd? 'preview-close-one' : 'preview-open'" 
+                            size="1.5rem" 
+                            @click.stop="showNewPwd = !showNewPwd"
+                        />
+                    </template>
+                </custom-input>
             </div>
             <div class="bottom">
                 <van-button round block color="#191919"  native-type="submit">
@@ -49,6 +65,8 @@ const form=ref({
     newpassword:undefined,
     is_verify:'0'   //  默认设置支付密码
 })
+const showPwd = ref(false)
+const showNewPwd=ref(false)
 const oldPwdValidator=val=>{
     if(val){
         if(val.length!==6){
