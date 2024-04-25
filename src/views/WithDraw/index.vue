@@ -5,7 +5,6 @@
         <div 
           style="font-size:1.2rem;padding-right:1rem;"
           @click.stop="goRecord"
-          @click="goRecord"
         >记录</div>
       </template>
     </nav-bar>
@@ -88,7 +87,7 @@
       </template>
       <div class="tips">
         <div class="balance">余额: {{ info.balance }}</div>
-        <div @click="form.price=info.service_charge">全部提现</div>
+        <div @click="form.price=info.balance">全部提现</div>
       </div>
       </div>
       <div class="bottom">

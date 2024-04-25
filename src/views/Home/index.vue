@@ -65,11 +65,11 @@
           <div class="title-words">热门商店</div>
         </div>
         <van-swipe
-            :autoplay="3000"
-            :show-indicators="false"
-            lazy-render
-            style="height: 390px"
-            vertical
+          :autoplay="3000"
+          :show-indicators="false"
+          lazy-render
+          style="height: 390px"
+          vertical
         >
           <van-swipe-item v-for="(item, index) in hotShops" :key="index + 'shop'">
             <div class="hot-shop-items">

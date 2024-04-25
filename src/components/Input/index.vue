@@ -18,7 +18,7 @@
           :placeholder="placeholder"
           :center="center"
           @click="handleClick"
-        />
+        </van-field>
       </div>
       <slot name="right" />
     </div>

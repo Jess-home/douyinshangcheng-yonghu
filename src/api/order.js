@@ -55,3 +55,25 @@ export function pay(data) {
     data: data
   })
 }
+
+export function deleteOrder(data) {
+  return serivce.request({
+    url: '/api/order/delete',
+    method: 'post',
+    data: data
+  })
+}
+
+/**
+ * 退款订单
+ *
+ * @param data 退款数据
+ * @returns 返回退款请求结果
+ */
+export function refundOrder(data){
+  return serivce.request({
+    url: '/api/order/refund',
+    method: 'post',
+    data: data
+  })
+}

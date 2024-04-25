@@ -75,7 +75,7 @@
       </div>
       <div @click="handlerRegister" class="go-register">
         去注册
-        <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" />
+        <!-- <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" /> -->
       </div>
     </div>
     <!-- <div class="social-container">
@@ -227,7 +227,7 @@ const handlerSocialLogin = () => {
       line-height: 1.6rem;
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
     }
   }

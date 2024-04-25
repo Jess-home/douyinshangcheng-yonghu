@@ -60,7 +60,7 @@
           总计：
           <div class="total-number">${{ allTotal }}</div>
         </div>
-        <div v-if="canPay" class="button">
+        <!-- <div v-if="canPay" class="buttons">
           <van-button 
             block round color="#191919"
             @click="handlerPay"
@@ -75,13 +75,26 @@
             取消
           </van-button>
         </div>
-        <div v-if="canReceived" class="button">
+        <div v-if="canReceived" class="buttons">
           <van-button 
             block round color="#191919"
             @click="handlerConfirmReceived"
           >
             确认收货
           </van-button>
+        </div> -->
+        <div class="buttons">
+          <van-space size="0.25rem">
+            <van-button  
+              block round
+              v-for="btn in _buttons" :key="btn.value"
+              :type="btn.type"
+              :color="btn.color"
+              @click="handlerDeal(btn.value)"
+            >
+              {{ btn.name }}
+            </van-button>
+          </van-space>
         </div>
       </div>
       <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
@@ -110,30 +123,60 @@ import CartItem from '@/components/CartItem/info.vue'
 import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
 import Payment from '@/components/Peyment/index.vue'
 import toast from '@/utils/toast.js'
-import { detail,pay,cancelOrder,received as confirmReceived} from '@/api/order.js'
+import { detail,pay,cancelOrder,received as confirmReceived,refundOrder} from '@/api/order.js'
 import { verifyPay } from '@/api/user.js'
 import { order_statuses } from '@/utils/constants.js'
 import useUserStore from '@/stores/modules/user.js'
 const userStore = useUserStore()
 const orderData = ref({})
 const status = computed(() => {
-    const _status=order_statuses.find(item=>(item.value===(orderData.value.status+'')))
-    return _status?.name
+  const _status=order_statuses.find(item=>(item.value===(orderData.value.status+'')))
+  return _status?.name
 })
+const buttons=ref([
+  { name: '立即付款', statuses: ['0'], value: 'pay',color:'#191919' },
+  { name: '取消', statuses: ['0'], value: 'cancel',type:'default' },
+  { name: '确认收货', statuses: ['2'], value: 'confirmReceived',type:'success' },
+  { name: '申请退款', statuses: ['1','2','3','4'] , value: 'refund',type:'danger' },
+])
+const _buttons=computed(()=>{
+  return buttons.value.filter(item=>{
+    return item.statuses.includes(orderData.value.status+'')
+  })
+})
+const handlerDeal=type=>{
+  console.log(type)
+  switch(type){
+    case 'pay': // 付款
+      handlerPay()
+      break
+    case 'cancel':  //  取消订单
+      handlerCancel()
+      break
+    case 'confirmReceived': //  确认收货
+      handlerConfirmReceived()
+      break
+    case 'refund':  //  申请退款
+      confirmRefund()
+      break
+    default:
+      break
+  }
+}
 const canPay=computed(()=>{
-    return orderData.value.status=== 0
+  return orderData.value.status=== 0
 })
 const canReceived=computed(()=>{
   return orderData.value.status=== 2
 })
 const hasDeliveryInfo=computed(()=>{
-    return !!orderData.value.delivery_id
+  return !!orderData.value.delivery_id
 })
 const address=computed(()=>{
-    return {
-        name:orderData.value.user_address,
-        label:orderData.value.real_name+'  '+orderData.value.user_phone,
-    }
+  return {
+    name:orderData.value.user_address,
+    label:orderData.value.real_name+'  '+orderData.value.user_phone,
+  }
 })
 const allTotal = computed(() => {
     return orderData.value.total_price || 0
@@ -141,6 +184,7 @@ const allTotal = computed(() => {
 const floatingPanel = ref(null)
 const router=useRouter()
 const showActionSheet = ref(false)
+
 const handlerPay = () => {
   if(!userStore.userInfo.have_pay){
     showConfirmDialog({
@@ -170,6 +214,28 @@ const handlerConfirmReceived=()=>{
     })
       .then(() => {
         received()
+      })
+      .catch(() => {})
+}
+const confirmRefund=()=>{
+  if(orderData.value.refund_status!==0){
+    toast.show({msg:'您已经提交了退款申请'})
+    return
+  }
+  showConfirmDialog({
+      message: '是否确认申请退款?',
+    })
+      .then(() => {
+        const product_ids=orderData.value.products.map(item=>(item.order_product_id)).join(',')
+        router.push({
+            name:'Refund',
+            params:{
+              id:orderData.value.order_id,
+              sn:orderData.value.order_sn,
+              product_ids:product_ids,
+              amount:orderData.value.total_price,
+            }
+        })
       })
       .catch(() => {})
 }
@@ -281,11 +347,11 @@ onMounted(() => {
           line-height: 1.6rem;
         }
       }
-      .button {
+      .buttons {
         flex: 3;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
       }
     }
     ::v-deep(.van-action-sheet) {

@@ -65,6 +65,17 @@ export default [
       keepAlive: true
     }
   },
+  //  退款申请
+  {
+    path: '/refund/:id?/:sn?/:product_ids?/:amount?',
+    name: 'Refund',
+    component: () => import('@/views/OrderInfo/refund.vue'),
+    meta: {
+      title: '退款申请',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
   //  结算
   {
     path: '/checkout',
