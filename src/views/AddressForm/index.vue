@@ -115,6 +115,10 @@ onMounted(() => {
     ::v-deep(.van-cell) {
       border-radius: 0 !important;
     }
+    .bottom {
+      position: sticky;
+      bottom: 0;
+    }
   }
 }
 </style>

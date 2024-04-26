@@ -77,7 +77,7 @@
       </div>
       <div @click="handlerRegister" class="go-register">
         去注册
-        <!-- <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" /> -->
+        <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" />
       </div>
     </div>
     <!-- <div class="social-container">
@@ -143,12 +143,11 @@ const handlerSocialLogin = () => {
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
 .container {
-  padding: 2rem;
+  padding: 2rem 1rem 1rem 1rem;
   height: 100dvh;
   background: #ffffff;
   .login-container {
     flex: 5;
-    padding-top: 1.8rem;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -162,14 +161,14 @@ const handlerSocialLogin = () => {
       line-height: 1.6rem;
     }
     .welcome {
-      padding-top: 2rem;
+      padding-top: 3rem;
       font-weight: 600;
       font-size: 2rem;
       color: #191919;
       line-height: 2.2rem;
     }
     .login-type {
-      padding-top: 4.5rem;
+      padding-top: 3rem;
       font-weight: 400;
       font-size: 1.2rem;
       color: #191919;
@@ -184,7 +183,7 @@ const handlerSocialLogin = () => {
       }
     }
     .login-forms {
-      padding-top: 2.2rem;
+      padding-top: 3rem;
       .form-input {
         .form-label {
           font-weight: 400;
@@ -219,7 +218,7 @@ const handlerSocialLogin = () => {
       text-align: right;
     }
     .login-button {
-      padding-top: 6.5rem;
+      padding-top: 4rem;
     }
     .go-register {
       padding-top: 3rem;

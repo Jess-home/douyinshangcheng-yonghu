@@ -1,28 +1,24 @@
 <template>
   <div class="container">
     <nav-bar title="帮助与支持" />
-    <!--<div class="top">-->
-    <!--  &lt;!&ndash;<custom-input&ndash;&gt;-->
-    <!--  &lt;!&ndash;    :value="query.searchVal"&ndash;&gt;-->
-    <!--  &lt;!&ndash;    @blur="handlerFilter"&ndash;&gt;-->
-    <!--  &lt;!&ndash;/>&ndash;&gt;-->
-    <!--</div>-->
     <div class="content">
-      <div
-        v-for="item in items"
-        :key="item.title"
-        class="item-container bg-white rounded-md shadow"
-      >
-        <div class="p-3">
-          <div class="item-row" @click="() => (item.showDesc = !item.showDesc)">
-            <div class="item-title">{{ item.title }}</div>
-            <van-icon :name="item.showDesc ? 'arrow-up' : 'arrow-down'" color="#111111" size="20" />
-          </div>
-          <div v-show="item.showDesc" class="item-desc">
-            <div v-html="item.content" />
+      <van-space direction="vertical" size="0.5rem">
+        <div
+          v-for="item in items"
+          :key="item.title"
+          class="item-container bg-white rounded-md shadow"
+        >
+          <div class="p-3">
+            <div class="item-row" @click="() => (item.showDesc = !item.showDesc)">
+              <div class="item-title">{{ item.title }}</div>
+              <van-icon :name="item.showDesc ? 'arrow-up' : 'arrow-down'" color="#111111" size="20" />
+            </div>
+            <div v-show="item.showDesc" class="item-desc">
+              <div v-html="item.content" />
+            </div>
           </div>
         </div>
-      </div>
+      </van-space>
     </div>
   </div>
 </template>
@@ -71,19 +67,13 @@ getData()
 .container {
   padding: 0;
   overflow-y: hidden;
-
-  .top {
-    padding: 1rem;
-    height: 70px;
-  }
-
   .content {
-    padding: 1.5rem 1rem 1rem 1rem;
+    padding: 2rem 1rem 1rem 1rem;
     overflow-y: auto;
     height: calc(100dvh - 120px);
 
     .item-container {
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       display: flex;
       flex-direction: column;
       border-bottom: 1px solid #e5e5e5;

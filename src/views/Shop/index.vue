@@ -17,12 +17,11 @@
         </div>
       </div>
     </div>
-    <van-swipe :autoplay="3000" v-if="banners.length" :show-indicators="false" lazy-render>
+    <van-swipe :autoplay="3000" :show-indicators="false" lazy-render>
       <van-swipe-item v-for="(item, index) in banners" :key="index + 'banner'">
         <van-image height="8.5rem" width="100%" :src="item" />
       </van-swipe-item>
     </van-swipe>
-    <van-image v-else height="8.5rem" :src="Board" />
     <div class="content">
       <div class="classes-container">
         <van-space size="1.5rem" fill>
@@ -98,7 +97,13 @@ const goDetail = (product) => {
   })
 }
 const shopData = ref({})
-const banners=ref([])
+const banners=computed(()=>{
+  if(shopData.value.banner){
+    return shopData.value.banner.split(',')
+  }
+  //  商户没有轮播图的话,就是放两张默认的
+  return [Board,Board]
+})
 const route = useRoute()
 const router = useRouter()
 onMounted(async () => {
@@ -110,7 +115,6 @@ onMounted(async () => {
   shopDetail(queryParams.value)
     .then((res) => {
       shopData.value = res.data
-      banners.value=res.data.banner.split(',')
     })
     .catch((err) => err)
     .finally(() => {

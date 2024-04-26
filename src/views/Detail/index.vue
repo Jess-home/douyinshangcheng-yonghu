@@ -17,15 +17,20 @@
     </nav-bar>
     <div class="content" ref="contentRef">
       <div class="product" ref="productRef">
-        <van-swipe class="product-img" :autoplay="-1" indicator-color="#b6b6b6">
+        <van-swipe class="product-img" :autoplay="-1" indicator-color="#4c4c4c">
           <van-swipe-item v-for="item in imgs" :key="item" style="text-align: center">
             <van-image width="96%" radius="0.5rem" height="220" fit="container" :src="item" />
           </van-swipe-item>
         </van-swipe>
         <div class="product-info">
           <div class="product-info-item">
-            <div class="product-info-item-content product-name">
-              {{ detail.goods?.title }}
+            <div class="product-info-item-content product-name-row">
+              <div class="product-name">{{ detail.goods?.title }}</div>
+              <van-icon 
+                :color="isLike?'#fe4857':'#191919'"
+                :name="isLike?'like':'like-o'" size="1.4rem" 
+                @click.stop="toggleLike"
+              />
             </div>
           </div>
           <div class="product-info-item">
@@ -100,55 +105,15 @@
       </div>
       <div class="comment" ref="commentRef">
         <div class="comment-title">用户评价&nbsp;（{{ detail.reply_list?.length }}）</div>
-        <van-space direction="vertical" size="0.5rem">
-          <!-- <div class="comment-card"> 
-          <div class="comment-user">
-            <van-image width="2rem" :src="Avatar" round />
-            <span style="padding-left: 0.5rem">曼斯菲尔</span>
-          </div>
-          <div class="comment-satisfaction">
-            <van-rate
-              v-model="satisfaction"
-              :size="20"
-              color="#191919"
-              void-icon="star"
-              void-color="#eee"
-            />
-            <span style="padding-left: 0.5rem">订单已完成</span>
-          </div>
-          <div class="words-rows">
-            开始看得另外一款，客服林林给我推荐的这款。研究
-            了一整天，客服一直等我等到晚上十点半把孩子弄好，
-            还给我推荐了这个颜色。-开始还担心太黑了不好看，
-            收到我老公都挺惊喜的，觉得颜色不错。沙发做了加
-            宽处理，显得双人位不会那么狭窄。相对于客厅比较
-            小的，买这款非常合适。我挺满意这款沙发的。
-          </div>
-          <div class="comment-pics">
-            <van-space size="1rem">
-              <div
-                class="comment-pic-card"
-                v-for="(item, index) in [Product4, Product4]"
-                :key="index + 'comment-pic'"
-              >
-                <van-image width="100%" height="auto" :src="item" />
-              </div>
-            </van-space>
-          </div>
-          <div class="comment-time">2024-04-10</div>
-          </div> -->
-          <div
-            class="comment-card"
-            v-for="(item, index) in detail.replay_list"
-            :key="index + 'replay'"
-          >
+        <van-space v-if="detail.reply_list?.length" direction="vertical" size="0.5rem">
+          <div class="comment-card" v-for="item in detail.reply_list"> 
             <div class="comment-user">
               <van-image width="2rem" :src="item.avatar" round />
-              <span style="padding-left: 0.5rem">{{ item.nickname }}</span>
+              <span style="padding-left: 0.5rem">{{ item.nicknam }}</span>
             </div>
             <div class="comment-satisfaction">
               <van-rate
-                v-model="satisfaction"
+                v-model="item.product_score"
                 :size="20"
                 color="#191919"
                 void-icon="star"
@@ -157,7 +122,7 @@
               <span style="padding-left: 0.5rem">订单已完成</span>
             </div>
             <div class="words-rows">
-              {{ item.commentRef }}
+              {{ tiem.comment }}
             </div>
             <div class="comment-pics">
               <van-space size="1rem">
@@ -170,9 +135,45 @@
                 </div>
               </van-space>
             </div>
-            <div class="comment-time">{{ item.createtime }}</div>
+            <div class="comment-time">2024-04-10</div>
           </div>
+            <!-- <div
+              class="comment-card"
+              v-for="(item, index) in detail.replay_list"
+              :key="index + 'replay'"
+            >
+              <div class="comment-user">
+                <van-image width="2rem" :src="item.avatar" round />
+                <span style="padding-left: 0.5rem">{{ item.nickname }}</span>
+              </div>
+              <div class="comment-satisfaction">
+                <van-rate
+                  v-model="item.rate"
+                  :size="20"
+                  color="#191919"
+                  void-icon="star"
+                  void-color="#eee"
+                />
+                <span style="padding-left: 0.5rem">订单已完成</span>
+              </div>
+              <div class="words-rows">
+                {{ item.comment }}
+              </div>
+              <div class="comment-pics">
+                <van-space size="1rem">
+                  <div
+                    class="comment-pic-card"
+                    v-for="(item1, index) in item.pics"
+                    :key="index + 'comment-pic'"
+                  >
+                    <van-image width="100%" height="auto" :src="item1" />
+                  </div>
+                </van-space>
+              </div>
+              <div class="comment-time">{{ item.createtime }}</div>
+          </div> -->
         </van-space>
+        <van-empty v-else style="padding:0;" image-size="6rem" description="暂无相关记录" />
       </div>
       <div class="detail" ref="detailRef">
         <div class="detail-title">商家信息</div>
@@ -187,8 +188,8 @@
           <!-- {{ detail.goods?.content }} -->
           <div v-html="desc" />
         </div>
-        <div class="detail-title">商品推荐</div>
-        <div class="recommend-products">
+        <div class="detail-title">商品推荐&nbsp;({{ recommends.length }})</div>
+        <div v-if="recommends.length" class="recommend-products">
           <product-card
             class="hot-product-item"
             v-for="item in recommends"
@@ -196,6 +197,7 @@
             :product="item"
           />
         </div>
+        <van-empty v-else style="padding:0;" image-size="6rem" description="暂无相关记录" />
       </div>
     </div>
     <div class="bottom">
@@ -247,7 +249,7 @@ import HotShop from '@/views/Home/components/HotShop/index.vue'
 import { useElementBounding } from '@vueuse/core'
 import useUserStore from '@/stores/modules/user'
 import toast from '@/utils/toast.js'
-import { getProductDetail } from '@/api/product.js'
+import { getProductDetail,like } from '@/api/product.js'
 import { setCartNum, addCart } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { multiply } from '@/utils/math.js'
@@ -260,6 +262,9 @@ const total = computed(() => {
   return 0
 })
 const detail = ref({})
+const isLike=computed(()=>{
+  return detail.value.is_like?true:false
+})
 const spec = ref([])
 const specType = ref(0)
 const desc = ref('')
@@ -308,6 +313,15 @@ const items = ref([
   { name: '评价', type: 'comment' },
   { name: '详情', type: 'detail', class: 'right' }
 ])
+const toggleLike=()=>{
+  like({
+    mer_id: detail.value.mer_id,
+    product_id: detail.value.product_id,
+  }).then(res=>{
+    detail.value.is_like=detail.value.is_like?0:1
+    toast.success({ msg:res.msg })
+  }).catch(err=>err)
+}
 const handlerItemClick = (type) => {
   if (type === selected.value) {
     return
@@ -475,6 +489,9 @@ onMounted(() => {
     }
     .product {
       padding: 0rem 0 1rem 0;
+      ::v-deep(.van-swipe__indicators){
+        bottom: 0;
+      }
       .product-img {
         padding: 0.5rem 0;
         border-radius: 0.6rem;
@@ -490,7 +507,7 @@ onMounted(() => {
         .product-info-item {
           border-bottom: 1px solid #f5f5f5;
           .product-info-item-content {
-            padding: 1.2rem;
+            padding: 1rem;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -521,15 +538,23 @@ onMounted(() => {
               color: #ffffff;
             }
           }
-          .product-name {
-            display: block;
-            font-weight: 500;
-            font-size: 1rem;
-            color: #191919;
-            line-height: 1.2rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+          .product-name-row {
+            padding: 0.8rem 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .product-name{
+              padding-right: 1rem;
+              display: block;
+              font-weight: 500;
+              font-size: 1rem;
+              color: #191919;
+              line-height: 1.2rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
           }
         }
       }
