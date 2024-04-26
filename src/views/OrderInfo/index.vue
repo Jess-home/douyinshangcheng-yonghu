@@ -120,7 +120,7 @@ import { detail, pay, cancelOrder, received as confirmReceived, refundOrder } fr
 import { verifyPay } from '@/api/user.js'
 import { order_statuses } from '@/utils/constants.js'
 import useUserStore from '@/stores/modules/user.js'
-const proxy=getCurrentInstance()
+const {proxy}=getCurrentInstance()
 const userStore = useUserStore()
 const orderData = ref({})
 const status = computed(() => {
