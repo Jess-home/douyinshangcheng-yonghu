@@ -8,12 +8,12 @@
         <van-image round width="3.4rem" :src="shopData.mer_avatar" />
         <div class="shop-info">
           <div class="shop-info-name">{{ shopData.mer_name }}</div>
-          {{ shopData.follow_count }}&nbsp;&nbsp;粉丝
+          {{ shopData.follow_count }}&nbsp;&nbsp;{{ $t('fans') }}
         </div>
       </div>
       <div class="top-item" style="padding-right: 0.5rem" @click="handlerFollowShop">
         <div class="follow-shop">
-          {{ shopData.is_follow ? '已关注' : '关注商家' }}
+          {{ shopData.is_follow ? $t('followed') : $t('followShop')}}
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
           @click="goDetail(item)"
         />
       </div>
-      <van-empty v-else description="暂无相关商品" />
+      <van-empty v-else :description="$t('noRecord')" />
     </div>
   </div>
 </template>
@@ -55,6 +55,7 @@ import { shopDetail, follow } from '@/api/merchant.js'
 import toast from '@/utils/toast.js'
 import useBasicData from '@/stores/modules/basicData.js'
 import ProductCard from '@/components/ProductCard/index.vue'
+const {proxy}=getCurrentInstance()
 const basicData = useBasicData()
 const queryParams = ref({
   mer_id: undefined,
@@ -107,7 +108,7 @@ const banners = computed(() => {
 const route = useRoute()
 const router = useRouter()
 onMounted(async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   queryParams.value.mer_id = route.params.id
   const _categories = await basicData.getCategories()
   categories.value = _categories

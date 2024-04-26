@@ -13,7 +13,7 @@
       </div>
       <div class="product-popular">
         <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.goods.real_sales }}</div>
-        <div> {{ product.click }} {{ $t('seen')  }}</div>
+        <div> {{ product.click }} {{ $t('seen')}}</div>
       </div>
     </div>
   </div>
@@ -77,8 +77,12 @@ const props = defineProps({
       justify-content: space-between;
       align-items: center;
       color: #888888;
+      display: block;
       font-size: 1rem;
       font-weight: 400;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

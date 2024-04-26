@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="全部商品" />
+    <nav-bar :title="$t('allProducts')" />
     <div class="top">
       <div class="filter-row">
         <custom-input style="flex: 1" :value="queryParams.title" @blur="blurTitleInput">

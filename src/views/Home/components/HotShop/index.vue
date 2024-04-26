@@ -8,7 +8,7 @@
           <div class="show-info-fans">{{ shop.follow_count }}&nbsp;{{ $t('fans') }}</div>
         </div>
       </div>
-      <div class="visit-shop" @click.stop="handlerVisitShop">{{ $t('visitShop') }}</div>
+      <div class="visit-shop" @click.stop="handlerVisitShop">{{ $t('visit') }}</div>
     </div>
     <div class="hot-shop-popular">
       <div>{{ $t('favorableRate') }}:&nbsp;&nbsp;{{ shop.good_rate }}%</div>

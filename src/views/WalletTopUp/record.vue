@@ -1,5 +1,5 @@
 <template>
-  <nav-bar title="充值记录" />
+  <nav-bar :title="$t('rechargeRecord')" />
   <div class="container">
     <div class="tabs">
       <van-tabs v-model:active="tabActive" @change="statusChange">
@@ -24,7 +24,7 @@
           <span class="text-sm opacity-80">
             {{ item.createtime }}
           </span>
-          <span class="text-sm opacity-80"> 审核结果: {{ item.admin_msg }} </span>
+          <span class="text-sm opacity-80"> {{ $t('auditResult') }}: {{ item.admin_msg }} </span>
         </div>
         <div class="flex justify-center items-center mx-3">
           <icon-park
@@ -40,7 +40,7 @@
           </span>
         </div>
       </div>
-      <van-empty v-else description="暂无相关记录"> </van-empty>
+      <van-empty v-else :description="$t('noRecord')"> </van-empty>
     </refresh-list>
   </div>
 </template>

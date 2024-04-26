@@ -1,5 +1,5 @@
 <template>
-  <NavBar title="链上充值"> </NavBar>
+  <NavBar :title="$t('rechargeOnChain')"> </NavBar>
   <div class="container">
     <div class="content">
       <main class="mx-3">
@@ -13,7 +13,7 @@
           <canvas ref="qrcodeRef" />
         </div> -->
         <div class="pt-5 flex items-center">
-          <h5 class="text-base font-semibold pr-1">充值地址</h5>
+          <h5 class="text-base font-semibold pr-1">{{ $t('rechargeAddress') }}</h5>
           <van-icon name="arrow" size="1.1rem" />
         </div>
         <div class="bg-white rounded-md mt-3 flex items-center py-3">
@@ -28,11 +28,11 @@
           </div>
           <div class="leading-">
             <span class="opacity-80"
-              >暂不支持通过去中心化交易所(DEX)、币安智能链(BSC)及火币 生态链(HECO)的充币</span
+              >{{ $t('notSupportDexBscHeco') }}</span
             >
           </div>
         </div>
-        <h5 class="mt-3 text-base font-semibold">数量</h5>
+        <h5 class="mt-3 text-base font-semibold">{{ $t('quantity') }}</h5>
         <!-- <input 
           class="bg-white w-full rounded-md mt-3 flex items-center py-3 px-3" 
           placeholder="请输入金额" 
@@ -44,7 +44,7 @@
           @blur="(val) => (form.price = val)"
         />
         <div class="flex items-center mt-3">
-          <h5 class="text-base font-semibold pr-1">充值网络</h5>
+          <h5 class="text-base font-semibold pr-1">{{ $t('rechargeNetwork') }}</h5>
           <van-icon name="info" color="" size="1.1rem" />
         </div>
         <div class="bg-white rounded-md mt-3 flex items-center py-3">
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="pt-3">
-          <h5 class="mt-3 pb-3 text-base font-semibold">付款凭证</h5>
+          <h5 class="mt-3 pb-3 text-base font-semibold">{{ $t('paymentevidence') }}</h5>
           <van-uploader
             ref="uploadRef"
             v-model="fileList"
@@ -71,14 +71,14 @@
       </main>
     </div>
     <div class="bottom">
-      <van-button round block color="#191919" @click="handlerSubmit">提交</van-button>
+      <van-button round block color="#191919" @click="handlerSubmit">{{ $t('submit') }}</van-button>
     </div>
   </div>
   <custom-floating-panel
     ref="floatingPanel"
     height="800px"
-    title="选择充币网络"
-    tip="请选择与提币平台一致的网络"
+    :title="$t('pleaseChooseChargeNetwork')"
+    :tip="$t('pleaseChooseSameNetworkCoin')"
   >
     <van-space direction="vertical" size="1rem">
       <div
@@ -102,6 +102,7 @@ import toast from '@/utils/toast.js'
 import { blockChain, recharge } from '@/api/user.js'
 import { uploadFile } from '@/api/common.js'
 import { useRouter } from 'vue-router'
+const {proxy}=getCurrentInstance()
 const router = useRouter()
 const goRecord = () => {
   router.push({ name: 'CapitalRecord' })
@@ -118,12 +119,12 @@ const showUpload = computed(() => {
   return !fileList.value.length
 })
 const afterRead = (file) => {
-  toast.loading({ msg: '上传中...' })
+  toast.loading({ msg: `${proxy.t('uploading')}...` })
   const formData = new FormData()
   formData.append('file', file.file)
   uploadFile(formData)
     .then((res) => {
-      toast.success({ msg: '上传成功' })
+      toast.success({ msg: `${proxy.t('uploadComplete')}...` })
       form.value.image = res.data.fullurl
     })
     .catch((err) => {})
@@ -141,14 +142,14 @@ const form = ref({
 const nets = ref([])
 const handlerCopy = async () => {
   if (!form.value.blockchain) {
-    toast.show({ msg: '请先选择网络' })
+    toast.show({ msg: proxy.t('pleaseChooseChargeNetwork') })
     return
   }
   await navigator.clipboard.writeText(form.value.blockchain)
-  toast.success({ msg: '已复制' })
+  toast.success({ msg: proxy.t('copied') })
 }
 const getBlockchain = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   blockChain()
     .then((res) => {
       nets.value = res.data
@@ -166,18 +167,18 @@ const getBlockchain = () => {
 const qrcodeRef = ref(null)
 const handlerSubmit = () => {
   if (!form.value.blockchain || !form.value.network) {
-    toast.show({ msg: '请先选择网络' })
+    toast.show({ msg: proxy.t('pleaseChooseChargeNetwork') })
     return
   }
   if (form.value.price <= 0) {
-    toast.show({ msg: '请输入正确的金额' })
+    toast.show({ msg: proxy.t('pleaseFillCorrectAmount') })
     return
   }
   if (!form.value.image) {
-    toast.show({ msg: '请上传充值凭证' })
+    toast.show({ msg: proxy.t('pleaseUploadPaymentEvidence') })
     return
   }
-  toast.loading({ msg: '提交中...' })
+  toast.loading()
   recharge(form.value)
     .then((res) => {
       router.back()

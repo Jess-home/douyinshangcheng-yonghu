@@ -1,32 +1,32 @@
 <template>
   <div class="container">
-    <nav-bar title="注册" />
+    <nav-bar :title="$t('register')" />
     <van-form @submit="handlerRegister">
       <div class="content">
         <custom-input
           :required="true"
-          label="姓氏"
-          placeholder="请输入姓氏"
+          :label="$t('familyName')"
+          :placeholder="$t('placeholderFamilyName')"
           :value="form.username"
           @blur="(val) => (form.username = val)"
-          :rules="[{ required: true, message: '请输入姓氏', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('placeholderFamilyName'), trigger: 'onSubmit' }]"
         />
         <custom-input
           :required="true"
-          label="名称"
-          placeholder="请输入名称"
+          :label="$t('givenName')"
+          :placeholder="$t('placeholderGivenName')"
           :value="form.nickname"
           @blur="(val) => (form.nickname = val)"
-          :rules="[{ required: true, message: '请输入名称', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('placeholderGivenName'), trigger: 'onSubmit' }]"
         />
         <custom-input
           :required="true"
-          label="密码"
-          placeholder="请输入密码"
+          :label="$t('password')"
+          :placeholder="$t('placeholderPassword')"
           :value="form.password"
           @blur="(val) => (form.password = val)"
           :type="showPwd ? 'text' : 'password'"
-          :rules="[{ required: true, message: '请输入密码', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('placeholderPassword'), trigger: 'onSubmit' }]"
         >
           <template #right>
             <icon-park
@@ -38,8 +38,8 @@
         </custom-input>
         <custom-input
           :required="true"
-          label="密码确认"
-          placeholder="请确认密码"
+          :label="$t('confirmPassword')"
+          :placeholder="$t('pleaseConfirmPassword')"
           :value="form.repPwd"
           @blur="(val) => (form.repPwd = val)"
           :type="showRepPwd ? 'text' : 'password'"
@@ -55,23 +55,23 @@
         </custom-input>
         <custom-input
           :required="true"
-          label="邮箱"
-          placeholder="请输入邮箱"
+          :label="$t('email')"
+          :placeholder="$t('placeholderEmail')"
           :value="form.email"
           @blur="(val) => (form.email = val)"
           :rules="[{ validator: validatorEmail, trigger: 'onSubmit' }]"
         />
         <custom-input
           :required="true"
-          label="手机号"
-          placeholder="请输入手机号"
+          :label="$t('mobile')"
+          :placeholder="$t('placeholderMobilePhone')"
           :value="form.mobile"
           @blur="(val) => (form.mobile = val)"
           :rules="[{ validator: validatorMobile, trigger: 'onSubmit' }]"
         />
       </div>
       <div class="bottom">
-        <van-button round block color="#191919" native-type="submit">注册</van-button>
+        <van-button round block color="#191919" native-type="submit">{{ $t('register') }}</van-button>
       </div>
     </van-form>
   </div>
@@ -81,6 +81,7 @@ import { register } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import CustomInput from '@/components/Input/index.vue'
 import { regMobile, regEmail } from '@/utils/regExp.js'
+const {proxy}=getCurrentInstance()
 const form = ref({
   username: undefined,
   nickname: undefined,
@@ -93,30 +94,30 @@ const showPwd = ref(false)
 const showRepPwd = ref(false)
 const validatorRepeatPwd = (val) => {
   if (!val) {
-    return '请确认密码'
+    return proxy.t('pleaseConfirmPassword')
   } else {
     if (val !== form.value.password) {
-      return '两次密码不一致'
+      return proxy.t('twoPasswordsNotMatch')
     }
     return true
   }
 }
 const validatorEmail = (val) => {
   if (!val) {
-    return '请输入邮箱'
+    return proxy.t('placeholderEmail')
   } else {
     if (!regEmail(val)) {
-      return '请填写正确的邮箱'
+      return proxy.t('pleasFillCorrectEmail')
     }
     return true
   }
 }
 const validatorMobile = (val) => {
   if (!val) {
-    return '请输入手机号'
+    return proxy.t('placeholderMobilePhone')
   } else {
     if (!regMobile(val)) {
-      return '请填写正确的手机号'
+      return proxy.t('pleasFillCorrectMobilePhoneNumber')
     }
     return true
   }

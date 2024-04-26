@@ -20,8 +20,8 @@ export const order_statuses = [
 
 //  提现,充值记录状态
 export const fund_record_statuses = [
-  { name: '全部', value: 'all' },
-  { name: '拒绝', value: '2' },
-  { name: '审核中', value: '0' },
-  { name: '通过', value: '1' }
+  { name: i18n.global.t('all'), value: 'all' },
+  { name: i18n.global.t('refuese'), value: '2' },
+  { name: i18n.global.t('auditing'), value: '0' },
+  { name: i18n.global.t('passed'), value: '1' }
 ]

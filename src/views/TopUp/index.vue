@@ -1,9 +1,10 @@
 <script setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
+const {proxy}=getCurrentInstance()
 const list = [
-  { path: '/walletTopUp', name: '链上充值', icon: 'bitcoin' },
+  { path: '/walletTopUp', name: proxy.t('rechargeOnChain'), icon: 'bitcoin' },
   // { path: '/cardTopUp', name: '银行卡充值', icon: 'bank-card' },
-  { path: '/service', name: '人工充值', icon: 'headset-one' }
+  { path: '/service', name: proxy.t('manualRecharge'), icon: 'headset-one' }
 ]
 const router = useRouter()
 const goRoute = (item) => {
@@ -14,16 +15,16 @@ const goRecord = () => {
 }
 </script>
 <template>
-  <NavBar title="充值">
+  <NavBar :title="$t('recharge')">
     <template #right>
-      <div @click="goRecord" style="padding-right: 1rem; font-size: 1.2rem">记录</div>
+      <div @click="goRecord" style="padding-right: 1rem; font-size: 1.2rem">{{ $t('record') }}</div>
     </template>
   </NavBar>
   <main class="mx-3">
     <div class="flex justify-center items-center mt-10">
       <img alt="" class="w-3/4" src="@/assets/icons/yan.png" />
     </div>
-    <h5 class="mt-3 text-base font-semibold">充值方式</h5>
+    <h5 class="mt-3 text-base font-semibold">{{ $t('rechargeMethod') }}</h5>
     <div
       v-for="(item, index) in list"
       :key="index"

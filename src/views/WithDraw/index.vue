@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <nav-bar title="提现">
+    <nav-bar :title="$t('draw')">
       <template #right>
-        <div style="font-size: 1.2rem; padding-right: 1rem" @click.stop="goRecord">记录</div>
+        <div style="font-size: 1.2rem; padding-right: 1rem" @click.stop="goRecord">{{ $t('record') }}</div>
       </template>
     </nav-bar>
     <van-form @submit="handlerSubmit">
       <div class="content">
-        <Custom-Input label="提现类型" :value="typeName" readonly @click="handlerShowChooseType">
+        <Custom-Input :label="$t('drawType')" :value="typeName" readonly @click="handlerShowChooseType">
           <template #right>
             <icon-park @click.stop="handlerShowChooseType" name="right" size="1.5rem" />
           </template>
         </Custom-Input>
         <custom-input
           :label="priceLabel"
-          placeholder="请输入提现金额"
+          :placeholder="$t('pleaseInutDrawAmount')"
           required
           :value="form.price"
           type="number"
@@ -34,31 +34,31 @@
           </template>
           </custom-input> -->
           <custom-input
-            label="银行卡号"
-            placeholder="请输入银行卡号"
+            :label="$t('bankCardNo')"
+            :placeholder="$t('placeholderBankCardNo')"
             required
             defa
             :value="form.bank_card"
             @blur="(val) => (form.bank_card = val)"
-            :rules="[{ required: true, message: '请输入银行卡号', trigger: 'onSubmit' }]"
+            :rules="[{ required: true, message: $t('placeholderBankCardNo'), trigger: 'onSubmit' }]"
           />
           <custom-input
-            label="银行名称"
-            placeholder="请输入银行名称"
+            :label="$t('bankName')"
+            :placeholder="$t('placeholderBankName')"
             required
             :value="form.bank_name"
             @blur="(val) => (form.bank_name = val)"
-            :rules="[{ required: true, message: '请输入银行名称', trigger: 'onSubmit' }]"
+            :rules="[{ required: true, message: $t('placeholderBankName'), trigger: 'onSubmit' }]"
           />
         </template>
         <template v-else>
           <Custom-Input
-            label="充值网络"
-            placeholder="请选择充值网络"
+            :label="$t('rechargeNetwork')"
+            :placeholder="$t('pleaseChooseChargeNetwork')"
             required
             :value="form.network"
             readonly
-            :rules="[{ required: true, message: '请选择充值网络', trigger: 'onSubmit' }]"
+            :rules="[{ required: true, message: $t('pleaseChooseChargeNetwork'), trigger: 'onSubmit' }]"
             @click="handlerShowNetwork"
           >
             <template #right>
@@ -66,21 +66,21 @@
             </template>
           </Custom-Input>
           <Custom-Input
-            label="充值地址"
-            placeholder="请输入充值地址"
+            :label="$t('rechargeAddress')"
+            :placeholder="$t('pleaseFillRechargeAddress')"
             :value="form.blockchain"
             @blur="(val) => (form.blockchain = val)"
-            :rules="[{ required: true, message: '请输入充值地址', trigger: 'onSubmit' }]"
+            :rules="[{ required: true, message: $t('pleaseFillRechargeAddress'), trigger: 'onSubmit' }]"
           >
           </Custom-Input>
         </template>
         <div class="tips">
-          <div class="balance">余额: {{ info.balance }}</div>
-          <div @click="form.price = info.balance">全部提现</div>
+          <div class="balance">{{ $t('balance') }}: {{ info.balance }}</div>
+          <div @click="form.price = info.balance">{{ $t('drawAll') }}</div>
         </div>
       </div>
       <div class="bottom">
-        <van-button round block color="#000000" native-type="submit">提交</van-button>
+        <van-button round block color="#000000" native-type="submit">{{ $t('submit') }}</van-button>
       </div>
     </van-form>
   </div>
@@ -111,13 +111,14 @@ import CustomInput from '@/components/Input/index.vue'
 import { deposit, depositInfo } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { multiply } from '@/utils/math.js'
+const {proxy}=getCurrentInstance()
 const router = useRouter()
 const goRecord = () => {
   router.push({ name: 'DepositRecord' })
 }
 const types = ref([
-  { name: '银行卡', value: 0 },
-  { name: '链上充值', value: 1 }
+  { name: proxy.t('bankCard'), value: 0 },
+  { name: proxy.t('rechargeOnChain'), value: 1 }
 ])
 const priceValidator = (val) => {
   const _val = Number(val)
@@ -141,7 +142,7 @@ const form = ref({
 })
 const priceLabel = computed(() => {
   const _val = multiply(info.value.service_charge || 0.03, 100).toFixed(2) + '%'
-  return '提现金额' + `(手续费${_val})`
+  return proxy.t('drawAmount') + `(${proxy.t('serviceCharge')}${_val})`
 })
 const formatNumber = (val) => {
   form.value.price = Number(val).toFixed(2)

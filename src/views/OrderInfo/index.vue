@@ -1,23 +1,23 @@
 <template>
   <div class="container">
-    <nav-bar title="订单详情" />
+    <nav-bar :title="$t('orderDetail')" />
     <div class="content">
       <div class="content-item">
-        <list-tile title="订单号" :arrow="false" :value="orderData.order_sn" />
+        <list-tile :title="$t('orderNo')" :arrow="false" :value="orderData.order_sn" />
       </div>
       <div class="address content-item">
-        收货地址
+        {{ $t('shippingAddress') }}
         <list-tile :title="address?.name" :label="address?.label" :arrow="false">
           <template v-if="!address" #left>
             <div class="choose-address">
               <icon-park name="plus" size="1.6rem" />
-              <div class="choose-address-word">添加地址</div>
+              <div class="choose-address-word">{{ $t('addAddress')}}</div>
             </div>
           </template>
         </list-tile>
       </div>
       <div class="info content-item">
-        商品详情
+        {{ $t('productDetail') }}
         <cart-item
           class="product"
           v-for="(item, index) in orderData.products"
@@ -34,20 +34,20 @@
           />
         </div> -->
       <div class="content-item">
-        <list-tile title="小计" :arrow="false" :value="allTotal + ''" />
+        <list-tile :title="$t('sutTotal')" :arrow="false" :value="allTotal + ''" />
       </div>
       <div class="content-item">
-        <list-tile title="总" :arrow="false" :value="allTotal + ''" />
+        <list-tile :title="$t('total')" :arrow="false" :value="allTotal + ''" />
       </div>
       <div class="content-item">
-        <list-tile title="订单状态" :arrow="false" :value="status" />
+        <list-tile :title="$t('orderStatus')" :arrow="false" :value="status" />
       </div>
       <div class="delivery content-item">
-        {{ hasDeliveryInfo ? '物流信息' : '暂无物流信息' }}
+        {{ hasDeliveryInfo ? $t('logisticsInformation') : $t('noLogisticsInformation') }}
         <list-tile
           v-for="item in orderData.delivery"
           :key="item"
-          title="航运"
+          :title="$t('freight')"
           :arrow="false"
           :value="orderData.delivery"
         />
@@ -55,7 +55,7 @@
     </div>
     <div class="bottom">
       <div class="total-price">
-        总计：
+        {{$t('total')}}：
         <div class="total-number">${{ allTotal }}</div>
       </div>
       <!-- <div v-if="canPay" class="buttons">
@@ -101,7 +101,7 @@
       <payment :pay-data="orderData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
     </van-action-sheet>
   </div>
-  <custom-floating-panel ref="floatingPanel" title="请选择收货地址">
+  <custom-floating-panel ref="floatingPanel" :title="$t('pleaseChooseShippingAddress')">
     <van-space direction="vertical" size="1rem">
       <div class="address-card" v-for="(item, index) in addresses" :key="index">
         <div class="name">{{ item.name }}</div>
@@ -120,6 +120,7 @@ import { detail, pay, cancelOrder, received as confirmReceived, refundOrder } fr
 import { verifyPay } from '@/api/user.js'
 import { order_statuses } from '@/utils/constants.js'
 import useUserStore from '@/stores/modules/user.js'
+const proxy=getCurrentInstance()
 const userStore = useUserStore()
 const orderData = ref({})
 const status = computed(() => {
@@ -127,10 +128,10 @@ const status = computed(() => {
   return _status?.name
 })
 const buttons = ref([
-  { name: '立即付款', statuses: ['0'], value: 'pay', color: '#191919' },
-  { name: '取消', statuses: ['0'], value: 'cancel', type: 'default' },
-  { name: '确认收货', statuses: ['2'], value: 'confirmReceived', type: 'success' },
-  { name: '申请退款', statuses: ['1', '2', '3', '4'], value: 'refund', type: 'danger' }
+  { name: proxy.t('payNow'), statuses: ['0'], value: 'pay', color: '#191919' },
+  { name: proxy.t('cancel'), statuses: ['0'], value: 'cancel', type: 'default' },
+  { name: proxy.t('confirmReceived'), statuses: ['2'], value: 'confirmReceived', type: 'success' },
+  { name: proxy.t('appDrawBack'), statuses: ['1', '2', '3', '4'], value: 'refund', type: 'danger' }
 ])
 const _buttons = computed(() => {
   return buttons.value.filter((item) => {
@@ -181,8 +182,8 @@ const showActionSheet = ref(false)
 const handlerPay = () => {
   if (!userStore.userInfo.have_pay) {
     showConfirmDialog({
-      message: '你还未设置支付密码?',
-      confirmButtonText: '去设置'
+      message: proxy.t('noYetSetPaymentPassowrd'),
+      confirmButtonText: proxy.t('goSetting'),
     })
       .then(() => {
         router.push({ name: 'ChangePayPwd' })
@@ -194,7 +195,7 @@ const handlerPay = () => {
 }
 const handlerCancel = () => {
   showConfirmDialog({
-    message: '是否确认取消该订单?'
+    message: proxy.t('whetherToCancel')
   })
     .then(() => {
       cancel()
@@ -203,7 +204,7 @@ const handlerCancel = () => {
 }
 const handlerConfirmReceived = () => {
   showConfirmDialog({
-    message: '是否确认收货?'
+    message: proxy.t('isConfirmReceived')
   })
     .then(() => {
       received()
@@ -261,7 +262,7 @@ const verifyPwd = (pwd) => {
     .catch((err) => err)
 }
 const payAction = () => {
-  toast.loading({ msg: '支付中...' })
+  toast.loading()
   pay({
     order_id: orderData.value.order_id
   })

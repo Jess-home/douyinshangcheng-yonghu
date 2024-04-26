@@ -5,6 +5,7 @@ import toast from '@/utils/toast.js'
 import { isRelogin } from '@/utils/request.js'
 import useUserStore from '@/stores/modules/user.js'
 import { isContainWhite } from '@/utils/tool.js'
+import i18n from '@/lang/index.js'
 NProgress.configure({ showSpinner: false })
 
 const whiteList = [
@@ -60,7 +61,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       toast.show({
-        msg: '请先登录'
+        msg: i18n.global.t('loginFirst')
       })
       // next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
       next('/login')

@@ -1,5 +1,5 @@
 <template>
-  <nav-bar title="提现记录" />
+  <nav-bar :title="$t('drawRecord')" />
   <div class="container">
     <div class="tabs">
       <van-tabs v-model:active="tabActive" @change="statusChange">
@@ -27,30 +27,30 @@
           <span class="text-sm opacity-80">
             {{ item.createtime }}
           </span>
-          <span class="text-sm opacity-80"> 审核结果: {{ item.admin_msg }} </span>
+          <span class="text-sm opacity-80"> {{ $t('auditResult') }}: {{ item.admin_msg }} </span>
         </div>
         <div class="flex flex-col justify-around items-stretch mx-0">
           <div class="flex flex-row justify-between mx-1 text-red">
-            充值
+            {{ $t('recharge') }}
             <span class="text-base font-medium flex flex-col">
               {{ item.extract_price }}
             </span>
           </div>
           <div class="flex flex-row justify-between mx-1 text-black">
-            手续费
+            {{ $t('serviceCharge') }}
             <span class="text-base font-medium flex flex-col">
               {{ item.fee }}
             </span>
           </div>
           <div class="flex flex-row justify-between mx-1 text-green">
-            实际到账
+            {{ $t('actualArrival') }}
             <span class="text-base font-medium flex flex-col">
               {{ item.real_price }}
             </span>
           </div>
         </div>
       </div>
-      <van-empty v-else description="暂无相关记录"> </van-empty>
+      <van-empty v-else :description="$t('noRecord')"> </van-empty>
     </refresh-list>
   </div>
 </template>
@@ -60,6 +60,7 @@ import RefreshList from '@/components/RefreshList/index.vue'
 import { depositRecord as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { fund_record_statuses } from '@/utils/constants.js'
+const {proxy}= getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref(fund_record_statuses)
 const data = ref([])
@@ -98,7 +99,7 @@ const onLoad = async () => {
   refreshData.value.listLoading = false
 }
 const handleQuery = async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const res = await listData()
   data.value = res.data.list
   refreshData.value.disabled = false

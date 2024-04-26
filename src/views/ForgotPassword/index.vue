@@ -1,30 +1,30 @@
 <template>
   <div class="container">
-    <nav-bar title="登录密码" />
+    <nav-bar :title="$t('loginPassword')" />
     <van-form @submit="handlerChangePwd">
       <div class="content">
         <div class="forms">
           <div class="tips">
             <div>
               <van-icon name="success" />
-              &nbsp; 密码长度至少为6
+              &nbsp; {{ $t('passwordLengthAtLeast6') }}
             </div>
           </div>
           <Custom-Input
-            label="手机号"
+            :label="$t('mobilePhone')"
             :value="form.mobile"
             @blur="(val) => (form.mobile = val)"
             type="digit"
-            placeholder="请输入手机号"
+            :placeholder="$t('placeholderMobilePhone')"
             :rules="[{ validator: mobileValidator, trigger: 'onSubmit' }]"
           >
           </Custom-Input>
           <Custom-Input
-            label="新密码"
+            :label="$t('newPassword')"
             :value="form.newPassword"
             @blur="(val) => (form.newPassword = val)"
             :type="showNewPwd ? 'text' : 'password'"
-            placeholder="请输入新密码"
+            :placeholder="$t('placeholderNewPassword')"
             :rules="[{ validator: newPwdValidator, trigger: 'onSubmit' }]"
           >
             <template #right>
@@ -36,11 +36,11 @@
             </template>
           </Custom-Input>
           <Custom-Input
-            label="新密码确认"
+            :label="$t('confirmPassword')"
             :value="form.repeatPwd"
             @blur="(val) => (form.repeatPwd = val)"
             :type="showRepNewPwd ? 'text' : 'password'"
-            placeholder="请确认新密码"
+            :placeholder="$t('pleaseConfirmPassword')"
             :rules="[{ validator: repeatNewPwdValidator, trigger: 'onSubmit' }]"
           >
             <template #right>
@@ -65,6 +65,7 @@ import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user.js'
+const {proxy}=getCurrentInstance()
 const userStore = useUserStore()
 const form = ref({
   mobile: undefined,
@@ -76,25 +77,25 @@ const showNewPwd = ref(false)
 const showRepNewPwd = ref(false)
 const mobileValidator = (val) => {
   if (!val) {
-    return '请输入手机号'
+    return proxy.$t('placeholderMobilePhone')
   }
 }
 const newPwdValidator = (val) => {
   if (!val) {
-    return '请输入新密码'
+    return proxy.t('placeholderNewPassword')
   } else {
     if (val.length < 6) {
-      return '请按要求填写密码'
+      return proxy.t('pleaseFillNewPasswordAsRequired')
     }
     return true
   }
 }
 const repeatNewPwdValidator = (val) => {
   if (!val) {
-    return '请确认新密码'
+    return proxy.t('pleaseConfirmPassword')
   } else {
     if (val !== form.value.newPassword) {
-      return '两次密码不一致'
+      return proxy.t('twoPasswordsNotMatch')
     }
     return true
   }
@@ -107,7 +108,7 @@ const handlerChangePwd = () => {
     mobile: form.value.mobile
   })
     .then((res) => {
-      toast.success('修改成功')
+      toast.success()
       userStore.afterRePwd().then(() => {
         router.push({ name: 'Login' })
       })
