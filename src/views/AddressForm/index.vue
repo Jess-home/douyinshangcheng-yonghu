@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <nav-bar title="地址管理" />
+    <nav-bar :title="$t('addressManage')" />
     <van-form @submit="handlerPut">
       <div class="content">
         <custom-input
           :required="true"
-          label="收件人"
-          placeholder="请填写收件人"
+          :label="$t('addressee')"
+          :placeholder="$t('placeholderAddressee')"
           :value="form.name"
           @blur="(val) => (form.name = val)"
-          :rules="[{ required: true, message: '请填写收件人', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('placeholderAddressee'), trigger: 'onSubmit' }]"
         />
         <custom-input
           :required="true"
-          label="手机号"
-          placeholder="请填写手机号"
+          :label="$t('mobilePhone')"
+          :placeholder="$t('placeholderMobilePhone')"
           @blur="(val) => (form.mobile = val)"
           :value="form.mobile"
           :rules="[{ validator: mobileValidator, trigger: 'onSubmit' }]"
@@ -22,33 +22,33 @@
         </custom-input>
         <custom-input
           :required="true"
-          label="所在地区"
-          placeholder="请填写所在地区"
-          :rules="[{ required: true, message: '请填写详细地址', trigger: 'onSubmit' }]"
+          :label="$t('area')"
+          :placeholder="$t('pleaseFillArea')"
+          :rules="[{ required: true, message: $t('pleaseFillArea'), trigger: 'onSubmit' }]"
           :value="form.country"
           @blur="(val) => (form.country = val)"
         >
         </custom-input>
         <custom-input
           :required="true"
-          label="详细地址"
-          placeholder="请填写详细地址"
+          :label="$t('detailedAddress')"
+          :placeholder="$t('pleaseFillDetailedAddress')"
           type="textarea"
           :value="form.detail"
           @blur="(val) => (form.detail = val)"
-          :rules="[{ required: true, message: '请填写详细地址', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('pleaseFillDetailedAddress'), trigger: 'onSubmit' }]"
         />
         <custom-input
           :required="true"
-          label="标签"
-          placeholder="请填写标签"
+          :label="$t('tag')"
+          :placeholder="$t('pleaseFillTag')"
           :value="form.tag"
           @blur="(val) => (form.tag = val)"
-          :rules="[{ required: true, message: '请填写标签', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('pleaseFillTag'), trigger: 'onSubmit' }]"
         />
       </div>
       <div class="bottom">
-        <van-button block round color="#191919" native-type="submit"> 保存 </van-button>
+        <van-button block round color="#191919" native-type="submit"> {{ $t('save') }} </van-button>
       </div>
     </van-form>
   </div>
@@ -58,6 +58,7 @@ import CustomInput from '@/components/Input/index.vue'
 import { addAddress, getAddressInfo } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { regMobile } from '@/utils/regExp.js'
+const {proxy}=getCurrentInstance()
 const form = ref({
   name: undefined,
   mobile: undefined,

@@ -97,12 +97,12 @@ const goDetail = (product) => {
   })
 }
 const shopData = ref({})
-const banners=computed(()=>{
-  if(shopData.value.banner){
+const banners = computed(() => {
+  if (shopData.value.banner) {
     return shopData.value.banner.split(',')
   }
   //  商户没有轮播图的话,就是放两张默认的
-  return [Board,Board]
+  return [Board, Board]
 })
 const route = useRoute()
 const router = useRouter()

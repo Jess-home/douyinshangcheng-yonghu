@@ -1,22 +1,22 @@
 <template>
   <div class="container">
-    <nav-bar title="支付密码" />
+    <nav-bar :title="$t('paymentCode')" />
     <van-form @submit="handlerSubmit">
       <div class="content">
         <div class="tips">
           <div>
             <van-icon name="success" />
-            &nbsp; 密码长度必须为6位,仅支持数字
+            &nbsp; {{ $t('passwordLengthAtLeast6OnlySupportNumber') }}
           </div>
           <div style="padding-top: 0.5em">
             <van-icon name="success" />
-            &nbsp; 如果第一次设置支付密码,旧密码可以不用填,若是更改支付密码旧密码必填
+            &nbsp; {{ $t('ifFirstSettingPaymentCode') }},{{ $t('doNotFillOldPassword') }},{{$t('ifChangePaymentCode')}},{{ $t('oldPasswordIsRequired') }}
           </div>
         </div>
         <custom-input
           :value="form.oldpassword"
-          label="旧密码"
-          placeholder="请输入旧密码"
+          :label="$t('oldPassword')"
+          :placeholder="$t('placeholderOldPassword')"
           @blur="(val) => (form.oldpassword = val)"
           :rules="[{ validator: oldPwdValidator, trigger: 'onSubmit' }]"
           :type="showPwd ? 'text' : 'password'"
@@ -32,9 +32,9 @@
         <custom-input
           style="margin-top: 1.5rem"
           :value="form.newpassword"
-          label="新密码"
+          :label="$t('newPassword')"
           required
-          placeholder="请输入新密码"
+          :placeholder="$t('placeholderNewPassword')"
           @blur="(val) => (form.newpassword = val)"
           :type="showNewPwd ? 'text' : 'password'"
           :rules="[{ validator: newPwdValidator, trigger: 'onSubmit' }]"
@@ -58,6 +58,7 @@
 import { resetPaypwd } from '@/api/user.js'
 import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
+const {proxy}=getCurrentInstance()
 const form = ref({
   oldpassword: undefined,
   newpassword: undefined,
@@ -68,7 +69,7 @@ const showNewPwd = ref(false)
 const oldPwdValidator = (val) => {
   if (val) {
     if (val.length !== 6) {
-      return '密码长度必须为6'
+      return proxy.t('passwordLengthAtLeast6')
     } else {
       return true
     }
@@ -78,12 +79,12 @@ const oldPwdValidator = (val) => {
 const newPwdValidator = (val) => {
   if (val) {
     if (val.length !== 6) {
-      return '密码长度必须为6'
+      return proxy.t('passwordLengthAtLeast6')
     } else {
       return true
     }
   } else {
-    return '请输入新密码'
+    return proxy.t('placeholderNewPassword')
   }
 }
 const handlerSubmit = () => {
@@ -95,7 +96,7 @@ const handlerSubmit = () => {
   }
   resetPaypwd(_data)
     .then((res) => {
-      toast.success('修改成功')
+      toast.success(proxy.t('changeSuccess'))
       form.value.oldpassword = undefined
       form.value.newpassword = undefined
       form.value.is_verify = '0'

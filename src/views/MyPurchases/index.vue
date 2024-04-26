@@ -1,5 +1,5 @@
 <template>
-  <nav-bar title="我的订单" />
+  <nav-bar :title="$t('myOrders')" />
   <div class="container">
     <div class="tabs">
       <van-tabs v-model:active="tabActive" @change="statusChange">
@@ -39,18 +39,18 @@
                 </span>
               </div>
               <div>
-                <span class="text-neutral-500 text-sm"> 订单号: </span>
+                <span class="text-neutral-500 text-sm"> {{ $t('orderNo') }}: </span>
                 <span class="font-semibold">
                   {{ item.order_sn }}
                 </span>
               </div>
               <div class="flex">
                 <div class="text-right py-1">
-                  <span class="text-neutral-500 text-sm">数量</span>
+                  <span class="text-neutral-500 text-sm">{{ $t('quantity') }}</span>
                   <span class="text-lg font-semibold pl-3">{{ item.total_num }}</span>
                 </div>
                 <div class="text-right py-1 ml-auto">
-                  <span class="text-neutral-500 text-sm">总价</span>
+                  <span class="text-neutral-500 text-sm">{{ $t('total') }}</span>
                   <span class="text-lg font-semibold pl-3">{{ item.total_price }}</span>
                 </div>
               </div>
@@ -72,6 +72,7 @@ import { orderList as list } from '@/api/user.js'
 import { deleteOrder } from '@/api/order.js'
 import toast from '@/utils/toast.js'
 import { order_statuses } from '@/utils/constants.js'
+const {proxy} =getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref(order_statuses)
 const data = ref([])
@@ -110,7 +111,7 @@ const onLoad = async () => {
   refreshData.value.listLoading = false
 }
 const handleQuery = async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const res = await listData()
   data.value = res.data.list.map((item) => {
     if (item.refund_status > 0) {
@@ -142,13 +143,12 @@ const handlerDel = ({ order_id }) => {
     .catch((err) => err)
 }
 onMounted(() => {
-  if(route.params.status){
+  if (route.params.status) {
     tabActive.value = route.params.status
     queryParams.value.status = route.params.status
   }
   handleQuery()
 })
-
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');

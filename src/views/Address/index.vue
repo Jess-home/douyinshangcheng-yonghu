@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="收货地址" />
+    <nav-bar :title="$t('shippingAddress')" />
     <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
       <van-space v-if="data.length" fill direction="vertical" size="0.6rem">
         <van-swipe-cell class="address-container" v-for="item in data" :key="item.address_id">
@@ -10,13 +10,13 @@
             </template>
           </address-card>
           <template #right>
-            <div class="cart-item-del" @click="handlerDel(item)">删除</div>
+            <div class="cart-item-del" @click="handlerDel(item)">{{ $t('delete') }}</div>
           </template>
         </van-swipe-cell>
       </van-space>
     </refresh-list>
     <div class="bottom">
-      <van-button block round color="#191919" @click="handlerAdd">新增收货地址</van-button>
+      <van-button block round color="#191919" @click="handlerAdd">{{ $t('addShippingAddress') }}</van-button>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ import { addressList as list, setDefaultAddress as setDefault, delAddress } from
 import toast from '@/utils/toast.js'
 import { showConfirmDialog } from 'vant'
 import useUserStore from '@/stores/modules/user.js'
+const {proxy} = getCurrentInstance()
 const userStore = useUserStore()
 const queryParams = ref({
   page: 1,
@@ -80,8 +81,8 @@ const handleAddressClick = (address) => {
     return
   }
   showConfirmDialog({
-    title: '操作确认',
-    message: '是否将该地址设为默认地址?'
+    title: proxy.t('operateConfirm'),
+    message: `proxy.t('weigherToSetDefaultAddress')?`
   })
     .then(() => {
       setDefaultAddress(address)

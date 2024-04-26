@@ -1,21 +1,17 @@
 <template>
   <div class="container">
     <div class="login-container">
-      <div class="to-home" @click="goHome">
-        <icon-park name="left" size="1.6rem" />
-        &nbsp;回到首页
+      <div class="to-home-row">
+        <div @click="goHome" class="to-home-left">
+          <icon-park name="left" size="1.6rem" />
+          &nbsp; {{ $t('backToHome') }}
+        </div>
+        <icon-park @click="handlerChangeLanguage" name="earth" size="1.6rem" />
       </div>
-      <div class="welcome">欢迎来到SHOP</div>
+      <div class="welcome">{{ $t('welcomeToShop') }}</div>
       <div class="login-type">
         <van-space size="1rem">
-          <div
-            v-for="(item, index) in types"
-            :key="index"
-            :class="type === item.value ? 'type-selected' : ''"
-            @click="type = item.value"
-          >
-            {{ item.name }}
-          </div>
+        {{ $t('accountLogin') }}
         </van-space>
       </div>
       <div class="login-forms">
@@ -23,10 +19,10 @@
           <custom-input
             :value="form.account"
             @blur="(val) => (form.account = val)"
-            placeholder="请输入账号"
+            :placeholder="$t('placeholderAccount')"
           >
             <template #left>
-              <div class="form-label">账号</div>
+              <div class="form-label">{{ $t('account') }}</div>
             </template>
           </custom-input>
         </div>
@@ -35,10 +31,10 @@
             :value="form.password"
             @blur="(val) => (form.password = val)"
             :type="showPwd ? 'text' : 'password'"
-            placeholder="请输入密码"
+            :placeholder="$t('placeholderPassword')"
           >
             <template #left>
-              <div class="form-label">密码</div>
+              <div class="form-label">{{ $t('password') }}</div>
             </template>
             <template #right>
               <icon-park
@@ -49,34 +45,15 @@
             </template>
           </custom-input>
         </div>
-        <div v-if="type === 1" class="form-input pwd-input">
-          <custom-input
-            :value="form.repPassword"
-            @blur="(val) => (form.repPassword = val)"
-            :type="showRepPwd ? 'text' : 'password'"
-            placeholder="请再次输入密码"
-          >
-            <template #left>
-              <div class="form-label">密码确认</div>
-            </template>
-            <template #right>
-              <icon-park
-                :name="showRepPwd ? 'preview-close-one' : 'preview-open'"
-                size="1.5rem"
-                @click.stop="showRepPwd = !showRepPwd"
-              />
-            </template>
-          </custom-input>
-        </div>
-        <div v-else class="forget-pwd" @click="handlerForgetPwd">忘记密码</div>
+        <div class="forget-pwd" @click="handlerForgetPwd">{{ $t('forgetPassword') }}</div>
       </div>
       <div class="login-button">
         <van-button @click.stop="handlerLogin" color="#191919" block round>
-          {{ type === 0 ? '登录' : '注册' }}
+          {{ $t('login') }}
         </van-button>
       </div>
       <div @click="handlerRegister" class="go-register">
-        去注册
+        {{ $t('register') }}
         <van-icon style="padding-left: 0.5rem" name="arrow" size="1.2rem" />
       </div>
     </div>
@@ -88,44 +65,41 @@
         <van-image @click="handlerSocialLogin" width="4rem" height="auto" :src="Google" />
       </div>
     </div> -->
+    <choose-language 
+      ref="chooseLanguage"
+    />
   </div>
 </template>
-
 <script setup name="Login">
-import FaceBook from '@/assets/image/facebook.png'
-import Google from '@/assets/image/google.png'
-import Twitter from '@/assets/image/twitter.png'
+// import FaceBook from '@/assets/image/facebook.png'
+// import Google from '@/assets/image/google.png'
+// import Twitter from '@/assets/image/twitter.png'
 import toast from '@/utils/toast.js'
 import CustomInput from '@/components/Input/index.vue'
 import useUserStore from '@/stores/modules/user.js'
-import { register } from '@/api/user.js'
-const type = ref(0)
-const types = ref([
-  { name: '账号登录', value: 0 }
-  // { name: '账号注册', value: 1 }
-])
+import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
+// import { register } from '@/api/user.js'
+const { proxy } = getCurrentInstance();
 const userStore = useUserStore()
 const router = useRouter()
 const form = ref({
   account: undefined,
   password: undefined,
-  repPassword: undefined
 })
 const showPwd = ref(false)
-const showRepPwd = ref(false)
 const goHome = () => {
   router.replace({ name: 'Home' })
 }
 const handlerLogin = async () => {
   if (!form.value.account || !form.value.password) {
-    toast.show({ msg: '请输入账号和密码' })
+    toast.show({ msg: proxy.t('pleaseInputAccountAndPassword'), duration: 2000 })
     return
   }
-  toast.loading({ msg: '登录中...' })
+  toast.loading()
   userStore
     .login(form.value)
     .then(() => {
-      toast.success({ msg: '登录成功' })
+      toast.success({ msg: proxy.t('loginSuccess') })
       router.push({ name: 'Home' })
     })
     .catch((err) => {})
@@ -139,6 +113,12 @@ const handlerForgetPwd = () => {
 const handlerSocialLogin = () => {
   toast.show({ msg: '暂未开放', duration: 2000 })
 }
+//  language
+const chooseLanguage=ref(null)
+const handlerChangeLanguage=()=>{
+  chooseLanguage.value.show=true
+}
+//  language
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
@@ -151,14 +131,19 @@ const handlerSocialLogin = () => {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    .to-home {
+    .to-home-row {
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       align-items: center;
       font-weight: 500;
       font-size: 1rem;
       color: #191919;
       line-height: 1.6rem;
+      .to-home-left{
+        display: flex;
+        flex-direction: row;
+      }
     }
     .welcome {
       padding-top: 3rem;

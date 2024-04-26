@@ -45,11 +45,15 @@ export function removeUserId() {
 }
 
 export function setLocalLang(lang) {
-  return Cookies.set(LocalLang, lang, { expires: 3 })
+  return Cookies.set(LocalLang, JSON.stringify(lang), { expires: 3 })
 }
 
 export function getLocalLang() {
-  return Cookies.get(LocalLang)
+  const lang = Cookies.get(LocalLang)
+  if(lang){
+    return JSON.parse(Cookies.get(LocalLang))
+  }
+  return lang
 }
 
 export function removeLocalLang() {

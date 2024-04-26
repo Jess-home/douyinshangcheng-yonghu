@@ -1,12 +1,20 @@
 import { defineStore } from 'pinia'
 import { login, getInfo, logout } from '@/api/user.js'
-import { getToken, setToken, removeToken, removeUserId, getLocalLang } from '@/utils/auth.js'
-
+import { 
+    getToken, setToken, removeToken, 
+    getLocalLang ,setLocalLang
+} from '@/utils/auth.js'
+import { default_lang } from '@/utils/constants.js'
+import i18n from '@/lang/index.js'
 const useUserStore = defineStore('user', {
   state: () => ({
     token: getToken(),
     userInfo: null,
-    backData: {}
+    backData: {},
+    setting:{
+      // 语言
+      lang: getLocalLang()
+    }
   }),
   actions: {
     // 登录
@@ -29,6 +37,12 @@ const useUserStore = defineStore('user', {
         getInfo()
           .then((res) => {
             this.userInfo = res.data
+            if(res.data.lang){
+              this.setting.lang=res.data.lang
+              if(i18n.global.locale!==this.setting.lang.file_name){
+                i18n.global.locale=this.setting.lang.file_name
+              }
+            }
             resolve()
           })
           .catch((error) => {
@@ -79,14 +93,16 @@ const useUserStore = defineStore('user', {
       })
     },
     getLanguage() {
-      if (this.userInfo && this.userInfo.lang) {
-        return this.userInfo.lang.language_name
+      if (this.setting.lang) {
+        return this.setting.lang.language_name
       } else {
-        return '未设置'
+        return default_lang.language_name
       }
     },
     setLanguage(lang) {
-      this.userInfo.lang = lang
+      this.setting.lang=lang
+      //  本地存储语言
+      setLocalLang(lang)
     },
     setBackData(data) {
       this.backData = { ...this.backData, ...data }

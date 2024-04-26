@@ -42,9 +42,11 @@ router.beforeEach((to, from, next) => {
                 next({ path: '/login' })
               })
               .catch((err) => {
-                useUserStore().invalidToken().then(()=>{
-                  next({ path: '/' })
-                })
+                useUserStore()
+                  .invalidToken()
+                  .then(() => {
+                    next({ path: '/' })
+                  })
               })
           })
       } else {

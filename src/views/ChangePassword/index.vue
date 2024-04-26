@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <App-Header title="登录密码" />
+    <App-Header :title="$t('loginPassword')" />
     <van-form @submit="handlerChangePwd">
       <div class="content">
-        <div class="top-tip">新密码必须与旧密码不同</div>
+        <div class="top-tip">{{ $t('newPasswordMustDifferentFromOld') }}</div>
         <div class="forms">
           <Custom-Input
-            label="Your Mobile"
+            :label="$t('yourMobile')"
             :value="form.mobile"
             @blur="(val) => (form.mobile = val)"
             :rules="[{ validator: mobileValidator, trigger: 'onSubmit' }]"
           >
           </Custom-Input>
           <Custom-Input
-            label="Old Password"
+            :label="$t('oldPassword')"
             :value="form.oldPassword"
             @blur="(val) => (form.oldPassword = val)"
             :type="showPwd ? 'text' : 'password'"
@@ -30,7 +30,7 @@
           <div class="tips">
             <div>
               <van-icon name="success" />
-              &nbsp; 密码长度至少为6
+              &nbsp; {{$t('passwordLengthAtLeast6OnlySupportNumber')}}
             </div>
             <!-- <div style="padding-top: 0.5em">
               <van-icon name="success" />
@@ -38,7 +38,7 @@
             </div> -->
           </div>
           <Custom-Input
-            label="New Password"
+            :label="$t('newPassword')"
             :value="form.newPassword"
             @blur="(val) => (form.newPassword = val)"
             :type="showNewPwd ? 'text' : 'password'"
@@ -53,7 +53,7 @@
             </template>
           </Custom-Input>
           <Custom-Input
-            label="Confirm Password"
+          :label="$t('confirmPassword')"
             :value="form.repeatPwd"
             @blur="(val) => (form.repeatPwd = val)"
             :type="showRepNewPwd ? 'text' : 'password'"
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="bottom">
-        <van-button round block color="#000000" native-type="submit"> Submit </van-button>
+        <van-button round block color="#000000" native-type="submit"> {{ $t('submit') }} </van-button>
       </div>
     </van-form>
   </div>
@@ -83,6 +83,7 @@ import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
 import { regMobile } from '@/utils/regExp.js'
 import useUserStore from '@/stores/modules/user.js'
+const {proxy}=getCurrentInstance()
 const userStore = useUserStore()
 const form = ref({
   mobile: undefined,
@@ -95,17 +96,17 @@ const showNewPwd = ref(false)
 const showRepNewPwd = ref(false)
 const mobileValidator = (val) => {
   if (!val) {
-    return '请填写手机号'
+    return proxy.t('')
   } else {
     if (!regMobile(val)) {
-      return '请填写正确的手机号'
+      return proxy.t('pleasFillCorrectMobilePhoneNumber')
     }
     return true
   }
 }
 const oldPwdValidator = (val) => {
   if (!val) {
-    return '请填写旧密码'
+    return proxy.t('placeholderOldPassword')
   } else {
   }
 }
@@ -117,7 +118,7 @@ const checkPwd = (val) => {
 }
 const newPwdValidator = (val) => {
   if (!val) {
-    return '请填写新密码'
+    return proxy.t('placeholderNewPassword')
   } else {
     if (val.length < 6) {
       return '请按要求填写密码'
@@ -144,7 +145,7 @@ const handlerChangePwd = () => {
     oldpassword: form.value.oldPassword
   })
     .then((res) => {
-      toast.success('修改成功')
+      toast.success(proxy.t('changeSuccess'))
       userStore.afterRePwd().then(() => {
         router.push({ name: 'Login' })
       })

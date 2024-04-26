@@ -1,5 +1,5 @@
 <template>
-  <nav-bar title="资金记录" />
+  <nav-bar :title="$t('fundRecord')" />
   <div class="container">
     <div class="tabs">
       <van-tabs v-model:active="tabActive" @change="statusChange">
@@ -19,7 +19,6 @@
         </div>
         <div class="flex-auto flex flex-col justify-center">
           <span class="text-base font-normal">
-            <!-- {{ item.type === 'recharge' ? '充值' : '提现' }} -->
             {{ item.title }}
           </span>
           <span class="text-sm opacity-80">
@@ -40,7 +39,7 @@
           </span>
         </div>
       </div>
-      <van-empty v-else description="暂无相关记录"> </van-empty>
+      <van-empty v-else :description="$t('noRecord')"> </van-empty>
     </refresh-list>
   </div>
 </template>
@@ -49,11 +48,12 @@ import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import { billList as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
+const {proxy} =getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref([
-  { value: 'all', name: '全部' },
-  { value: 'recharge', name: '充值' },
-  { value: 'extract', name: '提现' }
+  { value: 'all', name: proxy.t('all') },
+  { value: 'recharge', name: proxy.t('recharge') },
+  { value: 'extract', name: proxy.t('draw')}
 ])
 const data = ref([])
 const count = ref(0)

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="法律和政策" />
+    <nav-bar :title="$t('lawAndPolicy')" />
     <div class="content" v-html="rickText" />
   </div>
 </template>

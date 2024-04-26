@@ -2,13 +2,13 @@
   <div class="pay-panel-container">
     <div class="title-row">
       <div />
-      {{ title }}
+      {{ $t('pleaseEnterPaymentPassword') }}
       <icon-park name="close" size="1.5rem" @click="handlerClose" />
     </div>
     <div class="money-row">${{ payData.total_price }}</div>
     <div class="order-info">
-      <div>订单详情</div>
-      <div>商品交易</div>
+      <div>{{ $t('orderDetail') }}</div>
+      <div>{{ $t('productDetail') }}</div>
     </div>
     <div class="card-container" v-for="(card, index) in cards" :key="'card-' + index">
       <div class="card-item">
@@ -46,10 +46,10 @@ const cards = ref([
     value: '钱包余额 ($2.345,00)',
     icon: 'wallet-two'
   },
-  {
-    value: '万事达银行卡（暂不支持）',
-    icon: 'bank-card-cp41pae1'
-  }
+  // {
+  //   value: '万事达银行卡（暂不支持）',
+  //   icon: 'bank-card-cp41pae1'
+  // }
 ])
 const emit = defineEmits(['close', 'verify'])
 const handlerClose = () => {

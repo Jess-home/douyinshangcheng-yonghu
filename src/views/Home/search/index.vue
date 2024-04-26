@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="搜索" />
+    <nav-bar :title="$t('search')" />
     <div class="top">
       <div class="filter-row">
         <custom-input style="flex: 1" :value="queryParams.title" @blur="blurTitleInput">
@@ -35,7 +35,7 @@
           @click="goDetail(item)"
         />
       </van-space>
-      <van-empty v-else description="暂无商品"> </van-empty>
+      <van-empty v-else :description="$t('noProducts')"> </van-empty>
     </refresh-list>
   </div>
 </template>
@@ -67,7 +67,7 @@ const blurTitleInput = throttle(
   { trailing: true }
 )
 const clearSearch = () => {
-  if(queryParams.value.title) {
+  if (queryParams.value.title) {
     queryParams.value.page = 1
     queryParams.value.title = null
     selectKey.value = null

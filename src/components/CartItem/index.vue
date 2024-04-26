@@ -9,13 +9,13 @@
       </span>
       <div class="price">
         {{ product.goods?.sales_price }}
-        <div class="spec">{{ product.goods?.spec || product.spec || '未选规格' }}</div>
+        <div class="spec">{{ product.goods?.spec || product.spec || $t('noSpec') }}</div>
       </div>
-      <div v-if="readonly && product.cart_id">数量:&nbsp;&nbsp;{{ value }}</div>
+      <div v-if="readonly && product.cart_id">{{ $t('quantity') }}:&nbsp;&nbsp;{{ value }}</div>
       <div v-else class="number-ctl">
         <van-stepper v-model="value" :min="1" />
       </div>
-      <div class="total">总计: &nbsp;${{ product.total_price }}</div>
+      <div class="total">{{ $t('total') }}: &nbsp;${{ product.total_price }}</div>
     </div>
     <van-checkbox
       v-if="!readonly"

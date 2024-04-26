@@ -18,9 +18,7 @@
           <icon-park name="finance" size="2.5rem" />
         </div>
         <div class="flex-auto flex flex-col justify-center">
-          <span 
-            class="text-base font-normal text-gray-900"
-          >
+          <span class="text-base font-normal text-gray-900">
             {{ item.network }}
           </span>
           <span class="text-sm opacity-80">
@@ -59,7 +57,7 @@ const count = ref(0)
 const queryParams = ref({
   page: 1,
   limit: 10,
-  status:'all',
+  status: 'all'
 })
 const refreshData = ref({
   loading: false,

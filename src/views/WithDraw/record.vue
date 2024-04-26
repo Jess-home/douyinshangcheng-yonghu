@@ -18,8 +18,9 @@
           <icon-park name="finance" size="2.5rem" />
         </div>
         <div class="flex-auto flex flex-col justify-center mx-2">
-          <span 
-            class="text-base font-normal line-clamp-3 overflow-hidden text-gray-900" style="width: 220px"
+          <span
+            class="text-base font-normal line-clamp-3 overflow-hidden text-gray-900"
+            style="width: 220px"
           >
             {{ item.mark }}
           </span>
@@ -29,30 +30,24 @@
           <span class="text-sm opacity-80"> 审核结果: {{ item.admin_msg }} </span>
         </div>
         <div class="flex flex-col justify-around items-stretch mx-0">
-            <div class="flex flex-row justify-between mx-1 text-red">
-                充值
-                <span
-                  class="text-base font-medium flex flex-col"
-                >
-                  {{ item.extract_price }}
-                </span>
-            </div>
-            <div class="flex flex-row justify-between mx-1 text-black">
-                手续费
-                <span
-                  class="text-base font-medium flex flex-col"
-                >
-                  {{ item.fee }}
-                </span>
-            </div>
-            <div class="flex flex-row justify-between mx-1 text-green">
-                实际到账
-                <span
-                  class="text-base font-medium flex flex-col"
-                >
-                  {{ item.real_price }}
-                </span>
-            </div>
+          <div class="flex flex-row justify-between mx-1 text-red">
+            充值
+            <span class="text-base font-medium flex flex-col">
+              {{ item.extract_price }}
+            </span>
+          </div>
+          <div class="flex flex-row justify-between mx-1 text-black">
+            手续费
+            <span class="text-base font-medium flex flex-col">
+              {{ item.fee }}
+            </span>
+          </div>
+          <div class="flex flex-row justify-between mx-1 text-green">
+            实际到账
+            <span class="text-base font-medium flex flex-col">
+              {{ item.real_price }}
+            </span>
+          </div>
         </div>
       </div>
       <van-empty v-else description="暂无相关记录"> </van-empty>
@@ -72,7 +67,7 @@ const count = ref(0)
 const queryParams = ref({
   page: 1,
   limit: 10,
-  status:'all',
+  status: 'all'
 })
 const refreshData = ref({
   loading: false,

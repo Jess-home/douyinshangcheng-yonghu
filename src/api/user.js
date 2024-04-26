@@ -220,7 +220,7 @@ export function rechargeRecord(data) {
   return service({
     url: '/api/user/recharge_log',
     method: 'get',
-    params:data
+    params: data
   })
 }
 
@@ -233,6 +233,6 @@ export function depositRecord(data) {
   return service({
     url: '/api/user/extract_log',
     method: 'get',
-    params:data
+    params: data
   })
 }

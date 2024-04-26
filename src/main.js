@@ -29,7 +29,12 @@ import 'vant/es/toast/style'
 import 'vant/es/dialog/style'
 import { Toast, Dialog } from 'vant'
 
+import i18n from '@/lang/index.js'
+
 const app = createApp(App)
+
+//  全局方法
+app.config.globalProperties.t = i18n.global.t
 
 app.component('IconPark', IconPark)
 app.component('NavBar', NavBar)
@@ -41,5 +46,6 @@ app.use(store)
 
 app.use(Toast)
 app.use(Dialog)
+app.use(i18n)
 
 app.mount('#app')

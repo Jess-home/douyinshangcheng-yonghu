@@ -1,9 +1,9 @@
 <template>
-  <nav-bar title="修改密码" />
+  <nav-bar :title="$t('changePassword')" />
   <div class="container">
-    <list-tile @click="goRoute('ChangePassword')" title="登录密码" />
+    <list-tile @click="goRoute('ChangePassword')" :title="$t('loginPassword')" />
     <div style="height: 1rem" />
-    <list-tile @click="goRoute('ChangePayPwd')" title="支付密码" />
+    <list-tile @click="goRoute('ChangePayPwd')" :title="$t('paymentCode')" />
   </div>
 </template>
 <script setup>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="购物车" :can-back="false" />
+    <nav-bar :title="$t('shopping')" :can-back="false" />
     <div class="content">
       <div v-if="carts.length" class="products">
         <van-swipe-cell class="cart-item-container" v-for="(item, index) in carts" :key="index">
@@ -10,16 +10,16 @@
           </template>
         </van-swipe-cell>
       </div>
-      <van-empty v-else description="暂无商品"> </van-empty>
+      <van-empty v-else :description="$t('noProducts')"> </van-empty>
     </div>
     <div class="bottom">
       <div class="checkout-left">
-        总计:
+        {{ $t('total') }}:
         <div class="total">${{ total }}</div>
       </div>
       <div class="checkout-right">
         <van-button color="#191919" round block @click="handlerCreateOrder">
-          <span class="button-words">创建订单</span>
+          <span class="button-words">{{ $t('createOrder') }}</span>
         </van-button>
       </div>
     </div>
@@ -34,6 +34,7 @@ import toast from '@/utils/toast.js'
 import { getCartList, delCarts, setCartNum } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { plus } from '@/utils/math.js'
+const { proxy } = getCurrentInstance();
 const changeNumSuccess = () => {
   handlerQuery()
 }
@@ -51,9 +52,9 @@ const changeNum = throttle((data) => {
     .catch((err) => err)
 }, 1200)
 const removeItem = (id) => {
-  toast.loading({ msg: '删除中...' })
+  toast.loading({ })
   delCarts(id).then(() => {
-    toast.success({ msg: '删除成功' })
+    toast.success({ msg: proxy.t('deleteSuccess') })
     handlerQuery()
   })
 }
@@ -91,7 +92,7 @@ const total = computed(() => {
   return total
 })
 const handlerQuery = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   getCartList()
     .then((res) => {
       carts.value = res.data.carts.map((item) => ({

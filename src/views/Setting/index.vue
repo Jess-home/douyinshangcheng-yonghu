@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <nav-bar title="设置" />
+    <nav-bar :title="$t('setting')" />
     <div class="top">
       <list-menus :menus="menus" @click="handlerMenuClick" />
     </div>
     <div class="bottom">
-      <van-button @click="handlerCancel" block round color="#191919"> 退出 </van-button>
+      <van-button @click="handlerCancel" block round color="#191919"> {{ $t('quit') }} </van-button>
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@ import ListMenus from '@/components/ListMenus/index.vue'
 import useUserStore from '@/stores/modules/user.js'
 import { showConfirmDialog } from 'vant'
 import toast from '@/utils/toast.js'
+const { proxy }=getCurrentInstance()
 const menus = ref([
   // {
   //   name: '忘记密码',
@@ -21,17 +22,17 @@ const menus = ref([
   //   routeName: 'ForgotPassword'
   // },
   {
-    name: '修改密码',
+    name: proxy.t('changePassword'),
     iconName: 'shield',
     routeName: 'Passwords'
   },
   {
-    name: '帮助与支持',
+    name: proxy.t('helpAndSupport'),
     iconName: 'help',
     routeName: 'HelpAndSupport'
   },
   {
-    name: '客服',
+    name: proxy.t('customerService'),
     iconName: 'headset-one',
     routeName: 'Service'
   }
@@ -46,11 +47,11 @@ const handlerMenuClick = (menu) => {
 }
 const handlerCancel = () => {
   showConfirmDialog({
-    title: '退出确认',
-    message: '是否确认退出?'
+    title: proxy.t('quit'),
+    message: proxy.t('isSureToQuit')
   })
     .then(() => {
-      toast.loading({ msg: '退出中...' })
+      toast.loading()
       userStore
         .logOut()
         .then(() => {

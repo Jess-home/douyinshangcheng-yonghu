@@ -26,9 +26,10 @@
           <div class="product-info-item">
             <div class="product-info-item-content product-name-row">
               <div class="product-name">{{ detail.goods?.title }}</div>
-              <van-icon 
-                :color="isLike?'#fe4857':'#191919'"
-                :name="isLike?'like':'like-o'" size="1.4rem" 
+              <van-icon
+                :color="isLike ? '#fe4857' : '#191919'"
+                :name="isLike ? 'like' : 'like-o'"
+                size="1.4rem"
                 @click.stop="toggleLike"
               />
             </div>
@@ -36,11 +37,11 @@
           <div class="product-info-item">
             <div class="product-info-item-content">
               <div>
-                单价
+                {{ $t('unitPrice') }}
                 <span class="product-price">${{ detail.goods?.sales_price }}</span>
               </div>
-              <div>库存 {{ detail.goods?.stock }}</div>
-              <div>销量 {{ detail.sales }}</div>
+              <div>{{ $t('stock') }} {{ detail.goods?.stock }}</div>
+              <div>{{ $t('sales') }} {{ detail.sales }}</div>
             </div>
           </div>
           <!-- <div class="product-info-item">
@@ -97,16 +98,16 @@
           </div>
           <div class="product-info-item">
             <div class="product-info-item-content">
-              <div>已选数量</div>
+              <div>{{ $t('selectedQuantity') }}</div>
               <van-stepper v-model="detail.number" step="1" />
             </div>
           </div>
         </div>
       </div>
       <div class="comment" ref="commentRef">
-        <div class="comment-title">用户评价&nbsp;（{{ detail.reply_list?.length }}）</div>
+        <div class="comment-title">{{ $t('userEvlauate') }}&nbsp;（{{ detail.reply_list?.length }}）</div>
         <van-space v-if="detail.reply_list?.length" direction="vertical" size="0.5rem">
-          <div class="comment-card" v-for="item in detail.reply_list"> 
+          <div class="comment-card" v-for="item in detail.reply_list">
             <div class="comment-user">
               <van-image width="2rem" :src="item.avatar" round />
               <span style="padding-left: 0.5rem">{{ item.nicknam }}</span>
@@ -119,7 +120,7 @@
                 void-icon="star"
                 void-color="#eee"
               />
-              <span style="padding-left: 0.5rem">订单已完成</span>
+              <span style="padding-left: 0.5rem">{{ $t('orderCompleted') }}</span>
             </div>
             <div class="words-rows">
               {{ tiem.comment }}
@@ -137,7 +138,7 @@
             </div>
             <div class="comment-time">2024-04-10</div>
           </div>
-            <!-- <div
+          <!-- <div
               class="comment-card"
               v-for="(item, index) in detail.replay_list"
               :key="index + 'replay'"
@@ -173,12 +174,12 @@
               <div class="comment-time">{{ item.createtime }}</div>
           </div> -->
         </van-space>
-        <van-empty v-else style="padding:0;" image-size="6rem" description="暂无相关记录" />
+        <van-empty v-else style="padding: 0" image-size="6rem" :description="$t('noRecord')" />
       </div>
       <div class="detail" ref="detailRef">
-        <div class="detail-title">商家信息</div>
+        <div class="detail-title">{{ $t('shopInfo') }}</div>
         <hot-shop :shop="detail.merchant || {}" />
-        <div class="detail-title">产品描述</div>
+        <div class="detail-title">{{ $t('productDescription') }}</div>
         <div class="product-desc">
           <!-- <div class="words-rows">
             55% 棉，45% 涤纶导入 拉链开合 机洗这款日常经典连帽衫既时尚又舒适最后采用超柔
@@ -188,7 +189,7 @@
           <!-- {{ detail.goods?.content }} -->
           <div v-html="desc" />
         </div>
-        <div class="detail-title">商品推荐&nbsp;({{ recommends.length }})</div>
+        <div class="detail-title">{{ $t('productRecommend') }}&nbsp;({{ recommends.length }})</div>
         <div v-if="recommends.length" class="recommend-products">
           <product-card
             class="hot-product-item"
@@ -197,19 +198,19 @@
             :product="item"
           />
         </div>
-        <van-empty v-else style="padding:0;" image-size="6rem" description="暂无相关记录" />
+        <van-empty v-else style="padding: 0" image-size="6rem" :description="$t('noRecord')" />
       </div>
     </div>
     <div class="bottom">
       <div class="total-price">
-        总计:
+        {{ $t('total') }}
         <div class="total-number">${{ total }}</div>
       </div>
       <div class="button">
-        <van-button @click="handlerAddCart" style="flex: 8" block round>加入购物车</van-button>
+        <van-button @click="handlerAddCart" style="flex: 8" block round>{{ $t('addToShopping') }}</van-button>
         <div style="width: 1rem" />
         <van-button @click="handlerCreateOrder" style="flex: 6" block round color="#191919"
-          >创建订单</van-button
+          >{{ $t('createOrder') }}</van-button
         >
       </div>
     </div>
@@ -249,10 +250,12 @@ import HotShop from '@/views/Home/components/HotShop/index.vue'
 import { useElementBounding } from '@vueuse/core'
 import useUserStore from '@/stores/modules/user'
 import toast from '@/utils/toast.js'
-import { getProductDetail,like } from '@/api/product.js'
+import { getProductDetail, like } from '@/api/product.js'
 import { setCartNum, addCart } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { multiply } from '@/utils/math.js'
+const { proxy } = getCurrentInstance();
+console.log(proxy)
 const userStore = useUserStore()
 const router = useRouter()
 const total = computed(() => {
@@ -262,8 +265,8 @@ const total = computed(() => {
   return 0
 })
 const detail = ref({})
-const isLike=computed(()=>{
-  return detail.value.is_like?true:false
+const isLike = computed(() => {
+  return detail.value.is_like ? true : false
 })
 const spec = ref([])
 const specType = ref(0)
@@ -309,18 +312,20 @@ const selected = computed({
   set(val) {}
 })
 const items = ref([
-  { name: '商品', type: 'product', class: 'left' },
-  { name: '评价', type: 'comment' },
-  { name: '详情', type: 'detail', class: 'right' }
+  { name: proxy.t('product'), type: 'product', class: 'left' },
+  { name: proxy.t('evaluate'), type: 'comment' },
+  { name: proxy.t('detail'), type: 'detail', class: 'right' }
 ])
-const toggleLike=()=>{
+const toggleLike = () => {
   like({
     mer_id: detail.value.mer_id,
-    product_id: detail.value.product_id,
-  }).then(res=>{
-    detail.value.is_like=detail.value.is_like?0:1
-    toast.success({ msg:res.msg })
-  }).catch(err=>err)
+    product_id: detail.value.product_id
+  })
+    .then((res) => {
+      detail.value.is_like = detail.value.is_like ? 0 : 1
+      toast.success({ msg: res.msg })
+    })
+    .catch((err) => err)
 }
 const handlerItemClick = (type) => {
   if (type === selected.value) {
@@ -369,7 +374,7 @@ const handlerAddCart = () => {
   userStore
     .isLogin()
     .then(() => {
-      toast.loading({ msg: '添加中...' })
+      toast.loading()
       addCart({
         mer_id: detail.value.mer_id,
         product_id: detail.value.product_id,
@@ -383,7 +388,7 @@ const handlerAddCart = () => {
     })
     .catch((err) => {
       console.log(err)
-      toast.show({ msg: '请先登录' })
+      toast.show({ msg: proxy.t('loginFirst') })
       router.push('/login')
     })
 }
@@ -392,7 +397,7 @@ const handlerCreateOrder = () => {
     .isLogin()
     .then(() => {
       //  创建订单
-      toast.loading({ msg: '订单创建中...' })
+      toast.loading()
       createOrder({
         spec: spec.value.join('|'),
         product_id: detail.value.product_id,
@@ -400,14 +405,14 @@ const handlerCreateOrder = () => {
         mer_id: detail.value.mer_id
       })
         .then((res) => {
-          toast.success({ msg: '订单创建成功' })
+          toast.success({ msg: proxy.t('orderCreateSuccess') })
           router.push({ name: 'Order', query: { orderData: JSON.stringify(res.data) } })
         })
         .catch((err) => {})
     })
     .catch((err) => {
       console.log(err)
-      toast.show({ msg: '请先登录' })
+      toast.show({ msg:  proxy.t('loginFirst') })
       router.push('/login')
     })
 }
@@ -417,7 +422,7 @@ const showPay = () => {
 }
 const route = useRoute()
 onMounted(() => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const _params = route.params
   getProductDetail({
     mer_id: _params.mer,
@@ -489,7 +494,7 @@ onMounted(() => {
     }
     .product {
       padding: 0rem 0 1rem 0;
-      ::v-deep(.van-swipe__indicators){
+      ::v-deep(.van-swipe__indicators) {
         bottom: 0;
       }
       .product-img {
@@ -544,7 +549,7 @@ onMounted(() => {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            .product-name{
+            .product-name {
               padding-right: 1rem;
               display: block;
               font-weight: 500;

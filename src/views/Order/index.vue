@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <nav-bar title="订单详情" />
+    <nav-bar :title="$t('orderDetail')" />
     <div class="content">
       <div class="address content-item">
-        收货地址
+        {{ $t('shippingAddress') }}
         <list-tile :title="address?.name" :label="address?.label" @click.stop="showChooseAddress">
           <template v-if="!address" #left>
             <div class="choose-address">
               <icon-park name="plus" size="1.6rem" />
-              <div class="choose-address-word">添加地址</div>
+              <div class="choose-address-word"> {{ $t('addAddress') }}</div>
             </div>
           </template>
         </list-tile>
       </div>
       <div class="info content-item">
-        商品详情
+        {{ $t('productDetail') }}
         <cart-item
           class="product"
           v-for="(item, index) in orderData.product"
@@ -29,27 +29,27 @@
         <custom-input
           :value="promotion"
           @blur="(val) => (promotion = val)"
-          placeholder="输入您的促销码"
+          :placeholder="$t('inputYourPromoCode')"
         />
       </div>
       <div class="content-item">
-        <list-tile title="小计" :arrow="false" :value="total + ''" />
+        <list-tile :title="$t('subTotal')" :arrow="false" :value="total + ''" />
       </div>
       <div class="content-item">
-        <list-tile title="航运" :arrow="false" :value="orderData.delivery + ''" />
+        <list-tile :title="$t('freight')" :arrow="false" :value="orderData.delivery + ''" />
       </div>
       <div class="content-item">
-        <list-tile title="总" :arrow="false" :value="allTotal + ''" />
+        <list-tile :title="$t('total')" :arrow="false" :value="allTotal + ''" />
       </div>
     </div>
     <div class="bottom">
       <div class="total-price">
-        总计：
+        {{ $t('total') }}：
         <div class="total-number">${{ allTotal }}</div>
       </div>
       <div class="button">
         <van-button @click.stop="handlerSubmitOrder" block round color="#191919"
-          >立即付款</van-button
+          >{{ $t('payNow') }}</van-button
         >
       </div>
     </div>
@@ -84,6 +84,7 @@ import { verifyPay } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user'
 import { showConfirmDialog } from 'vant'
 const userStore = useUserStore()
+const { proxy } = getCurrentInstance();
 const orderData = ref({
   product: [],
   delivery: 0

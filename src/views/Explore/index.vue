@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="探索" :can-back="false" />
+    <nav-bar :title="$t('explore')" :can-back="false" />
     <div class="content">
       <custom-input :value="hotProductTitle" @blur="blurTitleInput" readonly @click="goSearch">
         <template #left>
@@ -25,8 +25,8 @@
       </div>
       <div class="popular-row">
         <div class="row-title">
-          热门商品
-          <div @click.stop="handlerGoProducts" class="sub-title">查看全部</div>
+          {{ $t('hotProduct') }}
+          <div @click.stop="handlerGoProducts" class="sub-title">{{ $t('viewAll') }}</div>
         </div>
         <div v-if="products.length" class="popular-items">
           <van-space size="0.6rem">
@@ -39,12 +39,12 @@
             />
           </van-space>
         </div>
-        <van-empty v-else description="暂无商品"> </van-empty>
+        <van-empty v-else :description="$t('noProducts')"> </van-empty>
       </div>
       <div class="recommend-row">
         <div class="row-title">
-          推荐
-          <div @click.stop="handlerGoProducts" class="sub-title">查看全部</div>
+        {{ $t('recommend') }}
+          <div @click.stop="handlerGoProducts" class="sub-title">{{ $t('viewAll') }}</div>
         </div>
         <div v-if="remcommends.length" class="recommend-items">
           <van-space direction="vertical">
@@ -57,7 +57,7 @@
             />
           </van-space>
         </div>
-        <van-empty v-else description="暂无商品"> </van-empty>
+        <van-empty v-else :description="$t('noProduct')"> </van-empty>
       </div>
     </div>
   </div>
@@ -73,6 +73,7 @@ import useBasicData from '@/stores/modules/basicData.js'
 import { recommend } from '@/api/product.js'
 import { hotProduct } from '@/api/home.js'
 import toast from '@/utils/toast.js'
+const { proxy } = getCurrentInstance();
 const queryHotProduct = () => {
   toast.loading({ msg: '加载中...' })
   hotProduct({

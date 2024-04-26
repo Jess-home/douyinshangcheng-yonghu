@@ -6,7 +6,8 @@
         {{ product.goods.sales_price }}
         <div class="old-price">{{ product.goods.market_price }}</div>
       </div>
-      已售出&nbsp;{{ product.goods.real_sales }}
+      {{ $t('selled') }} 
+      &nbsp;{{ product.goods.real_sales }}
       <div class="product-name">
         {{ product.goods.title }}
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <nav-bar title="伙伴关系" />
+  <nav-bar :title="$t('partnership')" />
   <div class="container">
     <div class="logo-row">
       <van-image round width="8rem" height="8rem" :src="platform.logo" />
@@ -9,12 +9,12 @@
     </div>
     <div class="custom-row row">
       <van-button round block color="#191919" @click="hanlderLocation(platform.custom_service)"
-        >客服链接</van-button
+        >{{ $t('serviceLink') }}</van-button
       >
     </div>
     <div class="merchant-row row">
       <van-button round block color="#191919" @click="hanlderLocation(platform.merchant_link)"
-        >平台卖家端</van-button
+        >{{ $t('platformSell') }}</van-button
       >
     </div>
   </div>

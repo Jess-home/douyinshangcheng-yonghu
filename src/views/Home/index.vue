@@ -4,7 +4,7 @@
       <van-image :src="tiktok" class="tiktok-img" />
       <div class="header-imgs">
         <van-space size="0.86rem">
-          <icon-park @click.stop="handlerShowLang" name="earth" size="1.8rem" />
+          <icon-park @click.stop="handlerChooseLanguage" name="earth" size="1.8rem" />
           <!--<icon-park name="comment" size="1.8rem" />-->
         </van-space>
       </div>
@@ -41,7 +41,7 @@
       <div class="hot-product">
         <div class="hot-product-title">
           <div class="title-icon">HOT</div>
-          <div class="title-words">热门商品</div>
+          <div class="title-words">{{ $t('hotProduct') }}</div>
         </div>
         <van-swipe v-if="hotProducts.length" :show-indicators="false" lazy-render>
           <van-swipe-item v-for="(item, index) in hotProducts" :key="index + 'product'">
@@ -61,7 +61,7 @@
       <div class="hot-product hot-shop">
         <div class="hot-product-title">
           <div class="title-icon">HOT</div>
-          <div class="title-words">热门商店</div>
+          <div class="title-words">{{ $t('hotShop') }}</div>
         </div>
         <van-swipe
           :autoplay="3000"
@@ -81,63 +81,30 @@
       </div>
     </div>
   </div>
-  <custom-floating-panel ref="floatingPanel" title="请选择语言">
-    <language-item
-      v-for="item in languages"
-      :key="item.file_name"
-      :language="item"
-      @click="handlerLanguageChoose(item)"
-    />
-  </custom-floating-panel>
+  <choose-language 
+    ref="chooseLanguage"
+  />
   <AppTabbar />
 </template>
 <script name="Home" setup>
-import to from 'await-to-js'
 import tiktok from '@/assets/image/titok-wholesale.png'
 import CustomInput from '@/components/Input/index.vue'
 import homeBoard from '@/assets/image/home-board.png'
 import ProductCard from '@/components/ProductCard/index.vue'
 import HotShop from './components/HotShop/index.vue'
-import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
-import LanguageItem from '@/components/LanguageItem/index.vue'
+import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 import { banner, product, hotShop } from '@/api/home.js'
 import { splitArray } from '@/utils/tool.js'
 import toast from '@/utils/toast.js'
 import useBasicData from '@/stores/modules/basicData.js'
-import useUserStore from '@/stores/modules/user.js'
 import AppTabbar from '@/components/AppTabbar/index.vue'
-import { setDefaultLanguage } from '@/api/user.js'
-import { setLocalLang } from '@/utils/auth.js'
 const basicData = useBasicData()
-const userStore = useUserStore()
-const languages = ref([])
-const floatingPanel = ref(null)
-const handlerShowLang = () => {
-  floatingPanel.value.show = true
+// language
+const chooseLanguage=ref(null)
+const handlerChooseLanguage=()=>{
+  chooseLanguage.value.show=true
 }
-const handlerLanguageChoose = async (language) => {
-  toast.loading()
-  floatingPanel.value.show = false
-  const [err, res] = await to(userStore.isLogin())
-  if (res) {
-    const [err, res] = await to(setDefaultLanguage({ lang_id: language.id }))
-    if (err) {
-      toast.error({ msg: '设置失败' })
-      return
-    }
-    userStore.setLanguage(language)
-  } else {
-    setLocalLang(language)
-  }
-  languages.value.forEach((l) => {
-    if (l.id === language.id) {
-      l.is_default = 1
-    } else {
-      l.is_default = 0
-    }
-  })
-  toast.success({ msg: '设置成功' })
-}
+//   language
 const swipeImgs = ref([homeBoard, homeBoard])
 const categories = ref([])
 const selectedClass = ref({})
@@ -148,7 +115,7 @@ const goSearch = () => {
   router.push({ name: 'Search' })
 }
 const handlerClassClick = (item) => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   product({
     category_id: item.category_id,
     page: 1,
@@ -169,7 +136,7 @@ const goDetail = (product) => {
   })
 }
 onMounted(async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const responses1 = await Promise.all([
     banner()
       .then((res) => res)
@@ -192,15 +159,10 @@ onMounted(async () => {
       .catch((err) => err),
     hotShop()
       .then((res) => res)
-      .catch((err) => err),
-    basicData
-      .getLanguages()
-      .then((res) => res)
       .catch((err) => err)
   ])
   hotProducts.value = splitArray(responses2[0].data.list, 4)
   hotShops.value = [responses2[1].data.list, responses2[1].data.list]
-  languages.value = responses2[2]
   toast.close()
 })
 </script>

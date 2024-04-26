@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="客服" />
+    <nav-bar :title="$t('customerService')" />
     <div class="content">
       <iframe
         style="min-height: 100%; width: 100%; overflow: hidden"
@@ -17,7 +17,7 @@ import { platformInfo } from '@/api/home.js'
 import toast from '@/utils/toast.js'
 const platform = ref({})
 const getPlatformInfo = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   platformInfo()
     .then((res) => {
       platform.value = res.data

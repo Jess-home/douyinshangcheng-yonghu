@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="帮助与支持" />
+    <nav-bar :title="$t('helpAndSupport')" />
     <div class="content">
       <van-space direction="vertical" size="0.5rem">
         <div
@@ -11,7 +11,11 @@
           <div class="p-3">
             <div class="item-row" @click="() => (item.showDesc = !item.showDesc)">
               <div class="item-title">{{ item.title }}</div>
-              <van-icon :name="item.showDesc ? 'arrow-up' : 'arrow-down'" color="#111111" size="20" />
+              <van-icon
+                :name="item.showDesc ? 'arrow-up' : 'arrow-down'"
+                color="#111111"
+                size="20"
+              />
             </div>
             <div v-show="item.showDesc" class="item-desc">
               <div v-html="item.content" />
@@ -48,7 +52,7 @@ const cleanSearch = () => {}
 const data = ref([])
 const items = ref([])
 const getData = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   helpSupport()
     .then((res) => {
       data.value = res.data

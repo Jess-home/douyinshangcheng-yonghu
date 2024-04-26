@@ -12,8 +12,8 @@
         {{ product.goods.title }}
       </div>
       <div class="product-popular">
-        <div>销量&nbsp;&nbsp;{{ product.goods.real_sales }}</div>
-        <div>{{ 0 }}万看过</div>
+        <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.goods.real_sales }}</div>
+        <div> {{ product.click }} {{ $t('seen')  }}</div>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar :can-back="false" title="个人中心">
+    <nav-bar :can-back="false" :title="$t('personCenter')">
       <!--<template #right>-->
       <!--  <icon-park name="more" size="1.8rem"/>-->
       <!--</template>-->
@@ -21,7 +21,7 @@
       <div class="user-card">
         <div class="row1">
           <div class="row1">
-            我的余额&nbsp;(美元)
+            {{$t('myBalance')}}&nbsp;({{$t('dollar')}})
             <icon-park
               color="#ffffff"
               :name="showBalance ? 'preview-close-one' : 'preview-open'"
@@ -36,9 +36,9 @@
           {{ balance }}
         </div>
         <div class="row3">
-          <div class="draw" @click.stop="handlerDraw">提现</div>
+          <div class="draw" @click.stop="handlerDraw">{{$t('draw')}}</div>
           <div style="flex: 1" />
-          <div class="deposit" @click.stop="handlerTopUp">充值</div>
+          <div class="deposit" @click.stop="handlerTopUp">{{$t('recharge')}}</div>
         </div>
         <!-- <van-divider style="color: #ffffff" dashed /> -->
         <div class="grid grid-cols-2 mt-5">
@@ -46,11 +46,11 @@
             <div class="rows-amount" style="padding-right: 2.5rem">
               {{ userInfo.order_unreceived }}
             </div>
-            <span>未收到的商品</span>
+            <span>{{$t('goodsNotReceived')}}</span>
           </div>
           <div class="row4-column" @click.stop="goMyOrders('0')">
             <div class="rows-amount">{{ userInfo.order_unpaid }}</div>
-            <span>未付款的商品</span>
+            <span>{{$t('goodsNotPaid')}}</span>
           </div>
         </div>
       </div>
@@ -64,14 +64,7 @@
       </div>
     </div>
   </div>
-  <custom-floating-panel ref="floatingPanel" title="请选择语言">
-    <language-item
-      v-for="item in languages"
-      :key="item.file_name"
-      :language="item"
-      @click="handlerLanguageChoose(item)"
-    />
-  </custom-floating-panel>
+  <choose-language ref="chooseLanguage" />
   <AppTabbar />
 </template>
 <script name="Filter" setup>
@@ -80,17 +73,16 @@ import Avatar from '@/assets/image/avatar.png'
 import PersonCenterBoard from '@/assets/image/person-center-board.png'
 import { formatNumberWithCommas } from '@/utils/filter.js'
 import ListMenus from '@/components/ListMenus/index.vue'
-import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
-import LanguageItem from '@/components/LanguageItem/index.vue'
+import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 import useUserStore from '@/stores/modules/user.js'
+const {proxy} = getCurrentInstance()
 import toast from '@/utils/toast.js'
-import { languageList, setDefaultLanguage } from '@/api/user.js'
 const userStore = useUserStore()
 const userInfo = computed(() => {
   return userStore.userInfo || {}
 })
 const user_contacts = computed(() => {
-  return userStore.userInfo.email
+  return userStore.userInfo?.email
 })
 const language = computed(() => {
   return userStore.getLanguage()
@@ -106,8 +98,8 @@ const handlerTopUp = () => {
   router.push({ name: 'TopUp' })
 }
 //  跳到订单列表
-const goMyOrders=status=>{
-  router.push({name:'MyPurchases',params:{status:status}})
+const goMyOrders = (status) => {
+  router.push({ name: 'MyPurchases', params: { status: status } })
 }
 //  充值
 const balance = computed(() => {
@@ -118,12 +110,12 @@ const balance = computed(() => {
 })
 const menus1 = ref([
   {
-    name: '我的订单',
+    name: proxy.t('myOrders'),
     iconName: 'order',
     routeName: 'MyPurchases'
   },
   {
-    name: '资金记录',
+    name: proxy.t('fundRecord'),
     iconName: 'funds',
     routeName: 'CapitalRecord'
   },
@@ -133,17 +125,17 @@ const menus1 = ref([
   //   routeName: 'MyFavourite'
   // },
   {
-    name: '伙伴关系',
+    name: proxy.t('partnership'),
     iconName: 'chart-graph',
     routeName: 'Platform'
   },
   {
-    name: '帮助和支持',
+    name: proxy.t('helpAndSupport'),
     iconName: 'help',
     routeName: 'HelpAndSupport'
   },
   {
-    name: '法律和政策',
+    name: proxy.t('lawAndPolicy'),
     iconName: 'shield',
     routeName: 'Law'
   }
@@ -151,24 +143,23 @@ const menus1 = ref([
 const menus2 = ref([
   {
     type: 'language',
-    name: '语言',
+    name: proxy.t('language'),
     iconName: 'earth',
     // routeName: 'Language',
     rightName: language
   },
   {
     type: 'language',
-    name: '收货地址',
+    name: proxy.t('shippingAddress'),
     iconName: 'local',
     routeName: 'Address'
   },
   {
-    name: '设置',
+    name: proxy.t('setting'),
     iconName: 'setting-two',
     routeName: 'Setting'
   }
 ])
-const languages = ref([])
 const goNotification = () => {
   router.push({ name: 'Notification' })
 }
@@ -176,7 +167,9 @@ const showBalance = ref(false)
 const handlerSwitchShowBalance = () => {
   showBalance.value = !showBalance.value
 }
-const floatingPanel = ref(null)
+// language
+const chooseLanguage=ref(null)
+// language
 const handlerMenuClick = (menu) => {
   if (menu.routeName) {
     router.push({ name: menu.routeName })
@@ -184,35 +177,12 @@ const handlerMenuClick = (menu) => {
   }
   switch (menu.type) {
     case 'language':
-      floatingPanel.value.show = true
+      chooseLanguage.value.show=true
       break
     default:
       break
   }
 }
-const handlerLanguageChoose = (language) => {
-  floatingPanel.value.show = false
-  toast.loading()
-  setDefaultLanguage({ lang_id: language.id })
-    .then((res) => {
-      toast.success({ msg: '设置成功' })
-      userStore.setLanguage(language)
-      getLanguages()
-    })
-    .catch((err) => err)
-}
-const getLanguages = () => {
-  // toast.loading();
-  languageList({
-    page: 1,
-    limit: 100
-  })
-    .then((res) => {
-      languages.value = res.data.list
-    })
-    .catch((err) => err)
-}
-getLanguages()
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');

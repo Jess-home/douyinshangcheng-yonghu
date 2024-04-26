@@ -5,14 +5,14 @@
         <van-image round width="3.8rem" height="auto" :src="shop.mer_avatar" />
         <div class="show-info-name">
           {{ shop.mer_name }}
-          <div class="show-info-fans">{{ shop.follow_count }}&nbsp;粉丝</div>
+          <div class="show-info-fans">{{ shop.follow_count }}&nbsp;{{ $t('fans') }}</div>
         </div>
       </div>
-      <div class="visit-shop" @click.stop="handlerVisitShop">访问店铺</div>
+      <div class="visit-shop" @click.stop="handlerVisitShop">{{ $t('visitShop') }}</div>
     </div>
     <div class="hot-shop-popular">
-      <div>好评率:&nbsp;&nbsp;{{ shop.good_rate }}%</div>
-      <div>销售总额:&nbsp;&nbsp;{{ shop.total_price }}</div>
+      <div>{{ $t('favorableRate') }}:&nbsp;&nbsp;{{ shop.good_rate }}%</div>
+      <div>{{ $t('totalSales') }}:&nbsp;&nbsp;{{ shop.total_price }}</div>
     </div>
   </div>
 </template>
