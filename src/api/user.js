@@ -141,7 +141,7 @@ export function setDefaultAddress(data) {
   })
 }
 
-export function delAddress(data){
+export function delAddress(data) {
   return service({
     url: '/api/user/address_del',
     method: 'get',
@@ -157,7 +157,7 @@ export function languageList(data) {
   })
 }
 
-export function setDefaultLanguage(data){
+export function setDefaultLanguage(data) {
   return service({
     url: '/api/user/set_language',
     method: 'post',
@@ -192,17 +192,16 @@ export function area(data) {
 export function helpSupport() {
   return service({
     url: '/api/user/help_support',
-    method: 'get',
+    method: 'get'
   })
 }
 
 export function law() {
   return service({
     url: '/api/user/law',
-    method: 'get',
+    method: 'get'
   })
 }
-
 
 export function verifyPay(data) {
   return service({
@@ -217,22 +216,23 @@ export function verifyPay(data) {
  *
  * @returns 返回一个Promise对象，表示请求的结果
  */
-export function rechargeRecord() {
+export function rechargeRecord(data) {
   return service({
     url: '/api/user/recharge_log',
     method: 'get',
+    params:data
   })
 }
-
 
 /**
  * 获取提现记录
  *
  * @returns 返回一个Promise对象，resolve时返回提现记录数据
  */
-export function depositRecord() {
+export function depositRecord(data) {
   return service({
     url: '/api/user/extract_log',
     method: 'get',
+    params:data
   })
 }

@@ -13,7 +13,8 @@ export const isRelogin = { show: false }
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
   // baseURL: '/api',
-  baseURL: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_APP_BASE_API || '/api',
+  // baseURL: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000',
   // 超时
   timeout: 10000
 })
@@ -90,10 +91,12 @@ service.interceptors.response.use(
   },
   (error) => {
     console.log(error)
-    if(error.code===401){
-      useUserStore().invalidToken().then(()=>{
-        location.href = '/login'
-      })
+    if (error.code === 401) {
+      useUserStore()
+        .invalidToken()
+        .then(() => {
+          location.href = '/login'
+        })
       return Promise.reject(error)
     }
     let { message } = error

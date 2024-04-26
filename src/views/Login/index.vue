@@ -20,8 +20,9 @@
       </div>
       <div class="login-forms">
         <div class="form-input">
-          <custom-input 
-            :value="form.account" @blur="(val) => (form.account = val)"
+          <custom-input
+            :value="form.account"
+            @blur="(val) => (form.account = val)"
             placeholder="请输入账号"
           >
             <template #left>
@@ -30,36 +31,38 @@
           </custom-input>
         </div>
         <div class="form-input pwd-input">
-          <custom-input 
-            :value="form.password" @blur="(val) => (form.password = val)"
-            :type="showPwd? 'text' : 'password'"
+          <custom-input
+            :value="form.password"
+            @blur="(val) => (form.password = val)"
+            :type="showPwd ? 'text' : 'password'"
             placeholder="请输入密码"
           >
             <template #left>
               <div class="form-label">密码</div>
             </template>
             <template #right>
-              <icon-park 
-                :name="showPwd? 'preview-close-one' : 'preview-open'" 
-                size="1.5rem" 
+              <icon-park
+                :name="showPwd ? 'preview-close-one' : 'preview-open'"
+                size="1.5rem"
                 @click.stop="showPwd = !showPwd"
               />
             </template>
           </custom-input>
         </div>
-        <div v-if="type===1" class="form-input pwd-input">
-          <custom-input 
-            :value="form.repPassword" @blur="(val) => (form.repPassword = val)"
-            :type="showRepPwd? 'text' : 'password'"
+        <div v-if="type === 1" class="form-input pwd-input">
+          <custom-input
+            :value="form.repPassword"
+            @blur="(val) => (form.repPassword = val)"
+            :type="showRepPwd ? 'text' : 'password'"
             placeholder="请再次输入密码"
           >
             <template #left>
               <div class="form-label">密码确认</div>
             </template>
             <template #right>
-              <icon-park 
-                :name="showRepPwd? 'preview-close-one' : 'preview-open'" 
-                size="1.5rem" 
+              <icon-park
+                :name="showRepPwd ? 'preview-close-one' : 'preview-open'"
+                size="1.5rem"
                 @click.stop="showRepPwd = !showRepPwd"
               />
             </template>
@@ -68,9 +71,8 @@
         <div v-else class="forget-pwd" @click="handlerForgetPwd">忘记密码</div>
       </div>
       <div class="login-button">
-        <van-button 
-          @click.stop="handlerLogin" color="#191919" block round>
-          {{ type===0 ? '登录' : '注册' }}
+        <van-button @click.stop="handlerLogin" color="#191919" block round>
+          {{ type === 0 ? '登录' : '注册' }}
         </van-button>
       </div>
       <div @click="handlerRegister" class="go-register">
@@ -99,7 +101,7 @@ import useUserStore from '@/stores/modules/user.js'
 import { register } from '@/api/user.js'
 const type = ref(0)
 const types = ref([
-  { name: '账号登录', value: 0 },
+  { name: '账号登录', value: 0 }
   // { name: '账号注册', value: 1 }
 ])
 const userStore = useUserStore()
@@ -107,10 +109,10 @@ const router = useRouter()
 const form = ref({
   account: undefined,
   password: undefined,
-  repPassword:undefined
+  repPassword: undefined
 })
-const showPwd=ref(false)
-const showRepPwd=ref(false)
+const showPwd = ref(false)
+const showRepPwd = ref(false)
 const goHome = () => {
   router.replace({ name: 'Home' })
 }

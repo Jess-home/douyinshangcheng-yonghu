@@ -6,7 +6,6 @@ import { isRelogin } from '@/utils/request.js'
 import useUserStore from '@/stores/modules/user.js'
 import { isContainWhite } from '@/utils/tool.js'
 NProgress.configure({ showSpinner: false })
-import { removeToken } from '@/utils/auth.js'
 
 const whiteList = [
   '/login',
@@ -40,15 +39,12 @@ router.beforeEach((to, from, next) => {
             useUserStore()
               .logOut()
               .then(() => {
-                toast.show({
-                  msg: err,
-                  type: 'fail'
-                })
                 next({ path: '/login' })
-              }).catch(err=>{
-                console.log(err)
-                removeToken()
-                next({ path: '/' })
+              })
+              .catch((err) => {
+                useUserStore().invalidToken().then(()=>{
+                  next({ path: '/' })
+                })
               })
           })
       } else {

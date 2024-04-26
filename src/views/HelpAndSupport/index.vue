@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar title="帮助与支持"/>
+    <nav-bar title="帮助与支持" />
     <!--<div class="top">-->
     <!--  &lt;!&ndash;<custom-input&ndash;&gt;-->
     <!--  &lt;!&ndash;    :value="query.searchVal"&ndash;&gt;-->
@@ -8,14 +8,18 @@
     <!--  &lt;!&ndash;/>&ndash;&gt;-->
     <!--</div>-->
     <div class="content">
-      <div v-for="item in items" :key="item.title" class="item-container bg-white rounded-md shadow">
+      <div
+        v-for="item in items"
+        :key="item.title"
+        class="item-container bg-white rounded-md shadow"
+      >
         <div class="p-3">
           <div class="item-row" @click="() => (item.showDesc = !item.showDesc)">
             <div class="item-title">{{ item.title }}</div>
-            <van-icon :name="item.showDesc ? 'arrow-up' : 'arrow-down'" color="#111111" size="20"/>
+            <van-icon :name="item.showDesc ? 'arrow-up' : 'arrow-down'" color="#111111" size="20" />
           </div>
           <div v-show="item.showDesc" class="item-desc">
-            <div v-html="item.content"/>
+            <div v-html="item.content" />
           </div>
         </div>
       </div>
@@ -23,39 +27,43 @@
   </div>
 </template>
 <script setup>
-import throttle from 'lodash/throttle';
-import NavBar from '@/components/CustomNavBar/index.vue';
-import CustomInput from '@/components/Input/index.vue';
-import toast from '@/utils/toast.js';
-import {helpSupport} from '@/api/user.js';
+import throttle from 'lodash/throttle'
+import NavBar from '@/components/CustomNavBar/index.vue'
+import CustomInput from '@/components/Input/index.vue'
+import toast from '@/utils/toast.js'
+import { helpSupport } from '@/api/user.js'
 
 const query = ref({
   searchVal: undefined
-});
-const handlerFilter = throttle((val) => {
-  if (!val) {
-    items.value = data.value;
-  }
-  items.value = data.value.filter(item => {
-    return item.title.indexOf(val) !== -1;
-  });
-
-}, 1000, {trailing: true});
-const cleanSearch = () => {
-
-};
-const data = ref([]);
-const items = ref([]);
+})
+const handlerFilter = throttle(
+  (val) => {
+    if (!val) {
+      items.value = data.value
+    }
+    items.value = data.value.filter((item) => {
+      return item.title.indexOf(val) !== -1
+    })
+  },
+  1000,
+  { trailing: true }
+)
+const cleanSearch = () => {}
+const data = ref([])
+const items = ref([])
 const getData = () => {
-  toast.loading({msg: '加载中...'});
-  helpSupport().then(res => {
-    data.value = res.data;
-    items.value = res.data;
-  }).catch(err => err).finally(() => {
-    toast.close();
-  });
-};
-getData();
+  toast.loading({ msg: '加载中...' })
+  helpSupport()
+    .then((res) => {
+      data.value = res.data
+      items.value = res.data
+    })
+    .catch((err) => err)
+    .finally(() => {
+      toast.close()
+    })
+}
+getData()
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');

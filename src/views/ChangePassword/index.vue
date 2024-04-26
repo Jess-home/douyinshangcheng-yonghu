@@ -3,28 +3,26 @@
     <App-Header title="登录密码" />
     <van-form @submit="handlerChangePwd">
       <div class="content">
-        <div class="top-tip">
-          新密码必须与旧密码不同
-        </div>
+        <div class="top-tip">新密码必须与旧密码不同</div>
         <div class="forms">
           <Custom-Input
             label="Your Mobile"
             :value="form.mobile"
             @blur="(val) => (form.mobile = val)"
-            :rules="[{ validator:mobileValidator, trigger:'onSubmit' }]"
+            :rules="[{ validator: mobileValidator, trigger: 'onSubmit' }]"
           >
           </Custom-Input>
           <Custom-Input
             label="Old Password"
             :value="form.oldPassword"
             @blur="(val) => (form.oldPassword = val)"
-            :type="showPwd? 'text' : 'password'"
-            :rules="[{ validator:oldPwdValidator, trigger:'onSubmit' }]"
+            :type="showPwd ? 'text' : 'password'"
+            :rules="[{ validator: oldPwdValidator, trigger: 'onSubmit' }]"
           >
             <template #right>
-              <icon-park 
-                :name="showPwd? 'preview-close-one' : 'preview-open'" 
-                size="1.5rem" 
+              <icon-park
+                :name="showPwd ? 'preview-close-one' : 'preview-open'"
+                size="1.5rem"
                 @click.stop="showPwd = !showPwd"
               />
             </template>
@@ -43,13 +41,13 @@
             label="New Password"
             :value="form.newPassword"
             @blur="(val) => (form.newPassword = val)"
-            :type="showNewPwd? 'text' : 'password'"
-            :rules="[{ validator:newPwdValidator, trigger:'onSubmit' }]"
+            :type="showNewPwd ? 'text' : 'password'"
+            :rules="[{ validator: newPwdValidator, trigger: 'onSubmit' }]"
           >
             <template #right>
-              <icon-park 
-                :name="showNewPwd? 'preview-close-one' : 'preview-open'" 
-                size="1.5rem" 
+              <icon-park
+                :name="showNewPwd ? 'preview-close-one' : 'preview-open'"
+                size="1.5rem"
                 @click.stop="showNewPwd = !showNewPwd"
               />
             </template>
@@ -58,13 +56,13 @@
             label="Confirm Password"
             :value="form.repeatPwd"
             @blur="(val) => (form.repeatPwd = val)"
-            :type="showRepNewPwd? 'text' : 'password'"
-            :rules="[{ validator:repeatNewPwdValidator, trigger:'onSubmit' }]"
+            :type="showRepNewPwd ? 'text' : 'password'"
+            :rules="[{ validator: repeatNewPwdValidator, trigger: 'onSubmit' }]"
           >
             <template #right>
-              <icon-park 
-                :name="showRepNewPwd? 'preview-close-one' : 'preview-open'" 
-                size="1.5rem" 
+              <icon-park
+                :name="showRepNewPwd ? 'preview-close-one' : 'preview-open'"
+                size="1.5rem"
                 @click.stop="showRepNewPwd = !showRepNewPwd"
               />
             </template>
@@ -72,10 +70,7 @@
         </div>
       </div>
       <div class="bottom">
-        <van-button 
-          round block color="#000000"
-          native-type="submit"
-        > Submit </van-button>
+        <van-button round block color="#000000" native-type="submit"> Submit </van-button>
       </div>
     </van-form>
   </div>
@@ -90,70 +85,71 @@ import { regMobile } from '@/utils/regExp.js'
 import useUserStore from '@/stores/modules/user.js'
 const userStore = useUserStore()
 const form = ref({
-  mobile:undefined,
+  mobile: undefined,
   oldPassword: undefined,
   newPassword: undefined,
   repeatPwd: undefined
 })
 const showPwd = ref(false)
-const showNewPwd=ref(false)
+const showNewPwd = ref(false)
 const showRepNewPwd = ref(false)
-const mobileValidator=val=>{
-    if(!val){
-        return '请填写手机号'
-    }else{
-        if(!regMobile(val)){
-            return '请填写正确的手机号'
-        }
-        return true
+const mobileValidator = (val) => {
+  if (!val) {
+    return '请填写手机号'
+  } else {
+    if (!regMobile(val)) {
+      return '请填写正确的手机号'
     }
-}
-const oldPwdValidator = (val) => {
-  if(!val){
-        return '请填写旧密码'
-  }else{
-      
+    return true
   }
 }
-const checkPwd=val=>{
-  if(val.indexOf('@')!==-1||val.indexOf('!')!==-1||val.indexOf('#')!==-1){
+const oldPwdValidator = (val) => {
+  if (!val) {
+    return '请填写旧密码'
+  } else {
+  }
+}
+const checkPwd = (val) => {
+  if (val.indexOf('@') !== -1 || val.indexOf('!') !== -1 || val.indexOf('#') !== -1) {
     return true
   }
   return false
 }
 const newPwdValidator = (val) => {
-  if(!val){
-        return '请填写新密码'
-  }else{
-      if(val.length < 6){
-        return '请按要求填写密码'
-      }
-      return true
+  if (!val) {
+    return '请填写新密码'
+  } else {
+    if (val.length < 6) {
+      return '请按要求填写密码'
+    }
+    return true
   }
 }
 const repeatNewPwdValidator = (val) => {
-  if(!val){
-        return '请确认新密码'
-  }else{
-      if(val !== form.value.newPassword){
-        return '两次密码不一致'
-      }
-      return true
+  if (!val) {
+    return '请确认新密码'
+  } else {
+    if (val !== form.value.newPassword) {
+      return '两次密码不一致'
+    }
+    return true
   }
 }
-const router=useRouter()
+const router = useRouter()
 const handlerChangePwd = () => {
   toast.loading()
   resetpwd({
-    mobile:form.value.mobile,
-    newpassword:form.value.newPassword,
-    oldpassword:form.value.oldPassword
-  }).then(res=>{
-    toast.success('修改成功')
-    userStore.afterRePwd().then(()=>{
-      router.push({name:'Login'})
+    mobile: form.value.mobile,
+    newpassword: form.value.newPassword,
+    oldpassword: form.value.oldPassword
+  })
+    .then((res) => {
+      toast.success('修改成功')
+      userStore.afterRePwd().then(() => {
+        router.push({ name: 'Login' })
+      })
     })
-  }).catch(err=>err)
+    .catch((err) => err)
 }
 </script>
 <style lang="scss" scoped>

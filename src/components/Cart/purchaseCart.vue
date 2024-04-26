@@ -14,10 +14,7 @@
       </div>
       <div class="info-ctrl">
         <div class="ctrl-price">${{ product.total }}</div>
-        <van-button 
-          round icon="arrow" color="#31452e" 
-          @click.stop="handlerArrowClick"
-        />
+        <van-button round icon="arrow" color="#31452e" @click.stop="handlerArrowClick" />
       </div>
     </div>
   </div>
@@ -51,8 +48,8 @@ const tagType = computed(() => {
       return 'success '
   }
 })
-const emit=defineEmits(['arrowClick'])
-const handlerArrowClick=()=>{
+const emit = defineEmits(['arrowClick'])
+const handlerArrowClick = () => {
   emit('arrowClick')
 }
 </script>

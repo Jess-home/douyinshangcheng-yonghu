@@ -1,51 +1,34 @@
 <template>
-    <div class="container">
-        <nav-bar title="收货地址" />
-        <refresh-list
-            class="content"
-            :data="refreshData"
-            @refresh="onRefresh"
-            @load="onLoad"
-        >
-            <van-space v-if="data.length" fill direction="vertical" size="0.6rem">
-              <van-swipe-cell 
-                class="address-container" 
-                v-for="item in data" :key="item.address_id"
-              >
-                <address-card 
-                  :address="item"
-                  @click="handleAddressClick(item)"
-                  @edit="handleEdit"
-                >
-                  <template v-if="isChoose" #icon>
-                    <icon-park 
-                      name="local" size="2rem" 
-                    />
-                  </template>
-                </address-card>
-                <template #right>
-                  <div class="cart-item-del" @click="handlerDel(item)">删除</div>
-                </template>
-              </van-swipe-cell>
-            </van-space>
-        </refresh-list>
-        <div class="bottom">
-            <van-button 
-              block round color="#191919"
-              @click="handlerAdd"
-            >新增收货地址</van-button>
-        </div>
+  <div class="container">
+    <nav-bar title="收货地址" />
+    <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
+      <van-space v-if="data.length" fill direction="vertical" size="0.6rem">
+        <van-swipe-cell class="address-container" v-for="item in data" :key="item.address_id">
+          <address-card :address="item" @click="handleAddressClick(item)" @edit="handleEdit">
+            <template v-if="isChoose" #icon>
+              <icon-park name="local" size="2rem" />
+            </template>
+          </address-card>
+          <template #right>
+            <div class="cart-item-del" @click="handlerDel(item)">删除</div>
+          </template>
+        </van-swipe-cell>
+      </van-space>
+    </refresh-list>
+    <div class="bottom">
+      <van-button block round color="#191919" @click="handlerAdd">新增收货地址</van-button>
     </div>
+  </div>
 </template>
 <script setup name="Address">
 import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import AddressCard from './components/AddressCard.vue'
-import { addressList as list,setDefaultAddress as setDefault,delAddress } from '@/api/user.js'
+import { addressList as list, setDefaultAddress as setDefault, delAddress } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { showConfirmDialog } from 'vant'
 import useUserStore from '@/stores/modules/user.js'
-const userStore=useUserStore()
+const userStore = useUserStore()
 const queryParams = ref({
   page: 1,
   limit: 10
@@ -87,76 +70,80 @@ const handleQuery = async () => {
   refreshData.value.disabled = false
   toast.close()
 }
-const handleAddressClick=address=>{
-    if(isChoose.value){
-      userStore.setBackData({address})
-      router.back()
-      return
-    }
-    if(address.is_default===1){
-        return
-    }
-    showConfirmDialog({
+const handleAddressClick = (address) => {
+  if (isChoose.value) {
+    userStore.setBackData({ address })
+    router.back()
+    return
+  }
+  if (address.is_default === 1) {
+    return
+  }
+  showConfirmDialog({
     title: '操作确认',
     message: '是否将该地址设为默认地址?'
   })
     .then(() => {
-        setDefaultAddress(address)
+      setDefaultAddress(address)
     })
     .catch(() => {})
 }
-const setDefaultAddress=address=>{
-    toast.loading()
-    setDefault({address_id: address.address_id}).then(res=>{
-        toast.success({msg:'设置成功'})
-        userStore.userInfo.address=address
-        handleQuery()
-    }).catch(err=>err)
-}
-const route=useRoute()
-const router=useRouter()
-const handleEdit=address=>{
-    router.push({name:'AddressForm',params:{id:address.address_id}})
-}
-const handlerAdd=()=>{
-  router.push({name:'AddressForm'})
-}
-const handlerDel=({address_id})=>{
+const setDefaultAddress = (address) => {
   toast.loading()
-  delAddress({address_id:address_id}).then(res=>{
-    toast.success({msg:'删除成功'})
-    handleQuery()
-  }).catch(err=>err)
+  setDefault({ address_id: address.address_id })
+    .then((res) => {
+      toast.success({ msg: '设置成功' })
+      userStore.userInfo.address = address
+      handleQuery()
+    })
+    .catch((err) => err)
 }
-const isChoose=computed(()=>{
-  return route.query.type==='choosen'
+const route = useRoute()
+const router = useRouter()
+const handleEdit = (address) => {
+  router.push({ name: 'AddressForm', params: { id: address.address_id } })
+}
+const handlerAdd = () => {
+  router.push({ name: 'AddressForm' })
+}
+const handlerDel = ({ address_id }) => {
+  toast.loading()
+  delAddress({ address_id: address_id })
+    .then((res) => {
+      toast.success({ msg: '删除成功' })
+      handleQuery()
+    })
+    .catch((err) => err)
+}
+const isChoose = computed(() => {
+  return route.query.type === 'choosen'
 })
 onMounted(handleQuery)
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
-.container{
-    padding: 0;
-    overflow-y: hidden;
-    .content{
-        height: calc(100dvh - 120px);
-        overflow-y: auto;
-        .address-container{
-          .cart-item-del {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            background: #fe4857;
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: #ffffff;
-            line-height: 1.4rem;
-            letter-spacing: 2px;
-            height: 100%;
-            width: 6rem;
-          }
-        }
+.container {
+  padding: 0;
+  overflow-y: hidden;
+  .content {
+    height: calc(100dvh - 120px);
+    overflow-y: auto;
+    .address-container {
+      .cart-item-del {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background: #fe4857;
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: #ffffff;
+        line-height: 1.4rem;
+        letter-spacing: 2px;
+        height: 100%;
+        width: 6rem;
+      }
     }
+  }
 }
 </style>

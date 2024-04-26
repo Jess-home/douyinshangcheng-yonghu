@@ -8,7 +8,7 @@
     <div class="content">
       <div class="user-info">
         <div class="user-avatar">
-          <van-image :src="userInfo.avatar||Avatar" round width="4rem"/>
+          <van-image :src="userInfo.avatar || Avatar" round width="4rem" />
           <div class="user-tips">
             {{ userInfo.username }}
             <div class="welcome">
@@ -23,11 +23,11 @@
           <div class="row1">
             我的余额&nbsp;(美元)
             <icon-park
-                color="#ffffff"
-                :name="showBalance?'preview-close-one':'preview-open'"
-                size="1.8rem"
-                style="padding-left: 0.6rem;"
-                @click.stop="handlerSwitchShowBalance"
+              color="#ffffff"
+              :name="showBalance ? 'preview-close-one' : 'preview-open'"
+              size="1.8rem"
+              style="padding-left: 0.6rem"
+              @click.stop="handlerSwitchShowBalance"
             />
           </div>
           <!--{{ balance }}-->
@@ -37,79 +37,85 @@
         </div>
         <div class="row3">
           <div class="draw" @click.stop="handlerDraw">提现</div>
-          <div style="flex: 1"/>
+          <div style="flex: 1" />
           <div class="deposit" @click.stop="handlerTopUp">充值</div>
         </div>
         <!-- <van-divider style="color: #ffffff" dashed /> -->
         <div class="grid grid-cols-2 mt-5">
-          <div class="row4-column">
-            <div class="rows-amount" style="padding-right:2.5rem;">{{ userInfo.order_unreceived }}</div>
+          <div class="row4-column" @click.stop="goMyOrders('1')">
+            <div class="rows-amount" style="padding-right: 2.5rem">
+              {{ userInfo.order_unreceived }}
+            </div>
             <span>未收到的商品</span>
           </div>
-          <div class="row4-column">
+          <div class="row4-column" @click.stop="goMyOrders('0')">
             <div class="rows-amount">{{ userInfo.order_unpaid }}</div>
             <span>未付款的商品</span>
           </div>
         </div>
       </div>
       <div class="user-board">
-        <van-image :src="PersonCenterBoard" widht="100%"/>
+        <van-image :src="PersonCenterBoard" widht="100%" />
       </div>
       <div class="user-menus">
-        <list-menus :menus="menus1" @click="handlerMenuClick"/>
-        <div style="height: 0.5rem"/>
-        <list-menus :menus="menus2" @click="handlerMenuClick"/>
+        <list-menus :menus="menus1" @click="handlerMenuClick" />
+        <div style="height: 0.5rem" />
+        <list-menus :menus="menus2" @click="handlerMenuClick" />
       </div>
     </div>
   </div>
   <custom-floating-panel ref="floatingPanel" title="请选择语言">
     <language-item
-        v-for="item in languages"
-        :key="item.file_name"
-        :language="item"
-        @click="handlerLanguageChoose(item)"
+      v-for="item in languages"
+      :key="item.file_name"
+      :language="item"
+      @click="handlerLanguageChoose(item)"
     />
   </custom-floating-panel>
-  <AppTabbar/>
+  <AppTabbar />
 </template>
 <script name="Filter" setup>
-import NavBar from '@/components/CustomNavBar/index.vue';
-import Avatar from '@/assets/image/avatar.png';
-import PersonCenterBoard from '@/assets/image/person-center-board.png';
-import {formatNumberWithCommas} from '@/utils/filter.js';
-import ListMenus from '@/components/ListMenus/index.vue';
-import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue';
-import LanguageItem from '@/components/LanguageItem/index.vue';
-import useUserStore from '@/stores/modules/user.js';
-import toast from '@/utils/toast.js';
-import { languageList,setDefaultLanguage } from '@/api/user.js';
-const userStore = useUserStore();
+import NavBar from '@/components/CustomNavBar/index.vue'
+import Avatar from '@/assets/image/avatar.png'
+import PersonCenterBoard from '@/assets/image/person-center-board.png'
+import { formatNumberWithCommas } from '@/utils/filter.js'
+import ListMenus from '@/components/ListMenus/index.vue'
+import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
+import LanguageItem from '@/components/LanguageItem/index.vue'
+import useUserStore from '@/stores/modules/user.js'
+import toast from '@/utils/toast.js'
+import { languageList, setDefaultLanguage } from '@/api/user.js'
+const userStore = useUserStore()
 const userInfo = computed(() => {
-  return userStore.userInfo|| {};
-});
-const user_contacts=computed(()=>{
+  return userStore.userInfo || {}
+})
+const user_contacts = computed(() => {
   return userStore.userInfo.email
 })
 const language = computed(() => {
   return userStore.getLanguage()
-});
-const router = useRouter();
+})
+const router = useRouter()
 //  提现
 const handlerDraw = () => {
-  router.push({name: 'WithDraw'});
-};
+  router.push({ name: 'WithDraw' })
+}
 //  提现
 //  充值
 const handlerTopUp = () => {
-  router.push({name: 'TopUp'});
-};
+  router.push({ name: 'TopUp' })
+}
+//  跳到订单列表
+const goMyOrders=status=>{
+  router.push({name:'MyPurchases',params:{status:status}})
+}
 //  充值
 const balance = computed(() => {
-  if(showBalance.value){
-    return formatNumberWithCommas(userInfo.value.money);
+  if (showBalance.value) {
+    return formatNumberWithCommas(userInfo.value.money)
   }
   return '******'
-});
+})
 const menus1 = ref([
   {
     name: '我的订单',
@@ -141,7 +147,7 @@ const menus1 = ref([
     iconName: 'shield',
     routeName: 'Law'
   }
-]);
+])
 const menus2 = ref([
   {
     type: 'language',
@@ -154,54 +160,57 @@ const menus2 = ref([
     type: 'language',
     name: '收货地址',
     iconName: 'local',
-    routeName: 'Address',
+    routeName: 'Address'
   },
   {
     name: '设置',
     iconName: 'setting-two',
     routeName: 'Setting'
   }
-]);
-const languages = ref([
-]);
+])
+const languages = ref([])
 const goNotification = () => {
-  router.push({name: 'Notification'});
-};
-const showBalance = ref(false);
-const handlerSwitchShowBalance=()=>{
-  showBalance.value = !showBalance.value;
+  router.push({ name: 'Notification' })
 }
-const floatingPanel = ref(null);
+const showBalance = ref(false)
+const handlerSwitchShowBalance = () => {
+  showBalance.value = !showBalance.value
+}
+const floatingPanel = ref(null)
 const handlerMenuClick = (menu) => {
   if (menu.routeName) {
-    router.push({name: menu.routeName});
-    return;
+    router.push({ name: menu.routeName })
+    return
   }
   switch (menu.type) {
     case 'language':
-      floatingPanel.value.show = true;
-      break;
+      floatingPanel.value.show = true
+      break
     default:
-      break;
+      break
   }
-};
+}
 const handlerLanguageChoose = (language) => {
-  floatingPanel.value.show = false;
-  toast.loading();
-  setDefaultLanguage({lang_id:language.id}).then(res=>{
-    toast.success({msg:'设置成功'});
-    userStore.setLanguage(language);
-    getLanguages()
-  }).catch(err=>err)
-
-};
-const getLanguages= () => {
+  floatingPanel.value.show = false
+  toast.loading()
+  setDefaultLanguage({ lang_id: language.id })
+    .then((res) => {
+      toast.success({ msg: '设置成功' })
+      userStore.setLanguage(language)
+      getLanguages()
+    })
+    .catch((err) => err)
+}
+const getLanguages = () => {
   // toast.loading();
   languageList({
-    page:1,limit:100
-  }).then(res=>{
-    languages.value = res.data.list;
-  }).catch(err=>err)
+    page: 1,
+    limit: 100
+  })
+    .then((res) => {
+      languages.value = res.data.list
+    })
+    .catch((err) => err)
 }
 getLanguages()
 </script>

@@ -70,7 +70,7 @@ export function deleteOrder(data) {
  * @param data 退款数据
  * @returns 返回退款请求结果
  */
-export function refundOrder(data){
+export function refundOrder(data) {
   return serivce.request({
     url: '/api/order/refund',
     method: 'post',

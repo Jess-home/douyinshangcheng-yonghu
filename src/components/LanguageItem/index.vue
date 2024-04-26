@@ -4,7 +4,7 @@
       {{ language.language_name }}-{{ language.chinese_name }}
       <div class="chn">{{ language.file_name }}</div>
     </div>
-    <div v-if="language.is_default===1" class="right">
+    <div v-if="language.is_default === 1" class="right">
       <icon-park name="check" size="1.6rem" />
     </div>
   </div>
@@ -26,7 +26,7 @@ defineProps({
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  .left{
+  .left {
     font-size: 1rem;
     font-weight: 500;
     color: #191919;

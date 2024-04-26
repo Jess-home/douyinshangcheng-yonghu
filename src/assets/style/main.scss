@@ -1,13 +1,13 @@
 @font-face {
   font-family: CustomFont; /* 定义你的字体名称 */
-  src: url('./PinFang_1.ttf') format('woff2'), /* 字体文件的路径和格式 */
-  url('./PinFang_1.ttf') format('woff'); /* 可以提供多个字体文件以支持不同的浏览器 */
+  src:
+    url('./PinFang_1.ttf') format('woff2'),
+    /* 字体文件的路径和格式 */ url('./PinFang_1.ttf') format('woff'); /* 可以提供多个字体文件以支持不同的浏览器 */
 }
 
 body {
   //font-family: CustomFont, Arial, sans-serif; /* 使用你定义的字体，如果不可用则使用备用字体 */
 }
-
 
 .container {
   padding: 1rem;

@@ -3,19 +3,12 @@
     <nav-bar title="搜索" />
     <div class="top">
       <div class="filter-row">
-        <custom-input 
-          style="flex: 1" 
-          :value="queryParams.title" 
-          @blur="blurTitleInput"
-        >
+        <custom-input style="flex: 1" :value="queryParams.title" @blur="blurTitleInput">
           <template #left>
             <icon-park name="search" size="1.8rem" />
           </template>
           <template #right>
-            <icon-park 
-              name="close" size="1.6rem" 
-              @click.stop="clearSearch"
-            />
+            <icon-park name="close" size="1.6rem" @click.stop="clearSearch" />
           </template>
         </custom-input>
       </div>
@@ -30,15 +23,10 @@
           >
             {{ item.keyword }}
           </div>
-        </van-space>       
+        </van-space>
       </div>
     </div>
-    <refresh-list
-      class="content"
-      :data="refreshData"
-      @refresh="onRefresh"
-      @load="onLoad"
-    >
+    <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
       <van-space v-if="data.length" direction="vertical" size="0.9rem">
         <product-card
           v-for="(item, index) in data"
@@ -47,8 +35,7 @@
           @click="goDetail(item)"
         />
       </van-space>
-      <van-empty  v-else description="暂无商品">
-      </van-empty> 
+      <van-empty v-else description="暂无商品"> </van-empty>
     </refresh-list>
   </div>
 </template>
@@ -69,17 +56,23 @@ const queryParams = ref({
   title: undefined
 })
 const selectKey = ref(null)
-const blurTitleInput = throttle((val)=>{
-  selectKey.value=null
-  queryParams.value.page = 1
-  queryParams.value.title = val
-  handleQuery()
-}, 1000, { trailing: true })  
-const clearSearch=()=>{
-  queryParams.value.page = 1
-  queryParams.value.title = null
-  selectKey.value=null
-  handleQuery()
+const blurTitleInput = throttle(
+  (val) => {
+    selectKey.value = null
+    queryParams.value.page = 1
+    queryParams.value.title = val
+    handleQuery()
+  },
+  1000,
+  { trailing: true }
+)
+const clearSearch = () => {
+  if(queryParams.value.title) {
+    queryParams.value.page = 1
+    queryParams.value.title = null
+    selectKey.value = null
+    handleQuery()
+  }
 }
 
 const handlerTagSelect = (key) => {
@@ -161,7 +154,7 @@ init()
 .container {
   padding: 0;
   .top {
-    padding:0 1rem  0.5rem 1rem;
+    padding: 0 1rem 0.5rem 1rem;
     height: 100px;
     display: flex;
     flex-direction: column;

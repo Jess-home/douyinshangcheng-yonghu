@@ -1,83 +1,78 @@
 <template>
-    <nav-bar 
-        title="提现记录"
-    />
-    <div class="container">
-        <div class="tabs">
-            <van-tabs 
-                v-model:active="tabActive" @change="statusChange"
-            >
-                <van-tab 
-                    v-for="item in tabs" :key="item.value" 
-                    :name="item.value" :title="item.name"
-                />
-            </van-tabs>
-        </div>
-        <refresh-list
-            class="content"
-            :data="refreshData"
-            @refresh="onRefresh"
-            @load="onLoad"
-        >
-            <div
-                v-if="data.length"
-                style="box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08)"
-                class="bg-white mx-3 mt-3 h-20 rounded-md flex"
-                v-for="item in data"
-                :key="item.id"
-            >
-                <div class="flex justify-center items-center mx-3">
-                    <icon-park name="finance" size="2.5rem" />
-                </div>
-                <div class="flex-auto flex flex-col justify-center">
-                    <span 
-                        class="text-base font-normal truncate"
-                        style="width:220px;"
-                    >
-                    {{ item.mark }}
-                    </span>
-                    <span class="text-sm opacity-80">
-                    {{ item.createtime }}
-                    </span>
-                    <span class="text-sm opacity-80">
-                    审核结果: {{ item.admin_msg }}
-                    </span>
-                </div>
-                <div class="flex justify-center items-center mx-3">
-                    <icon-park
-                    :color="item.type === 'recharge' ? '#00B557' : '#fe4857'"
-                    name="plus"
-                    size="1.6rem"
-                    />
-                    <span
-                        class="text-base font-medium"
-                        :class="item.type === 'recharge' ? 'text-green' : 'text-red'"
-                    >
-                    {{ item.extract_price }}
-                    </span>
-                </div>
-            </div>
-            <van-empty  v-else description="暂无相关记录">
-            </van-empty>
-        </refresh-list>
+  <nav-bar title="提现记录" />
+  <div class="container">
+    <div class="tabs">
+      <van-tabs v-model:active="tabActive" @change="statusChange">
+        <van-tab v-for="item in tabs" :key="item.value" :name="item.value" :title="item.name" />
+      </van-tabs>
     </div>
+    <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
+      <div
+        v-if="data.length"
+        style="box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08)"
+        class="bg-white mx-3 mt-2 h-30 pt-3 pb-3 rounded-md flex"
+        v-for="item in data"
+        :key="item.id"
+      >
+        <div class="flex justify-center items-center mx-1">
+          <icon-park name="finance" size="2.5rem" />
+        </div>
+        <div class="flex-auto flex flex-col justify-center mx-2">
+          <span 
+            class="text-base font-normal line-clamp-3 overflow-hidden text-gray-900" style="width: 220px"
+          >
+            {{ item.mark }}
+          </span>
+          <span class="text-sm opacity-80">
+            {{ item.createtime }}
+          </span>
+          <span class="text-sm opacity-80"> 审核结果: {{ item.admin_msg }} </span>
+        </div>
+        <div class="flex flex-col justify-around items-stretch mx-0">
+            <div class="flex flex-row justify-between mx-1 text-red">
+                充值
+                <span
+                  class="text-base font-medium flex flex-col"
+                >
+                  {{ item.extract_price }}
+                </span>
+            </div>
+            <div class="flex flex-row justify-between mx-1 text-black">
+                手续费
+                <span
+                  class="text-base font-medium flex flex-col"
+                >
+                  {{ item.fee }}
+                </span>
+            </div>
+            <div class="flex flex-row justify-between mx-1 text-green">
+                实际到账
+                <span
+                  class="text-base font-medium flex flex-col"
+                >
+                  {{ item.real_price }}
+                </span>
+            </div>
+        </div>
+      </div>
+      <van-empty v-else description="暂无相关记录"> </van-empty>
+    </refresh-list>
+  </div>
 </template>
 <script setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import { depositRecord as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
-const tabActive=ref('all')
-const tabs=ref([
-    { value: -1, name: '未通过' },
-    { value: 0, name: '审核中' },
-    { value: 1, name: '已提现' }
-])
+import { fund_record_statuses } from '@/utils/constants.js'
+const tabActive = ref('all')
+const tabs = ref(fund_record_statuses)
 const data = ref([])
 const count = ref(0)
 const queryParams = ref({
   page: 1,
   limit: 10,
+  status:'all',
 })
 const refreshData = ref({
   loading: false,
@@ -114,28 +109,28 @@ const handleQuery = async () => {
   refreshData.value.disabled = false
   toast.close()
 }
-const statusChange=val=>{
-    queryParams.value.type=val
-    queryParams.value.page=1
-    handleQuery()
+const statusChange = (val) => {
+  queryParams.value.status = val
+  queryParams.value.page = 1
+  handleQuery()
 }
 handleQuery()
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
 .container {
-    overflow-y: hidden;
+  overflow-y: hidden;
+  padding: 0;
+  .content {
     padding: 0;
-    .content{
-        padding: 0;
-        overflow-y: auto;
-        height: calc(100dvh - 50px);
-        .text-green {
-            color: #00b557;
-        }
-        .text-red {
-            color: #fe4857;
-        }
+    overflow-y: auto;
+    height: calc(100dvh - 50px);
+    .text-green {
+      color: #00b557;
     }
+    .text-red {
+      color: #fe4857;
+    }
+  }
 }
 </style>

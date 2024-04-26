@@ -179,9 +179,9 @@ const handleSelect = (menu) => {
 const productList = computed(() => {
   return products.value[selected.value]
 })
-const router=useRouter()
-const handleArrowClick=()=>{
-  router.push({name:'Platform'})
+const router = useRouter()
+const handleArrowClick = () => {
+  router.push({ name: 'Platform' })
 }
 </script>
 <style lang="scss" scoped>

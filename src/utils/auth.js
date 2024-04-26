@@ -6,7 +6,7 @@ const ExpiresInKey = 'Admin-Expires-In'
 
 const UserId = 'User_Id'
 
-const LocalLang='Local_Lang'
+const LocalLang = 'Local_Lang'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -43,7 +43,6 @@ export function getUserId() {
 export function removeUserId() {
   return Cookies.remove(UserId)
 }
-
 
 export function setLocalLang(lang) {
   return Cookies.set(LocalLang, lang, { expires: 3 })

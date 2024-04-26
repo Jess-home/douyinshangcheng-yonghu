@@ -1,12 +1,12 @@
 <template>
   <div class="menu-container">
     <div class="menu-side">
-      <icon-park :name="menu.iconName" class="ml-2" size="1.8rem" style="padding-right: 0.8rem"/>
+      <icon-park :name="menu.iconName" class="ml-2" size="1.8rem" style="padding-right: 0.8rem" />
       {{ menu.name }}
     </div>
     <div class="menu-side">
       <span style="padding-right: 0.8rem">{{ menu.rightName }}</span>
-      <van-icon color="#191919" name="arrow" size="1.4rem"/>
+      <van-icon color="#191919" name="arrow" size="1.4rem" />
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ const props = defineProps({
     type: Object,
     required: true
   }
-});
+})
 </script>
 <style lang="scss" scoped>
 .menu-container {

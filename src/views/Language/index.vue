@@ -1,16 +1,12 @@
 <template>
   <div class="container">
     <nav-bar title="语言设置" />
-    <refresh-list 
-      class="content"
-      :data="refreshData"
-      @refresh="onRefresh"
-      @load="onLoad"
-    >
+    <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
       <van-space fill direction="vertical" size="0.6rem">
-        <div 
+        <div
           class="language-card"
-          v-for="item in data" :key="item.id"
+          v-for="item in data"
+          :key="item.id"
           @click.stop="handlerChoose(item)"
         >
           <div class="left">
@@ -22,15 +18,8 @@
             <div></div>
           </div>
           <div class="right">
-            <div 
-              class="custom-check"
-              :class="item.is_default===1?'chosen':''"
-            >
-              <icon-park  
-                v-if="item.is_default===1" 
-                name="check" 
-                color="#ffffff" size="1.2rem" 
-              />
+            <div class="custom-check" :class="item.is_default === 1 ? 'chosen' : ''">
+              <icon-park v-if="item.is_default === 1" name="check" color="#ffffff" size="1.2rem" />
             </div>
           </div>
         </div>
@@ -41,10 +30,10 @@
 <script setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
-import { languageList as list,setDefaultLanguage } from '@/api/user.js'
+import { languageList as list, setDefaultLanguage } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import useUserStore from '@/stores/modules/user.js'
-const userStore=useUserStore()
+const userStore = useUserStore()
 const queryParams = ref({
   page: 1,
   limit: 10
@@ -86,37 +75,39 @@ const handleQuery = async () => {
   refreshData.value.disabled = false
   toast.close()
 }
-const handlerChoose=(item)=>{
-  if(item.is_default===1){
+const handlerChoose = (item) => {
+  if (item.is_default === 1) {
     return
   }
   toast.loading()
-  setDefaultLanguage({lang_id:item.id}).then(res=>{
-    toast.success('设置成功')
-    userStore.setLanguage(item)
-    handleQuery()
-  }).catch(err=>err)
+  setDefaultLanguage({ lang_id: item.id })
+    .then((res) => {
+      toast.success('设置成功')
+      userStore.setLanguage(item)
+      handleQuery()
+    })
+    .catch((err) => err)
 }
 onMounted(handleQuery)
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
-.container{
+.container {
   padding: 0;
   overflow-y: hidden;
-  .content{
+  .content {
     overflow-y: auto;
     height: calc(100dvh - 50px);
-    .language-card{
+    .language-card {
       background: #ffffff;
       padding: 1rem 0.72rem 1rem 1.25rem;
-      box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.05);
+      box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.05);
       border-radius: 0.32rem;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      .left{
+      .left {
         display: flex;
         flex: 1;
         display: flex;
@@ -124,9 +115,9 @@ onMounted(handleQuery)
         align-items: flex-start;
         font-size: 1.2rem;
         font-weight: 500;
-        color:#191919;
+        color: #191919;
         line-height: 1.4rem;
-        .language-name{
+        .language-name {
           padding-top: 0.2rem;
           font-weight: 400;
           font-size: 1rem;
@@ -134,20 +125,20 @@ onMounted(handleQuery)
           line-height: 1.2rem;
         }
       }
-      .right{
+      .right {
         padding-left: 1.2rem;
-        .custom-check{
+        .custom-check {
           background: #ffffff;
           width: 2rem;
           height: 2rem;
           border-radius: 1rem;
-          border:1px solid #191919;
+          border: 1px solid #191919;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         }
-        .chosen{
+        .chosen {
           background: #191919;
           border-width: 0;
         }

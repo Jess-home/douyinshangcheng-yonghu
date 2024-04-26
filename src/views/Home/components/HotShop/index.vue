@@ -23,9 +23,9 @@ const props = defineProps({
     required: true
   }
 })
-const router=useRouter()
-const handlerVisitShop=()=>{
-  router.push({name:'Shop',params:{id:props.shop.mer_id}})
+const router = useRouter()
+const handlerVisitShop = () => {
+  router.push({ name: 'Shop', params: { id: props.shop.mer_id } })
 }
 </script>
 <style lang="scss" scoped>

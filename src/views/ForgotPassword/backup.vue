@@ -2,26 +2,27 @@
   <div class="container">
     <App-Header title="忘记密码" />
     <van-form @submit="handlerGoChangePwd">
-    <div class="content">
-      <div class="forgot-content-top">
-        <div class="forgot-tip">
-          <van-icon color="#bdbdbd" size="28px" name="info" />
-          <div class="tip-words">
-            We will send the OTP code to your email for security in forgetting your password
+      <div class="content">
+        <div class="forgot-content-top">
+          <div class="forgot-tip">
+            <van-icon color="#bdbdbd" size="28px" name="info" />
+            <div class="tip-words">
+              We will send the OTP code to your email for security in forgetting your password
+            </div>
+          </div>
+          <div class="forms">
+            <custom-input
+              :value="form.email"
+              label="e-mail"
+              @blur="(val) => (form.email = val)"
+              :rules="[{ validator: emailValidator, trigger: 'onSubmit' }]"
+            />
           </div>
         </div>
-        <div class="forms">
-          <custom-input 
-            :value="form.email" label="e-mail" 
-            @blur="(val) => (form.email = val)"
-            :rules="[{ validator:emailValidator, trigger:'onSubmit' }]" 
-          />
-        </div>
       </div>
-    </div>
-    <div class="bottom">
-      <van-button round block color="#000000" native-type="submit"> Submit </van-button>
-    </div>
+      <div class="bottom">
+        <van-button round block color="#000000" native-type="submit"> Submit </van-button>
+      </div>
     </van-form>
   </div>
 </template>
@@ -30,22 +31,22 @@ import AppHeader from '@/components/CustomNavBar/index.vue'
 import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
 import { regEmail } from '@/utils/regExp.js'
-const form=ref({
-  email:undefined
+const form = ref({
+  email: undefined
 })
-const emailValidator=val=>{
-    if(!val){
-        return '请填写邮箱'
-    }else{
-        if(!regEmail(val)){
-            return '请填写正确的邮箱'
-        }
-        return true
+const emailValidator = (val) => {
+  if (!val) {
+    return '请填写邮箱'
+  } else {
+    if (!regEmail(val)) {
+      return '请填写正确的邮箱'
     }
+    return true
+  }
 }
-const router=useRouter()
-const handlerGoChangePwd=()=>{
-  router.push({name:'ChangePassword'})
+const router = useRouter()
+const handlerGoChangePwd = () => {
+  router.push({ name: 'ChangePassword' })
 }
 </script>
 <style lang="scss" scoped>

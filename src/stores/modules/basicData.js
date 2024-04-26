@@ -25,19 +25,19 @@ const useBasicData = defineStore('basicData', {
         }
       })
     },
-    getLanguages(){
+    getLanguages() {
       return new Promise((resolve, reject) => {
         if (this.languages.length) {
           resolve(this.languages)
         } else {
           languageList()
-          .then((res) => {
-            this.languages = res.data.list
-            resolve(this.languages)
-          })
-          .catch((err) => {
-            reject(err)
-          })
+            .then((res) => {
+              this.languages = res.data.list
+              resolve(this.languages)
+            })
+            .catch((err) => {
+              reject(err)
+            })
         }
       })
     }

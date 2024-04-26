@@ -2,20 +2,12 @@
   <div class="container">
     <nav-bar title="提现">
       <template #right>
-        <div 
-          style="font-size:1.2rem;padding-right:1rem;"
-          @click.stop="goRecord"
-        >记录</div>
+        <div style="font-size: 1.2rem; padding-right: 1rem" @click.stop="goRecord">记录</div>
       </template>
     </nav-bar>
     <van-form @submit="handlerSubmit">
       <div class="content">
-        <Custom-Input
-          label="提现类型"
-          :value="typeName"
-          readonly
-          @click="handlerShowChooseType"
-        >
+        <Custom-Input label="提现类型" :value="typeName" readonly @click="handlerShowChooseType">
           <template #right>
             <icon-park @click.stop="handlerShowChooseType" name="right" size="1.5rem" />
           </template>
@@ -24,12 +16,12 @@
           :label="priceLabel"
           placeholder="请输入提现金额"
           required
-         :value="form.price"
+          :value="form.price"
           type="number"
           @blur="formatNumber"
-          :rules="[{ validator:priceValidator, trigger:'onSubmit' }]"
+          :rules="[{ validator: priceValidator, trigger: 'onSubmit' }]"
         />
-        <template v-if="form.extract_type===0">
+        <template v-if="form.extract_type === 0">
           <!-- <custom-input
             label="银行卡号"
             required readonly
@@ -48,7 +40,7 @@
             defa
             :value="form.bank_card"
             @blur="(val) => (form.bank_card = val)"
-            :rules="[{ required: true, message: '请输入银行卡号', trigger:'onSubmit' }]"
+            :rules="[{ required: true, message: '请输入银行卡号', trigger: 'onSubmit' }]"
           />
           <custom-input
             label="银行名称"
@@ -56,7 +48,7 @@
             required
             :value="form.bank_name"
             @blur="(val) => (form.bank_name = val)"
-            :rules="[{ required: true, message: '请输入银行名称', trigger:'onSubmit' }]"
+            :rules="[{ required: true, message: '请输入银行名称', trigger: 'onSubmit' }]"
           />
         </template>
         <template v-else>
@@ -66,44 +58,34 @@
             required
             :value="form.network"
             readonly
-            :rules="[{ required: true, message: '请选择充值网络', trigger:'onSubmit' }]"
+            :rules="[{ required: true, message: '请选择充值网络', trigger: 'onSubmit' }]"
             @click="handlerShowNetwork"
           >
-          <template #right>
-            <icon-park 
-              name="right" size="1.5rem" 
-              @click="handlerShowNetwork"
-            />
-          </template>
-        </Custom-Input>
-        <Custom-Input
+            <template #right>
+              <icon-park name="right" size="1.5rem" @click="handlerShowNetwork" />
+            </template>
+          </Custom-Input>
+          <Custom-Input
             label="充值地址"
             placeholder="请输入充值地址"
             :value="form.blockchain"
             @blur="(val) => (form.blockchain = val)"
-            :rules="[{ required: true, message: '请输入充值地址', trigger:'onSubmit' }]"
+            :rules="[{ required: true, message: '请输入充值地址', trigger: 'onSubmit' }]"
           >
-        </Custom-Input>
-      </template>
-      <div class="tips">
-        <div class="balance">余额: {{ info.balance }}</div>
-        <div @click="form.price=info.balance">全部提现</div>
-      </div>
+          </Custom-Input>
+        </template>
+        <div class="tips">
+          <div class="balance">余额: {{ info.balance }}</div>
+          <div @click="form.price = info.balance">全部提现</div>
+        </div>
       </div>
       <div class="bottom">
-        <van-button 
-            round block color="#000000"
-            native-type="submit"
-        >提交</van-button>
+        <van-button round block color="#000000" native-type="submit">提交</van-button>
       </div>
     </van-form>
   </div>
-  <van-action-sheet 
-    v-model:show="showChooseType" :actions="types" @select="handlerChooseType" 
-  />
-  <van-action-sheet 
-    v-model:show="showChooseCard" :actions="cards" @select="handlerChooseCard" 
-  />
+  <van-action-sheet v-model:show="showChooseType" :actions="types" @select="handlerChooseType" />
+  <van-action-sheet v-model:show="showChooseCard" :actions="cards" @select="handlerChooseCard" />
   <custom-floating-panel
     ref="floatingPanel"
     height="800px"
@@ -126,113 +108,115 @@
 
 <script setup>
 import CustomInput from '@/components/Input/index.vue'
-import { deposit,depositInfo } from '@/api/user.js'
-import toast from '@/utils/toast.js';
+import { deposit, depositInfo } from '@/api/user.js'
+import toast from '@/utils/toast.js'
 import { multiply } from '@/utils/math.js'
 const router = useRouter()
 const goRecord = () => {
   router.push({ name: 'DepositRecord' })
 }
-const types=ref([
-  {name:'银行卡',value:0},
-  {name:'链上充值',value:1}
+const types = ref([
+  { name: '银行卡', value: 0 },
+  { name: '链上充值', value: 1 }
 ])
-const priceValidator=val=>{
-  const _val=Number(val)
-  if(_val<=0){
+const priceValidator = (val) => {
+  const _val = Number(val)
+  if (_val <= 0) {
     return '提现金额不能小于等于0或为空'
   }
-  if(_val>info.value.balance){
+  if (_val > info.value.balance) {
     return '提现金额不能大于余额'
   }
   return true
 }
-const info=ref({})
-const form=ref({
-  extract_type:0,
+const info = ref({})
+const form = ref({
+  extract_type: 0,
   price: undefined,
   blockchain: undefined,
   network: undefined,
   real_name: undefined,
-  bank_card:undefined,
-  bank_name:undefined
+  bank_card: undefined,
+  bank_name: undefined
 })
-const priceLabel=computed(()=>{
-  const _val=multiply(info.value.service_charge||0.03,100).toFixed(2)+'%'
-  return '提现金额'+`(手续费${_val})`
+const priceLabel = computed(() => {
+  const _val = multiply(info.value.service_charge || 0.03, 100).toFixed(2) + '%'
+  return '提现金额' + `(手续费${_val})`
 })
-const formatNumber=val=>{
-  form.value.price=Number(val).toFixed(2)
+const formatNumber = (val) => {
+  form.value.price = Number(val).toFixed(2)
 }
-const typeName=computed(()=>{
-  const _type=types.value.find(item=>item.value===form.value.extract_type)
-  return _type? _type.name : ''
+const typeName = computed(() => {
+  const _type = types.value.find((item) => item.value === form.value.extract_type)
+  return _type ? _type.name : ''
 })
-const showChooseType=ref(false)
-const handlerShowChooseType=()=>{
-  showChooseType.value=true
+const showChooseType = ref(false)
+const handlerShowChooseType = () => {
+  showChooseType.value = true
 }
-const handlerChooseType=val=>{
-  form.value.extract_type=val.value
-  showChooseType.value=false
+const handlerChooseType = (val) => {
+  form.value.extract_type = val.value
+  showChooseType.value = false
 }
-const cards=computed(()=>{
-  if(info.value.card_list){
-    return info.value.card_list.map(item=>{
+const cards = computed(() => {
+  if (info.value.card_list) {
+    return info.value.card_list.map((item) => {
       return {
-        name:item.bank_name,
-        value:item.bank_card,
+        name: item.bank_name,
+        value: item.bank_card
       }
     })
   }
   return []
 })
-const showChooseCard=ref(false)
-const handlerShowChooseCard=()=>{
-  showChooseCard.value=true
+const showChooseCard = ref(false)
+const handlerShowChooseCard = () => {
+  showChooseCard.value = true
 }
-const handlerChooseCard=val=>{
-  form.value.bank_card=val.value
-  form.value.bank_name=val.name
-  showChooseCard.value=false
+const handlerChooseCard = (val) => {
+  form.value.bank_card = val.value
+  form.value.bank_name = val.name
+  showChooseCard.value = false
 }
-const nets = ref([
-  { network:'USDT-TRC20' },
-  { network:'USDT-ERC20'}
-])
+const nets = ref([{ network: 'USDT-TRC20' }, { network: 'USDT-ERC20' }])
 const floatingPanel = ref(null)
-const handlerShowNetwork=()=>{
+const handlerShowNetwork = () => {
   floatingPanel.value.show = true
 }
 const handlerChooseNetwork = (net) => {
   form.value.network = net.network
   floatingPanel.value.show = false
 }
-const handlerSubmit=()=>{
+const handlerSubmit = () => {
   toast.loading()
-  deposit(form.value).then(res=>{
+  deposit(form.value)
+    .then((res) => {
       router.back()
-      toast.success({msg:'提现成功'})
-  }).catch(err=>err)
+      toast.success({ msg: '提现成功' })
+    })
+    .catch((err) => err)
 }
-const getData=()=>{
+const getData = () => {
   toast.loading()
-  depositInfo().then(res=>{
-    info.value=res.data
-  }).catch(err=>err).finally(()=>{
-    toast.close()
-  })
+  depositInfo()
+    .then((res) => {
+      info.value = res.data
+    })
+    .catch((err) => err)
+    .finally(() => {
+      toast.close()
+    })
 }
 getData()
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
-.container{
+.container {
   padding: 0;
   overflow-y: auto;
-  .content{
+  .content {
     overflow-y: auto;
-    .tips{
+    .tips {
       padding-top: 1.5rem;
       display: flex;
       flex-direction: row;
@@ -241,7 +225,7 @@ getData()
       font-size: 0.86rem;
       color: #191919;
       line-height: 1rem;
-      .balance{
+      .balance {
         font-weight: 400;
       }
     }

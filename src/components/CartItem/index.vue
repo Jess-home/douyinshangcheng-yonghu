@@ -11,14 +11,9 @@
         {{ product.goods?.sales_price }}
         <div class="spec">{{ product.goods?.spec || product.spec || '未选规格' }}</div>
       </div>
-      <div v-if="readonly && product.cart_id">
-          数量:&nbsp;&nbsp;{{ value }}
-        </div>
-      <div  v-else class="number-ctl">
-        <van-stepper
-          v-model="value"
-          :min="1"
-        />
+      <div v-if="readonly && product.cart_id">数量:&nbsp;&nbsp;{{ value }}</div>
+      <div v-else class="number-ctl">
+        <van-stepper v-model="value" :min="1" />
       </div>
       <div class="total">总计: &nbsp;${{ product.total_price }}</div>
     </div>
@@ -45,21 +40,20 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['changeNum'])
-const value=computed({
-  get(){
+const value = computed({
+  get() {
     return props.product.cart_num
   },
-  set(val){
-    if(val<=0||isNaN(val)){
+  set(val) {
+    if (val <= 0 || isNaN(val)) {
       return
     }
     if (props.product.cart_id) {
-      emit('changeNum',{
-          cart_id: props.product.cart_id,
-          num: val
-        }
-      )
-    }else{
+      emit('changeNum', {
+        cart_id: props.product.cart_id,
+        num: val
+      })
+    } else {
       props.product.cart_num = val
       emit('changeNum')
     }

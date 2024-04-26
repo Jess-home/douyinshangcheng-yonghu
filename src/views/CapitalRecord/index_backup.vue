@@ -1,7 +1,7 @@
 <template>
   <NavBar title="资金记录" />
   <div class="container">
-    <div style="height: 60px;" class="pl-3 flex items-center py-3">
+    <div style="height: 60px" class="pl-3 flex items-center py-3">
       <span
         class="font-normal text-black text-base pr-3"
         v-for="item in types"

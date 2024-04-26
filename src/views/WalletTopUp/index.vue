@@ -181,7 +181,7 @@ const handlerSubmit = () => {
   recharge(form.value)
     .then((res) => {
       router.back()
-      toast.success({ msg: res.msg})
+      toast.success({ msg: res.msg })
     })
     .catch((err) => err)
     .finally(() => {

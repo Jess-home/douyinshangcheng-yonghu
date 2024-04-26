@@ -2,18 +2,12 @@
   <div class="container">
     <nav-bar title="探索" :can-back="false" />
     <div class="content">
-      <custom-input
-        :value="hotProductTitle" @blur="blurTitleInput"
-        readonly @click="goSearch"
-      >
+      <custom-input :value="hotProductTitle" @blur="blurTitleInput" readonly @click="goSearch">
         <template #left>
           <icon-park name="search" size="1.8rem" />
         </template>
         <template #right>
-          <icon-park 
-            name="close" size="1.6rem" 
-            @click.stop="clearSearch"
-          />
+          <icon-park name="close" size="1.6rem" @click.stop="clearSearch" />
         </template>
       </custom-input>
       <div class="tag-row">
@@ -45,8 +39,7 @@
             />
           </van-space>
         </div>
-        <van-empty  v-else description="暂无商品">
-        </van-empty> 
+        <van-empty v-else description="暂无商品"> </van-empty>
       </div>
       <div class="recommend-row">
         <div class="row-title">
@@ -64,8 +57,7 @@
             />
           </van-space>
         </div>
-        <van-empty  v-else description="暂无商品">
-        </van-empty> 
+        <van-empty v-else description="暂无商品"> </van-empty>
       </div>
     </div>
   </div>
@@ -81,28 +73,35 @@ import useBasicData from '@/stores/modules/basicData.js'
 import { recommend } from '@/api/product.js'
 import { hotProduct } from '@/api/home.js'
 import toast from '@/utils/toast.js'
-const queryHotProduct=()=>{
+const queryHotProduct = () => {
   toast.loading({ msg: '加载中...' })
   hotProduct({
-      page: 1,
-      limit: 10,
-      title: hotProductTitle.value
-    }).then(res=>{
+    page: 1,
+    limit: 10,
+    title: hotProductTitle.value
+  })
+    .then((res) => {
       products.value = res.data.list
-    }).catch(err=>err).finally(()=>{
+    })
+    .catch((err) => err)
+    .finally(() => {
       toast.close()
     })
 }
-const hotProductTitle=ref(undefined)
-const blurTitleInput=throttle((val)=>{
-  hotProductTitle.value=val
-  queryHotProduct()
-},1000,{trailing:true})
+const hotProductTitle = ref(undefined)
+const blurTitleInput = throttle(
+  (val) => {
+    hotProductTitle.value = val
+    queryHotProduct()
+  },
+  1000,
+  { trailing: true }
+)
 const goSearch = () => {
   router.push({ name: 'Search' })
 }
-const clearSearch=()=>{
-  hotProductTitle.value=undefined
+const clearSearch = () => {
+  hotProductTitle.value = undefined
   queryHotProduct()
 }
 const basicData = useBasicData()
@@ -127,8 +126,8 @@ const handlerCategoreyClick = (item) => {
     })
 }
 const router = useRouter()
-const handlerGoProducts=()=>{
-  router.push({name:'Products'})
+const handlerGoProducts = () => {
+  router.push({ name: 'Products' })
 }
 const goDetail = (product) => {
   router.push({

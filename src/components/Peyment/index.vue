@@ -51,12 +51,12 @@ const cards = ref([
     icon: 'bank-card-cp41pae1'
   }
 ])
-const emit = defineEmits(['close','verify'])
+const emit = defineEmits(['close', 'verify'])
 const handlerClose = () => {
   emit('close')
 }
 watch(payPwd, (val) => {
-  if(val.length===6){
+  if (val.length === 6) {
     emit('verify', payPwd.value)
   }
 })

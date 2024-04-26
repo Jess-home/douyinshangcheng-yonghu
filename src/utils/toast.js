@@ -30,7 +30,7 @@ const toast = {
   },
   loading: (data) => {
     showLoadingToast({
-      message: data?.msg ,
+      message: data?.msg,
       position: data?.position,
       forbidClick: data?.forbidClick || true,
       duration: data?.duration || 0,

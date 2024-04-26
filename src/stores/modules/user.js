@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 import { login, getInfo, logout } from '@/api/user.js'
-import { 
-    getToken, setToken, removeToken, removeUserId ,
-    getLocalLang
-} from '@/utils/auth.js'
+import { getToken, setToken, removeToken, removeUserId, getLocalLang } from '@/utils/auth.js'
 
 const useUserStore = defineStore('user', {
   state: () => ({
@@ -65,7 +62,7 @@ const useUserStore = defineStore('user', {
           })
       })
     },
-    invalidToken(){
+    invalidToken() {
       return new Promise((resolve, reject) => {
         this.token = ''
         this.userInfo = null
@@ -73,7 +70,7 @@ const useUserStore = defineStore('user', {
         resolve()
       })
     },
-    afterRePwd(){
+    afterRePwd() {
       return new Promise((resolve, reject) => {
         this.token = ''
         this.userInfo = null
@@ -81,18 +78,18 @@ const useUserStore = defineStore('user', {
         resolve()
       })
     },
-    getLanguage(){
-      if(this.userInfo && this.userInfo.lang){
+    getLanguage() {
+      if (this.userInfo && this.userInfo.lang) {
         return this.userInfo.lang.language_name
-      }else{
+      } else {
         return '未设置'
       }
     },
-    setLanguage(lang){
+    setLanguage(lang) {
       this.userInfo.lang = lang
     },
-    setBackData(data){
-      this.backData = {...this.backData, ...data}
+    setBackData(data) {
+      this.backData = { ...this.backData, ...data }
     }
   }
 })

@@ -89,7 +89,7 @@ export default [
   },
   //  我的购买
   {
-    path: '/myPurchases',
+    path: '/myPurchases/:status?',
     name: 'MyPurchases',
     component: () => import('@/views/MyPurchases/index.vue'),
     meta: {

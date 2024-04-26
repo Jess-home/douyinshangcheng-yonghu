@@ -38,7 +38,6 @@ export function hotShop() {
   })
 }
 
-
 export function platformInfo() {
   return service.request({
     url: `/api/index/index`,

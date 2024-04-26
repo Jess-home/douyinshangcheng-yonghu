@@ -4,11 +4,7 @@
     <div class="content">
       <div class="address content-item">
         收货地址
-        <list-tile
-          :title="address?.name"
-          :label="address?.label"
-          @click.stop="showChooseAddress"
-        >
+        <list-tile :title="address?.name" :label="address?.label" @click.stop="showChooseAddress">
           <template v-if="!address" #left>
             <div class="choose-address">
               <icon-park name="plus" size="1.6rem" />
@@ -40,7 +36,7 @@
         <list-tile title="小计" :arrow="false" :value="total + ''" />
       </div>
       <div class="content-item">
-        <list-tile title="航运" :arrow="false" :value="orderData.delivery+''" />
+        <list-tile title="航运" :arrow="false" :value="orderData.delivery + ''" />
       </div>
       <div class="content-item">
         <list-tile title="总" :arrow="false" :value="allTotal + ''" />
@@ -58,10 +54,7 @@
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
-      <payment 
-        :pay-data="payData" @close="() => (showActionSheet = false)"
-        @verify="verifyPwd" 
-      />
+      <payment :pay-data="payData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
     </van-action-sheet>
   </div>
   <custom-floating-panel ref="floatingPanel" title="请选择收货地址">
@@ -84,9 +77,9 @@ import CartItem from '@/components/CartItem/index.vue'
 import CustomInput from '@/components/Input/index.vue'
 import CustomFloatingPanel from '@/components/CustomFloatingPanel/index.vue'
 import Payment from '@/components/Peyment/index.vue'
-import { multiply,plus } from '@/utils/math.js'
+import { multiply, plus } from '@/utils/math.js'
 import toast from '@/utils/toast.js'
-import { submitOrder,merPay } from '@/api/order.js'
+import { submitOrder, merPay } from '@/api/order.js'
 import { verifyPay } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user'
 import { showConfirmDialog } from 'vant'
@@ -96,30 +89,29 @@ const orderData = ref({
   delivery: 0
 })
 const address = computed(() => {
-  if(userStore.backData.address){
+  if (userStore.backData.address) {
     const _address = userStore.backData.address
-    orderData.value.address=_address
-      return {
-        name:  _address.name + _address.country,
-        label: _address.tag
-      }
-  }else{
+    orderData.value.address = _address
+    return {
+      name: _address.name + _address.country,
+      label: _address.tag
+    }
+  } else {
     if (orderData.value.address) {
       const _address = orderData.value.address
       return {
-        name:  _address.name + _address.country,
+        name: _address.name + _address.country,
         label: _address.tag
       }
     }
   }
   return null
 })
-const addresses = ref([
-])
+const addresses = ref([])
 const total = computed(() => {
   let _total = 0
   orderData.value.product.forEach((item) => {
-    _total =plus(item.total_price, _total)
+    _total = plus(item.total_price, _total)
   })
   return _total
 })
@@ -133,9 +125,9 @@ const changeNum = (item) => {
 const promotion = ref(undefined)
 
 const floatingPanel = ref(null)
-const router=useRouter()
+const router = useRouter()
 const showChooseAddress = () => {
-  router.push({name:'Address',query:{type:'choosen'}})
+  router.push({ name: 'Address', query: { type: 'choosen' } })
 }
 const chooseAddress = (item) => {
   address.value = item
@@ -144,17 +136,17 @@ const chooseAddress = (item) => {
 const showActionSheet = ref(false)
 const payData = ref({})
 const handlerSubmitOrder = () => {
-  if(!orderData.value.address){
-    toast.show({msg:'请选择收货地址'})
+  if (!orderData.value.address) {
+    toast.show({ msg: '请选择收货地址' })
     return
   }
-  if(!userStore.userInfo.have_pay){
+  if (!userStore.userInfo.have_pay) {
     showConfirmDialog({
       message: '你还未设置支付密码?',
-      confirmButtonText:'去设置'
+      confirmButtonText: '去设置'
     })
       .then(() => {
-        router.push({name:'ChangePayPwd'})
+        router.push({ name: 'ChangePayPwd' })
       })
       .catch(() => {})
     return
@@ -189,26 +181,30 @@ const payNow = () => {
   showActionSheet.value = true
 }
 const route = useRoute()
-const verifyPwd=pwd=>{
+const verifyPwd = (pwd) => {
   toast.loading()
   verifyPay({
-    password_pay:pwd
-  }).then(res=>{
-    payAction()
-  }).catch(err=>err)
-}
-const payAction=()=>{
-  toast.loading({msg:'支付中...'})
-  merPay({
-    out_trade_no:payData.value.out_trade_no,
-    total_price:payData.value.total_price,
-  }).then(res=>{
-    showActionSheet.value = false
-    router.back()
-    toast.success({msg:'支付成功'})
-  }).catch(err=>{
-    toast.fail({msg:'支付失败'})
+    password_pay: pwd
   })
+    .then((res) => {
+      payAction()
+    })
+    .catch((err) => err)
+}
+const payAction = () => {
+  toast.loading({ msg: '支付中...' })
+  merPay({
+    out_trade_no: payData.value.out_trade_no,
+    total_price: payData.value.total_price
+  })
+    .then((res) => {
+      showActionSheet.value = false
+      router.back()
+      toast.success({ msg: '支付成功' })
+    })
+    .catch((err) => {
+      toast.fail({ msg: '支付失败' })
+    })
 }
 onMounted(() => {
   const _data = JSON.parse(route.query.orderData)

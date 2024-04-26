@@ -11,11 +11,11 @@
 </template>
 
 <script setup>
-import {onActivated} from 'vue';
+import { onActivated } from 'vue'
 
-const active = ref(0);
+const active = ref(0)
 
-const route = useRoute();
+const route = useRoute()
 
 const icon = [
   {
@@ -38,14 +38,14 @@ const icon = [
     icon_1: '4',
     icon_2: 'user'
   }
-];
+]
 
 onActivated(() => {
   icon.forEach((item, index) => {
     if (item.route === route.path) {
-      active.value = index;
+      active.value = index
     }
-  });
-});
+  })
+})
 </script>
 <style scoped></style>
