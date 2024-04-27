@@ -10,6 +10,8 @@
  *   - requireAuth: 是否需要登录权限，true表示需要登录，false表示不需要登录
  *   - keepAlive: 是否需要缓存，true表示需要缓存，false表示不需要缓存
  */
+import i18n from '@/lang/index.js'
+
 export default [
   // 首页
   {
@@ -17,7 +19,8 @@ export default [
     name: 'Home',
     component: () => import('@/views/Home/index.vue'),
     meta: {
-      title: '首页',
+      title: 'home',
+      lang:'home',
       requireAuth: false,
       keepAlive: true
     }
@@ -28,7 +31,8 @@ export default [
     name: 'Explore',
     component: () => import('@/views/Explore/index.vue'),
     meta: {
-      title: '发现',
+      title: 'explore',
+      lang:'explore',
       requireAuth: false,
       keepAlive: true
     }
@@ -40,6 +44,7 @@ export default [
     component: () => import('@/views/Bag/index.vue'),
     meta: {
       title: '购物车',
+      lang:'cart',
       requireAuth: false,
       keepAlive: true
     }
@@ -50,7 +55,8 @@ export default [
     name: 'Order',
     component: () => import('@/views/Order/index.vue'),
     meta: {
-      title: '订单',
+      title: 'order',
+      lang:'order',
       requireAuth: false,
       keepAlive: true
     }
@@ -60,7 +66,8 @@ export default [
     name: 'OrderInfo',
     component: () => import('@/views/OrderInfo/index.vue'),
     meta: {
-      title: '订单详情',
+      title: 'orderDetail',
+      lang:'orderDetail',
       requireAuth: false,
       keepAlive: true
     }
@@ -71,7 +78,8 @@ export default [
     name: 'Refund',
     component: () => import('@/views/OrderInfo/refund.vue'),
     meta: {
-      title: '退款申请',
+      title: 'appDrawBack',
+      lang:'appDrawBack',
       requireAuth: false,
       keepAlive: true
     }
@@ -82,7 +90,8 @@ export default [
     name: 'CheckOut',
     component: () => import('@/views/CheckOut/index.vue'),
     meta: {
-      title: '结算',
+      title: 'settle',
+      lang:'settle',
       requireAuth: false,
       keepAlive: true
     }
@@ -93,7 +102,8 @@ export default [
     name: 'MyPurchases',
     component: () => import('@/views/MyPurchases/index.vue'),
     meta: {
-      title: '我的购买',
+      title: 'myOrders',
+      lang:'myOrders',
       requireAuth: false,
       keepAlive: true
     }
@@ -104,7 +114,8 @@ export default [
     name: 'Language',
     component: () => import('@/views/Language/index.vue'),
     meta: {
-      title: '语言',
+      title: 'language',
+      lang:'language',
       requireAuth: false,
       keepAlive: true
     }
@@ -115,7 +126,8 @@ export default [
     name: 'Notification',
     component: () => import('@/views/Notifications/index.vue'),
     meta: {
-      title: '通知',
+      title: 'notification',
+      lang:'notification',
       requireAuth: false,
       keepAlive: true
     }
@@ -137,7 +149,7 @@ export default [
     name: 'ForgotPassword',
     component: () => import('@/views/ForgotPassword/index.vue'),
     meta: {
-      title: 'profile',
+      title: 'forgetPassword',
       requireAuth: false,
       keepAlive: true
     }
@@ -158,7 +170,7 @@ export default [
     name: 'ChangePayPwd',
     component: () => import('@/views/ChangePayPwd/index.vue'),
     meta: {
-      title: 'changePassword',
+      title: 'paymentCode',
       requireAuth: false,
       keepAlive: true
     }
@@ -180,7 +192,7 @@ export default [
     name: 'WithDraw',
     component: () => import('@/views/WithDraw/index.vue'),
     meta: {
-      title: '提现',
+      title: 'draw',
       requireAuth: false,
       keepAlive: true
     }
@@ -190,7 +202,7 @@ export default [
     name: 'DepositRecord',
     component: () => import('@/views/WithDraw/record.vue'),
     meta: {
-      title: '提现记录',
+      title: 'drawRecord',
       requireAuth: false,
       keepAlive: true
     }
@@ -201,7 +213,7 @@ export default [
     name: 'TopUp',
     component: () => import('@/views/TopUp/index.vue'),
     meta: {
-      title: 'topUp',
+      title: 'recharge',
       requireAuth: false,
       keepAlive: true
     }
@@ -212,7 +224,7 @@ export default [
     name: 'WalletTopUp',
     component: () => import('@/views/WalletTopUp/index.vue'),
     meta: {
-      title: '链上充值',
+      title: 'rechargeOnChain',
       requireAuth: false,
       keepAlive: true
     }
@@ -223,7 +235,7 @@ export default [
     name: 'CardTopUp',
     component: () => import('@/views/CardTopUp/index.vue'),
     meta: {
-      title: '银行卡充值',
+      title: 'rechargeCard',
       requireAuth: false,
       keepAlive: true
     }
@@ -233,7 +245,7 @@ export default [
     name: 'TopUpRecord',
     component: () => import('@/views/WalletTopUp/record.vue'),
     meta: {
-      title: '充值记录',
+      title: 'rechargeRecord',
       requireAuth: false,
       keepAlive: true
     }
@@ -244,7 +256,7 @@ export default [
     name: 'CapitalRecord',
     component: () => import('@/views/CapitalRecord/index.vue'),
     meta: {
-      title: 'capitalReord',
+      title: 'fundRecord',
       requireAuth: false,
       keepAlive: true
     }
@@ -298,7 +310,8 @@ export default [
     name: 'Filter',
     component: () => import('@/views/Filter/index.vue'),
     meta: {
-      title: '我的',
+      title: 'me',
+      lang:'me',
       requireAuth: false,
       keepAlive: true
     }
@@ -309,7 +322,7 @@ export default [
     name: 'Setting',
     component: () => import('@/views/Setting/index.vue'),
     meta: {
-      title: '设置',
+      title: 'setting',
       requireAuth: false,
       keepAlive: true
     }
@@ -320,7 +333,7 @@ export default [
     name: 'Search',
     component: () => import('@/views/Home/search/index.vue'),
     meta: {
-      title: '搜索',
+      title: 'search',
       requireAuth: false,
       keepAlive: true
     }
@@ -342,7 +355,7 @@ export default [
     name: 'Detail',
     component: () => import('@/views/Detail/index.vue'),
     meta: {
-      title: '详情页',
+      title: 'detail',
       requireAuth: false,
       keepAlive: false
     }
@@ -353,7 +366,7 @@ export default [
     name: 'Login',
     component: () => import('@/views/Login/index.vue'),
     meta: {
-      title: '登录',
+      title: 'login',
       requireAuth: false,
       keepAlive: true
     }
@@ -364,7 +377,7 @@ export default [
     name: 'Register',
     component: () => import('@/views/Register/index.vue'),
     meta: {
-      title: '注册',
+      title: 'register',
       requireAuth: false,
       keepAlive: true
     }

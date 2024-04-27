@@ -1,6 +1,8 @@
 // 从Vue Router中导入必要的函数
 import { createRouter, createWebHistory } from 'vue-router'
 
+import i18n from '@/lang/index.js'
+
 // 使用import.meta.glob动态导入'./modules/'目录中的所有JavaScript文件
 const files = import.meta.glob('./modules/*.js', {
   eager: true
@@ -57,7 +59,8 @@ router.beforeResolve((to, from, next) => {
   // 判断元信息是否存在
   if (to.meta && to.meta.title) {
     // 设置标题
-    window.document.title = to.meta.title
+    // window.document.title = to.meta.title
+    window.document.title=i18n.global.t(to.meta.title)
   }
   // 继续导航
   // 如果不调用next()，则导航将被中断
