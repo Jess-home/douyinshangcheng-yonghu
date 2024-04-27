@@ -30,7 +30,7 @@
           <div class="tips">
             <div>
               <van-icon name="success" />
-              &nbsp; {{$t('passwordLengthAtLeast6OnlySupportNumber')}}
+              &nbsp; {{ $t('passwordLengthAtLeast6OnlySupportNumber') }}
             </div>
             <!-- <div style="padding-top: 0.5em">
               <van-icon name="success" />
@@ -53,7 +53,7 @@
             </template>
           </Custom-Input>
           <Custom-Input
-          :label="$t('confirmPassword')"
+            :label="$t('confirmPassword')"
             :value="form.repeatPwd"
             @blur="(val) => (form.repeatPwd = val)"
             :type="showRepNewPwd ? 'text' : 'password'"
@@ -70,12 +70,13 @@
         </div>
       </div>
       <div class="bottom">
-        <van-button round block color="#000000" native-type="submit"> {{ $t('submit') }} </van-button>
+        <van-button round block color="#000000" native-type="submit">
+          {{ $t('submit') }}
+        </van-button>
       </div>
     </van-form>
   </div>
 </template>
-
 <script setup>
 import AppHeader from '@/components/CustomNavBar/index.vue'
 import CustomInput from '@/components/Input/index.vue'
@@ -83,7 +84,7 @@ import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
 import { regMobile } from '@/utils/regExp.js'
 import useUserStore from '@/stores/modules/user.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const form = ref({
   mobile: undefined,
@@ -121,17 +122,17 @@ const newPwdValidator = (val) => {
     return proxy.t('placeholderNewPassword')
   } else {
     if (val.length < 6) {
-      return '请按要求填写密码'
+      return proxy.t('pleaseFillNewPasswordAsRequired')
     }
     return true
   }
 }
 const repeatNewPwdValidator = (val) => {
   if (!val) {
-    return '请确认新密码'
+    return proxy.t('pleaseConfirmPassword')
   } else {
     if (val !== form.value.newPassword) {
-      return '两次密码不一致'
+      return proxy.t('twoPasswordsNotMatch')
     }
     return true
   }

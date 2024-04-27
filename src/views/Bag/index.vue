@@ -6,11 +6,11 @@
         <van-swipe-cell class="cart-item-container" v-for="(item, index) in carts" :key="index">
           <cart-item :product="item" @changeNum="changeNum" />
           <template #right>
-            <div class="cart-item-del" @click="removeItem(item.cart_id)">删除</div>
+            <div class="cart-item-del" @click="removeItem(item.cart_id)">{{ $t('delete') }}</div>
           </template>
         </van-swipe-cell>
       </div>
-      <van-empty v-else :description="$t('noProducts')"> </van-empty>
+      <van-empty v-else :description="$t('noProducts')" />
     </div>
     <div class="bottom">
       <div class="checkout-left">
@@ -34,25 +34,22 @@ import toast from '@/utils/toast.js'
 import { getCartList, delCarts, setCartNum } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { plus } from '@/utils/math.js'
-const { proxy } = getCurrentInstance();
-const changeNumSuccess = () => {
-  handlerQuery()
-}
+const { proxy } = getCurrentInstance()
 const changeNum = throttle((data) => {
   setCartNum(data)
     .then((res1) => {
       return getCartList()
     })
     .then((res2) => {
-      carts.value = res2.data.carts.map((item) => ({
+      carts.value = res2.data.carts.map((item, index) => ({
         ...item,
-        checked: true
+        checked: carts.value[index].checked
       }))
     })
     .catch((err) => err)
 }, 1200)
 const removeItem = (id) => {
-  toast.loading({ })
+  toast.loading({})
   delCarts(id).then(() => {
     toast.success({ msg: proxy.t('deleteSuccess') })
     handlerQuery()
@@ -62,16 +59,16 @@ const router = useRouter()
 const handlerCreateOrder = () => {
   const checkedCarts = carts.value.filter((item) => item.checked)
   if (!checkedCarts.length) {
-    toast.show({ msg: '请选择要结账的商品' })
+    toast.show({ msg: proxy.t('pleaseSelectItemToCheckOut') })
     return
   }
-  toast.loading({ msg: '创建订单中...' })
+  toast.loading()
   const cart_ids = checkedCarts.map((item) => item.cart_id).join(',')
   createOrder({
     cart_id: cart_ids
   })
     .then((res) => {
-      toast.success({ msg: '创建订单成功' })
+      toast.success({ msg: proxy.t('createOrderSuccess') })
       router.push({ name: 'Order', query: { orderData: JSON.stringify(res.data) } })
     })
     .catch((err) => {
@@ -99,7 +96,6 @@ const handlerQuery = () => {
         ...item,
         checked: true
       }))
-      // total.value = res.data.total_price
     })
     .finally(() => {
       toast.close()

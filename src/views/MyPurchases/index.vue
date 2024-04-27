@@ -58,10 +58,10 @@
           </div>
         </div>
         <template #right>
-          <div class="order-item-del" @click="handlerDel(item)">删除</div>
+          <div class="order-item-del" @click="handlerDel(item)">{{ $t('delete') }}</div>
         </template>
       </van-swipe-cell>
-      <van-empty v-else description="暂无相关订单"> </van-empty>
+      <van-empty v-else :description="$t('noRecord')"> </van-empty>
     </refresh-list>
   </div>
 </template>
@@ -72,7 +72,7 @@ import { orderList as list } from '@/api/user.js'
 import { deleteOrder } from '@/api/order.js'
 import toast from '@/utils/toast.js'
 import { order_statuses } from '@/utils/constants.js'
-const {proxy} =getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref(order_statuses)
 const data = ref([])
@@ -115,7 +115,7 @@ const handleQuery = async () => {
   const res = await listData()
   data.value = res.data.list.map((item) => {
     if (item.refund_status > 0) {
-      item.status_text = item.refund_status === 1 ? '退款中' : '已退款'
+      item.status_text = item.refund_status === 1 ? proxy.t('drawBacking') : proxy.t('refunded')
     } else {
       item.status_text = tabs.value.find((s) => s.value === item.status + '').name
     }

@@ -43,7 +43,7 @@
       </div>
       <div class="recommend-row">
         <div class="row-title">
-        {{ $t('recommend') }}
+          {{ $t('recommend') }}
           <div @click.stop="handlerGoProducts" class="sub-title">{{ $t('viewAll') }}</div>
         </div>
         <div v-if="remcommends.length" class="recommend-items">
@@ -73,9 +73,9 @@ import useBasicData from '@/stores/modules/basicData.js'
 import { recommend } from '@/api/product.js'
 import { hotProduct } from '@/api/home.js'
 import toast from '@/utils/toast.js'
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 const queryHotProduct = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   hotProduct({
     page: 1,
     limit: 10,
@@ -111,7 +111,7 @@ const categorey = ref(null)
 const products = ref([])
 const remcommends = ref([])
 const handlerCategoreyClick = (item) => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   categorey.value = item
   recommend({
     category_id: categorey.value?.category_id,
@@ -136,7 +136,7 @@ const goDetail = (product) => {
   })
 }
 const getData = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   Promise.all([
     hotProduct({
       page: 1,

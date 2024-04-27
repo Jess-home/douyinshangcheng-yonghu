@@ -27,9 +27,7 @@
             <icon-park name="info" size="1.4rem" />
           </div>
           <div class="leading-">
-            <span class="opacity-80"
-              >{{ $t('notSupportDexBscHeco') }}</span
-            >
+            <span class="opacity-80">{{ $t('notSupportDexBscHeco') }}</span>
           </div>
         </div>
         <h5 class="mt-3 text-base font-semibold">{{ $t('quantity') }}</h5>
@@ -102,7 +100,7 @@ import toast from '@/utils/toast.js'
 import { blockChain, recharge } from '@/api/user.js'
 import { uploadFile } from '@/api/common.js'
 import { useRouter } from 'vue-router'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const router = useRouter()
 const goRecord = () => {
   router.push({ name: 'CapitalRecord' })

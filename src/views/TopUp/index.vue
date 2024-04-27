@@ -1,6 +1,6 @@
 <script setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const list = [
   { path: '/walletTopUp', name: proxy.t('rechargeOnChain'), icon: 'bitcoin' },
   // { path: '/cardTopUp', name: '银行卡充值', icon: 'bank-card' },

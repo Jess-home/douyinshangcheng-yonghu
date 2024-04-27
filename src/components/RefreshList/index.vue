@@ -4,7 +4,8 @@
       :loading="_data.listLoading"
       :finished="_data.finished"
       :disabled="_data.disabled"
-      finished-text="没有更多了"
+      :loading-text="$t('refreshing')"
+      :finished-text="$t('noMone')"
       :immediate-check="false"
       @load="loadList"
     >

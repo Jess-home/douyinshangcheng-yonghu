@@ -160,8 +160,8 @@ export function languageList(data) {
 export function setDefaultLanguage(data) {
   return service({
     url: '/api/user/set_language',
-    method: 'post',
-    data: data
+    method: 'get',
+    params: data
   })
 }
 

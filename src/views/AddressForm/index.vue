@@ -36,7 +36,9 @@
           type="textarea"
           :value="form.detail"
           @blur="(val) => (form.detail = val)"
-          :rules="[{ required: true, message: $t('pleaseFillDetailedAddress'), trigger: 'onSubmit' }]"
+          :rules="[
+            { required: true, message: $t('pleaseFillDetailedAddress'), trigger: 'onSubmit' }
+          ]"
         />
         <custom-input
           :required="true"
@@ -58,7 +60,7 @@ import CustomInput from '@/components/Input/index.vue'
 import { addAddress, getAddressInfo } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { regMobile } from '@/utils/regExp.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const form = ref({
   name: undefined,
   mobile: undefined,

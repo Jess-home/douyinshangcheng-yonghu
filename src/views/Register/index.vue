@@ -26,6 +26,7 @@
           :value="form.password"
           @blur="(val) => (form.password = val)"
           :type="showPwd ? 'text' : 'password'"
+          auto-complete=""
           :rules="[{ required: true, message: $t('placeholderPassword'), trigger: 'onSubmit' }]"
         >
           <template #right>
@@ -43,6 +44,7 @@
           :value="form.repPwd"
           @blur="(val) => (form.repPwd = val)"
           :type="showRepPwd ? 'text' : 'password'"
+          auto-complete=""
           :rules="[{ validator: validatorRepeatPwd, trigger: 'onSubmit' }]"
         >
           <template #right>
@@ -71,7 +73,9 @@
         />
       </div>
       <div class="bottom">
-        <van-button round block color="#191919" native-type="submit">{{ $t('register') }}</van-button>
+        <van-button round block color="#191919" native-type="submit">{{
+          $t('register')
+        }}</van-button>
       </div>
     </van-form>
   </div>
@@ -81,7 +85,7 @@ import { register } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import CustomInput from '@/components/Input/index.vue'
 import { regMobile, regEmail } from '@/utils/regExp.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const form = ref({
   username: undefined,
   nickname: undefined,
@@ -127,7 +131,7 @@ const handlerRegister = () => {
   toast.loading()
   register(form.value)
     .then((res) => {
-      toast.success({ msg: '注册成功' })
+      toast.success({ msg: proxy.t('registerSuccess') })
       router.push({ name: 'Login' })
     })
     .catch((err) => err)

@@ -8,7 +8,7 @@
           <template v-if="!address" #left>
             <div class="choose-address">
               <icon-park name="plus" size="1.6rem" />
-              <div class="choose-address-word"> {{ $t('addAddress') }}</div>
+              <div class="choose-address-word">{{ $t('addAddress') }}</div>
             </div>
           </template>
         </list-tile>
@@ -48,16 +48,16 @@
         <div class="total-number">${{ allTotal }}</div>
       </div>
       <div class="button">
-        <van-button @click.stop="handlerSubmitOrder" block round color="#191919"
-          >{{ $t('payNow') }}</van-button
-        >
+        <van-button @click.stop="handlerSubmitOrder" block round color="#191919">{{
+          $t('payNow')
+        }}</van-button>
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
       <payment :pay-data="payData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
     </van-action-sheet>
   </div>
-  <custom-floating-panel ref="floatingPanel" title="请选择收货地址">
+  <custom-floating-panel ref="floatingPanel" :title="$t('pleaseChooseShippingAddress')">
     <van-space direction="vertical" size="1rem">
       <div
         class="address-card"
@@ -84,7 +84,7 @@ import { verifyPay } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user'
 import { showConfirmDialog } from 'vant'
 const userStore = useUserStore()
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 const orderData = ref({
   product: [],
   delivery: 0
@@ -117,7 +117,6 @@ const total = computed(() => {
   return _total
 })
 const allTotal = computed(() => {
-  // return total.value + orderData.value.delivery
   return plus(total.value, orderData.value.delivery)
 })
 const changeNum = (item) => {
@@ -138,13 +137,14 @@ const showActionSheet = ref(false)
 const payData = ref({})
 const handlerSubmitOrder = () => {
   if (!orderData.value.address) {
-    toast.show({ msg: '请选择收货地址' })
+    toast.show({ msg: proxy.t('pleaseChooseShippingAddress') })
     return
   }
   if (!userStore.userInfo.have_pay) {
     showConfirmDialog({
-      message: '你还未设置支付密码?',
-      confirmButtonText: '去设置'
+      message: proxy.t('notSetPaymentPassword'),
+      confirmButtonText: proxy.t('goSetting'),
+      cancelButtonText: proxy.t('cancel')
     })
       .then(() => {
         router.push({ name: 'ChangePayPwd' })
@@ -152,7 +152,7 @@ const handlerSubmitOrder = () => {
       .catch(() => {})
     return
   }
-  toast.loading({ msg: '提交订单...' })
+  toast.loading()
   const _data = {
     address_id: orderData.value.address.address_id,
     cart_ids: orderData.value.product.map((item) => item.cart_id).join(','),
@@ -171,7 +171,7 @@ const handlerSubmitOrder = () => {
   submitOrder(_data)
     .then((res) => {
       payData.value = res.data
-      toast.success({ msg: '提交订单成功' })
+      toast.success({ msg: proxy.t('submitOrderSuccess') })
       payNow()
     })
     .catch((err) => {
@@ -193,7 +193,7 @@ const verifyPwd = (pwd) => {
     .catch((err) => err)
 }
 const payAction = () => {
-  toast.loading({ msg: '支付中...' })
+  toast.loading()
   merPay({
     out_trade_no: payData.value.out_trade_no,
     total_price: payData.value.total_price
@@ -201,10 +201,10 @@ const payAction = () => {
     .then((res) => {
       showActionSheet.value = false
       router.back()
-      toast.success({ msg: '支付成功' })
+      toast.success({ msg: proxy.t('paySuccess') })
     })
     .catch((err) => {
-      toast.fail({ msg: '支付失败' })
+      toast.fail({ msg: proxy.t('payFail') })
     })
 }
 onMounted(() => {

@@ -1,19 +1,19 @@
 <template>
   <div class="hot-product-container">
     <div class="product-img">
-      <van-image width="100%" radius="0.5rem" height="10rem" :src="product.goods.image" />
+      <van-image width="100%" radius="0.5rem" height="10rem" :src="product.goods?.image" />
     </div>
     <div class="product-info">
       <div class="product-prices">
-        {{ product.goods.sales_price }}
-        <div class="old-price">{{ product.goods.market_price }}</div>
+        {{ product.goods?.sales_price }}
+        <div class="old-price">{{ product.goods?.market_price }}</div>
       </div>
       <div class="product-name">
-        {{ product.goods.title }}
+        {{ product.goods?.title }}
       </div>
       <div class="product-popular">
-        <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.goods.real_sales }}</div>
-        <div> {{ product.click }} {{ $t('seen')}}</div>
+        <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.goods?.real_sales }}</div>
+        <div>{{ product.click }} {{ $t('seen') }}</div>
       </div>
     </div>
   </div>

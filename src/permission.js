@@ -12,6 +12,7 @@ const whiteList = [
   '/login',
   '/register',
   '/home',
+  '/shop',
   '/explore',
   '/detail',
   '/search',

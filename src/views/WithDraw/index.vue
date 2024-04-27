@@ -2,12 +2,19 @@
   <div class="container">
     <nav-bar :title="$t('draw')">
       <template #right>
-        <div style="font-size: 1.2rem; padding-right: 1rem" @click.stop="goRecord">{{ $t('record') }}</div>
+        <div style="font-size: 1.2rem; padding-right: 1rem" @click.stop="goRecord">
+          {{ $t('record') }}
+        </div>
       </template>
     </nav-bar>
     <van-form @submit="handlerSubmit">
       <div class="content">
-        <Custom-Input :label="$t('drawType')" :value="typeName" readonly @click="handlerShowChooseType">
+        <Custom-Input
+          :label="$t('drawType')"
+          :value="typeName"
+          readonly
+          @click="handlerShowChooseType"
+        >
           <template #right>
             <icon-park @click.stop="handlerShowChooseType" name="right" size="1.5rem" />
           </template>
@@ -22,17 +29,6 @@
           :rules="[{ validator: priceValidator, trigger: 'onSubmit' }]"
         />
         <template v-if="form.extract_type === 0">
-          <!-- <custom-input
-            label="银行卡号"
-            required readonly
-            :value="form.bank_card"
-            :rules="[{ required: true, message: '请选择银行卡', trigger:'onSubmit' }]"
-            @click="handlerShowChooseCard"
-          >
-          <template #right>
-            <icon-park name="right" size="1.5rem" @click.stop="handlerShowChooseCard" />
-          </template>
-          </custom-input> -->
           <custom-input
             :label="$t('bankCardNo')"
             :placeholder="$t('placeholderBankCardNo')"
@@ -58,7 +54,9 @@
             required
             :value="form.network"
             readonly
-            :rules="[{ required: true, message: $t('pleaseChooseChargeNetwork'), trigger: 'onSubmit' }]"
+            :rules="[
+              { required: true, message: $t('pleaseChooseChargeNetwork'), trigger: 'onSubmit' }
+            ]"
             @click="handlerShowNetwork"
           >
             <template #right>
@@ -70,7 +68,9 @@
             :placeholder="$t('pleaseFillRechargeAddress')"
             :value="form.blockchain"
             @blur="(val) => (form.blockchain = val)"
-            :rules="[{ required: true, message: $t('pleaseFillRechargeAddress'), trigger: 'onSubmit' }]"
+            :rules="[
+              { required: true, message: $t('pleaseFillRechargeAddress'), trigger: 'onSubmit' }
+            ]"
           >
           </Custom-Input>
         </template>
@@ -89,8 +89,8 @@
   <custom-floating-panel
     ref="floatingPanel"
     height="800px"
-    title="选择充币网络"
-    tip="请选择与提币平台一致的网络"
+    :title="$t('pleaseChooseChargeNetwork')"
+    :tip="$t('pleaseChooseSameNetworkCoin')"
   >
     <van-space direction="vertical" size="1rem">
       <div
@@ -100,7 +100,6 @@
         @click.stop="handlerChooseNetwork(item)"
       >
         <div class="name-row">{{ item.network }}</div>
-        <!-- <div class="other-row">{{ item.blockchain }} USDT</div> -->
       </div>
     </van-space>
   </custom-floating-panel>
@@ -111,7 +110,7 @@ import CustomInput from '@/components/Input/index.vue'
 import { deposit, depositInfo } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { multiply } from '@/utils/math.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const router = useRouter()
 const goRecord = () => {
   router.push({ name: 'DepositRecord' })
@@ -123,10 +122,10 @@ const types = ref([
 const priceValidator = (val) => {
   const _val = Number(val)
   if (_val <= 0) {
-    return '提现金额不能小于等于0或为空'
+    return proxy.t('drawAmountCannotLessThan0OrEmpty')
   }
   if (_val > info.value.balance) {
-    return '提现金额不能大于余额'
+    return proxy.t('drawAmountCannotLargeThanBalance')
   }
   return true
 }
@@ -136,13 +135,12 @@ const form = ref({
   price: undefined,
   blockchain: undefined,
   network: undefined,
-  real_name: undefined,
   bank_card: undefined,
   bank_name: undefined
 })
 const priceLabel = computed(() => {
   const _val = multiply(info.value.service_charge || 0.03, 100).toFixed(2) + '%'
-  return proxy.t('drawAmount') + `(${proxy.t('serviceCharge')}${_val})`
+  return proxy.t('drawAmount') + `(${proxy.t('serviceCharge')} ${_val})`
 })
 const formatNumber = (val) => {
   form.value.price = Number(val).toFixed(2)
@@ -157,6 +155,11 @@ const handlerShowChooseType = () => {
 }
 const handlerChooseType = (val) => {
   form.value.extract_type = val.value
+  form.value.price = undefined
+  form.value.blockchain = undefined
+  form.vaue.netwrok = undefined
+  form.value.bank_card = undefined
+  form.value.bank_name = undefined
   showChooseType.value = false
 }
 const cards = computed(() => {
@@ -193,7 +196,7 @@ const handlerSubmit = () => {
   deposit(form.value)
     .then((res) => {
       router.back()
-      toast.success({ msg: '提现成功' })
+      toast.success({ msg: proxy.t('drawSuccess') })
     })
     .catch((err) => err)
 }

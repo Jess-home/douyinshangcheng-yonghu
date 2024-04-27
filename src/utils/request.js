@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 // import { getToken } from '@/utils/auth.js'
 import { tansParams } from '@/utils/tool.js'
 import cache from '@/utils/cache.js'
@@ -89,27 +89,31 @@ service.interceptors.response.use(
       return Promise.reject(data)
     }
   },
-  (error) => {
+  async (error) => {
     console.log(error)
-    if (error.code === 401) {
-      useUserStore()
-        .invalidToken()
-        .then(() => {
-          location.href = '/login'
-        })
+    // 未登录或token过期
+    if (error.response.data.code === 401) {
+      toast.fail({ msg: error.response.data.msg })
+      const isLogin = await useUserStore().isLogin()
+      //  如果已经登录了,除了提示还要返回登录页面
+      if (isLogin) {
+        await useUserStore().invalidToken()
+        location.href = '/login'
+      }
+      return Promise.reject(error)
+    } else {
+      let { message } = error
+      if (message === 'Network Error') {
+        message = '后端接口连接异常'
+      } else if (message.includes('timeout')) {
+        console.log('超时')
+        message = '系统接口请求超时'
+      } else if (message.includes('Request failed with status code')) {
+        message = '系统接口' + message.substr(message.length - 3) + '异常'
+      }
+      toast.fail({ msg: message })
       return Promise.reject(error)
     }
-    let { message } = error
-    if (message === 'Network Error') {
-      message = '后端接口连接异常'
-    } else if (message.includes('timeout')) {
-      console.log('超时')
-      message = '系统接口请求超时'
-    } else if (message.includes('Request failed with status code')) {
-      message = '系统接口' + message.substr(message.length - 3) + '异常'
-    }
-    toast.fail({ msg: message })
-    return Promise.reject(error)
   }
 )
 

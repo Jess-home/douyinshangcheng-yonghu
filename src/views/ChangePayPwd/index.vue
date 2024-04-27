@@ -10,7 +10,9 @@
           </div>
           <div style="padding-top: 0.5em">
             <van-icon name="success" />
-            &nbsp; {{ $t('ifFirstSettingPaymentCode') }},{{ $t('doNotFillOldPassword') }},{{$t('ifChangePaymentCode')}},{{ $t('oldPasswordIsRequired') }}
+            &nbsp; {{ $t('ifFirstSettingPaymentCode') }},{{ $t('doNotFillOldPassword') }},{{
+              $t('ifChangePaymentCode')
+            }},{{ $t('oldPasswordIsRequired') }}
           </div>
         </div>
         <custom-input
@@ -58,7 +60,7 @@
 import { resetPaypwd } from '@/api/user.js'
 import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const form = ref({
   oldpassword: undefined,
   newpassword: undefined,

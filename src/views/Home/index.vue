@@ -56,7 +56,7 @@
             </div>
           </van-swipe-item>
         </van-swipe>
-        <van-empty v-else description="暂无商品"> </van-empty>
+        <van-empty v-else :description="$t('noProducts')"> </van-empty>
       </div>
       <div class="hot-product hot-shop">
         <div class="hot-product-title">
@@ -81,9 +81,7 @@
       </div>
     </div>
   </div>
-  <choose-language 
-    ref="chooseLanguage"
-  />
+  <choose-language ref="chooseLanguage" />
   <AppTabbar />
 </template>
 <script name="Home" setup>
@@ -100,9 +98,9 @@ import useBasicData from '@/stores/modules/basicData.js'
 import AppTabbar from '@/components/AppTabbar/index.vue'
 const basicData = useBasicData()
 // language
-const chooseLanguage=ref(null)
-const handlerChooseLanguage=()=>{
-  chooseLanguage.value.show=true
+const chooseLanguage = ref(null)
+const handlerChooseLanguage = () => {
+  chooseLanguage.value.show = true
 }
 //   language
 const swipeImgs = ref([homeBoard, homeBoard])

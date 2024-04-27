@@ -9,7 +9,7 @@
       </span>
       <div class="price">
         {{ product.product_price }}
-        <div class="spec">{{ product.spec || '未选规格' }}</div>
+        <div class="spec">{{ product.spec || $t('noSpec') }}</div>
       </div>
       <div class="number">数量: &nbsp;{{ product.product_num }}</div>
       <div class="total">总计: &nbsp;${{ product.total_price }}</div>
@@ -63,6 +63,7 @@ const props = defineProps({
       justify-content: space-between;
       align-items: center;
       .spec {
+        font-size: 0.85rem;
         color: #868686;
       }
     }

@@ -1,13 +1,19 @@
 import { createI18n } from 'vue-i18n'
-import { default_lang } from '@/utils/constants.js'
 import { getLocalLang } from '@/utils/auth.js'
 
 //  引入需要的语言包
 import en from '@/lang/en.js'
 import zh from '@/lang/zh.js'
 
+//  系统默认语言
+export const default_lang = {
+  language_name: '中文',
+  chinese_name: '中文',
+  file_name: 'zh-CN'
+}
+
 // 本地语言环境获取
-const lang = getLocalLang().file_name ||  default_lang.file_name || navigator.language
+const lang = getLocalLang()?.file_name || default_lang.file_name || navigator.language
 
 const i18n = createI18n({
   locale: lang, // 语言标识

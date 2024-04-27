@@ -1,6 +1,6 @@
 <template>
   <div class="cart-item-container">
-    <div class="item-img" @click="handlerGoDetail">
+    <div class="item-img">
       <van-image width="6.5rem" height="auto" :src="product.goods?.image" />
     </div>
     <div class="item-info">
@@ -28,6 +28,7 @@
 <script setup>
 import { setCartNum } from '@/api/cart.js'
 import toast from '@/utils/toast.js'
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   product: {
     type: Object,
@@ -62,7 +63,7 @@ const value = computed({
 const changeCartNum = async (num) => {
   if (props.product.cart_id) {
     toast.loading({
-      msg: '数量变更中'
+      msg: proxy.t('quantityChanging')
     })
     return new Promise((resolve) => {
       setCartNum({
@@ -123,6 +124,7 @@ const changeCartNum = async (num) => {
       justify-content: space-between;
       align-items: center;
       .spec {
+        font-size: 0.85rem;
         color: #868686;
       }
     }

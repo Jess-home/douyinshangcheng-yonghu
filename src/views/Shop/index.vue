@@ -13,7 +13,7 @@
       </div>
       <div class="top-item" style="padding-right: 0.5rem" @click="handlerFollowShop">
         <div class="follow-shop">
-          {{ shopData.is_follow ? $t('followed') : $t('followShop')}}
+          {{ shopData.is_follow ? $t('followed') : $t('followShop') }}
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ import { shopDetail, follow } from '@/api/merchant.js'
 import toast from '@/utils/toast.js'
 import useBasicData from '@/stores/modules/basicData.js'
 import ProductCard from '@/components/ProductCard/index.vue'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const basicData = useBasicData()
 const queryParams = ref({
   mer_id: undefined,
@@ -69,7 +69,9 @@ const handlerFollowShop = () => {
     mer_id: queryParams.value.mer_id
   })
     .then((res) => {
-      toast.success({ msg: shopData.value.is_follow ? '取消关注' : '关注成功' })
+      toast.success({
+        msg: shopData.value.is_follow ? proxy.t('unFollow') : proxy.t('followSucces')
+      })
       shopData.value.is_follow = 1
       shopDetail(queryParams.value)
         .then((res) => {

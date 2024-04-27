@@ -50,7 +50,7 @@ export function setLocalLang(lang) {
 
 export function getLocalLang() {
   const lang = Cookies.get(LocalLang)
-  if(lang){
+  if (lang) {
     return JSON.parse(Cookies.get(LocalLang))
   }
   return lang

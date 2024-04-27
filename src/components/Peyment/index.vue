@@ -26,12 +26,9 @@
   </div>
 </template>
 <script setup>
+import useUserStore from '@/stores/modules/user.js'
+const { proxy } = getCurrentInstance()
 defineProps({
-  title: {
-    type: String,
-    required: false,
-    default: '请输入支付密码'
-  },
   payData: {
     type: Object,
     required: false,
@@ -40,12 +37,13 @@ defineProps({
     })
   }
 })
+const userStore = useUserStore()
 const payPwd = ref(undefined)
 const cards = ref([
   {
-    value: '钱包余额 ($2.345,00)',
+    value: `${proxy.t('balance')} ($2.345,00)`,
     icon: 'wallet-two'
-  },
+  }
   // {
   //   value: '万事达银行卡（暂不支持）',
   //   icon: 'bank-card-cp41pae1'

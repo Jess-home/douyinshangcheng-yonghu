@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 import { login, getInfo, logout } from '@/api/user.js'
-import { 
-    getToken, setToken, removeToken, 
-    getLocalLang ,setLocalLang
-} from '@/utils/auth.js'
+import { getToken, setToken, removeToken, getLocalLang, setLocalLang } from '@/utils/auth.js'
 import { default_lang } from '@/utils/constants.js'
 import i18n from '@/lang/index.js'
 const useUserStore = defineStore('user', {
@@ -11,9 +8,9 @@ const useUserStore = defineStore('user', {
     token: getToken(),
     userInfo: null,
     backData: {},
-    setting:{
+    setting: {
       // 语言
-      lang: getLocalLang()
+      lang: getLocalLang() || default_lang
     }
   }),
   actions: {
@@ -37,10 +34,12 @@ const useUserStore = defineStore('user', {
         getInfo()
           .then((res) => {
             this.userInfo = res.data
-            if(res.data.lang){
-              this.setting.lang=res.data.lang
-              if(i18n.global.locale!==this.setting.lang.file_name){
-                i18n.global.locale=this.setting.lang.file_name
+            if (res.data.lang) {
+              this.setting.lang = res.data.lang
+              // 登录后若本地语言和后端语言不一致，以后端为主,重新设置语言
+              if (i18n.global.locale !== this.setting.lang.file_name) {
+                i18n.global.locale = this.setting.lang.file_name
+                setLocalLang(this.setting.lang)
               }
             }
             resolve()
@@ -92,7 +91,7 @@ const useUserStore = defineStore('user', {
         resolve()
       })
     },
-    getLanguage() {
+    getLanguageName() {
       if (this.setting.lang) {
         return this.setting.lang.language_name
       } else {
@@ -100,7 +99,7 @@ const useUserStore = defineStore('user', {
       }
     },
     setLanguage(lang) {
-      this.setting.lang=lang
+      this.setting.lang = lang
       //  本地存储语言
       setLocalLang(lang)
     },

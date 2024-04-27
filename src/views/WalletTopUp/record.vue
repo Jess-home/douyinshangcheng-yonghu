@@ -88,7 +88,7 @@ const onLoad = async () => {
   refreshData.value.listLoading = false
 }
 const handleQuery = async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const res = await listData()
   data.value = res.data.list
   refreshData.value.disabled = false

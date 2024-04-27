@@ -11,7 +11,7 @@
           <template v-if="!address" #left>
             <div class="choose-address">
               <icon-park name="plus" size="1.6rem" />
-              <div class="choose-address-word">{{ $t('addAddress')}}</div>
+              <div class="choose-address-word">{{ $t('addAddress') }}</div>
             </div>
           </template>
         </list-tile>
@@ -55,7 +55,7 @@
     </div>
     <div class="bottom">
       <div class="total-price">
-        {{$t('total')}}：
+        {{ $t('total') }}：
         <div class="total-number">${{ allTotal }}</div>
       </div>
       <!-- <div v-if="canPay" class="buttons">
@@ -120,7 +120,7 @@ import { detail, pay, cancelOrder, received as confirmReceived, refundOrder } fr
 import { verifyPay } from '@/api/user.js'
 import { order_statuses } from '@/utils/constants.js'
 import useUserStore from '@/stores/modules/user.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const orderData = ref({})
 const status = computed(() => {
@@ -184,6 +184,7 @@ const handlerPay = () => {
     showConfirmDialog({
       message: proxy.t('noYetSetPaymentPassowrd'),
       confirmButtonText: proxy.t('goSetting'),
+      cancelButtonText: proxy.t('cancel')
     })
       .then(() => {
         router.push({ name: 'ChangePayPwd' })
@@ -195,7 +196,9 @@ const handlerPay = () => {
 }
 const handlerCancel = () => {
   showConfirmDialog({
-    message: proxy.t('whetherToCancel')
+    message: proxy.t('whetherToCancel'),
+    cancelButtonText: proxy.t('cancel'),
+    confirmButtonText: proxy.t('confirm')
   })
     .then(() => {
       cancel()
@@ -204,7 +207,9 @@ const handlerCancel = () => {
 }
 const handlerConfirmReceived = () => {
   showConfirmDialog({
-    message: proxy.t('isConfirmReceived')
+    message: proxy.t('isConfirmReceived'),
+    cancelButtonText: proxy.t('cancel'),
+    confirmButtonText: proxy.t('confirm')
   })
     .then(() => {
       received()
@@ -217,7 +222,9 @@ const confirmRefund = () => {
     return
   }
   showConfirmDialog({
-    message: '是否确认申请退款?'
+    message: '是否确认申请退款?',
+    cancelButtonText: proxy.t('cancel'),
+    confirmButtonText: proxy.t('confirm')
   })
     .then(() => {
       const product_ids = orderData.value.products.map((item) => item.order_product_id).join(',')

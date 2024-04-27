@@ -10,18 +10,15 @@
       <div
         v-if="data.length"
         style="box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08)"
-        class="bg-white mx-3 mt-2 h-30 pt-3 pb-3 rounded-md flex"
+        class="bg-white mx-3 mt-2 h-30 pt-3 pb-3 pl-3 pr-3 rounded-md flex flex-row"
         v-for="item in data"
         :key="item.id"
       >
-        <div class="flex justify-center items-center mx-1">
+        <div class="flex justify-center items-center pr-1">
           <icon-park name="finance" size="2.5rem" />
         </div>
-        <div class="flex-auto flex flex-col justify-center mx-2">
-          <span
-            class="text-base font-normal line-clamp-3 overflow-hidden text-gray-900"
-            style="width: 220px"
-          >
+        <div class="flex-auto flex flex-col justify-center basis-2/5">
+          <span class="text-base font-normal line-clamp-2 overflow-hidden text-gray-900">
             {{ item.mark }}
           </span>
           <span class="text-sm opacity-80">
@@ -29,7 +26,7 @@
           </span>
           <span class="text-sm opacity-80"> {{ $t('auditResult') }}: {{ item.admin_msg }} </span>
         </div>
-        <div class="flex flex-col justify-around items-stretch mx-0">
+        <div class="flex flex-col justify-around items-stretch basis-2/5">
           <div class="flex flex-row justify-between mx-1 text-red">
             {{ $t('recharge') }}
             <span class="text-base font-medium flex flex-col">
@@ -60,7 +57,7 @@ import RefreshList from '@/components/RefreshList/index.vue'
 import { depositRecord as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 import { fund_record_statuses } from '@/utils/constants.js'
-const {proxy}= getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref(fund_record_statuses)
 const data = ref([])

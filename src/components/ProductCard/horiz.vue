@@ -1,15 +1,15 @@
 <template>
   <div class="horiz-product-container">
-    <van-image width="100%" height="auto" :src="product.goods.image" />
+    <van-image width="100%" height="auto" :src="product.goods?.image" />
     <div class="product-info">
       <div class="product-prices">
-        {{ product.goods.sales_price }}
-        <div class="old-price">{{ product.goods.market_price }}</div>
+        {{ product.goods?.sales_price }}
+        <div class="old-price">{{ product.goods?.market_price }}</div>
       </div>
-      {{ $t('selled') }} 
-      &nbsp;{{ product.goods.real_sales }}
+      {{ $t('selled') }}
+      &nbsp;{{ product.goods?.real_sales }}
       <div class="product-name">
-        {{ product.goods.title }}
+        {{ product.goods?.title }}
       </div>
     </div>
   </div>

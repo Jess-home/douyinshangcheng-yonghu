@@ -65,7 +65,7 @@ import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
 import useUserStore from '@/stores/modules/user.js'
-const {proxy}=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const form = ref({
   mobile: undefined,

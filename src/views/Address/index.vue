@@ -16,7 +16,9 @@
       </van-space>
     </refresh-list>
     <div class="bottom">
-      <van-button block round color="#191919" @click="handlerAdd">{{ $t('addShippingAddress') }}</van-button>
+      <van-button block round color="#191919" @click="handlerAdd">{{
+        $t('addShippingAddress')
+      }}</van-button>
     </div>
   </div>
 </template>
@@ -28,7 +30,7 @@ import { addressList as list, setDefaultAddress as setDefault, delAddress } from
 import toast from '@/utils/toast.js'
 import { showConfirmDialog } from 'vant'
 import useUserStore from '@/stores/modules/user.js'
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const queryParams = ref({
   page: 1,
@@ -65,7 +67,7 @@ const onLoad = async () => {
   refreshData.value.listLoading = false
 }
 const handleQuery = async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const res = await listData()
   data.value = res.data.list
   refreshData.value.disabled = false
@@ -82,7 +84,9 @@ const handleAddressClick = (address) => {
   }
   showConfirmDialog({
     title: proxy.t('operateConfirm'),
-    message: `proxy.t('weigherToSetDefaultAddress')?`
+    message: proxy.t('weigherToSetDefaultAddress') + '?',
+    cancelButtonText: proxy.t('cancel'),
+    confirmButtonText: proxy.t('confirm')
   })
     .then(() => {
       setDefaultAddress(address)
@@ -93,7 +97,7 @@ const setDefaultAddress = (address) => {
   toast.loading()
   setDefault({ address_id: address.address_id })
     .then((res) => {
-      toast.success({ msg: '设置成功' })
+      toast.success({ msg: proxy.t('settingSuccess') })
       userStore.userInfo.address = address
       handleQuery()
     })
@@ -111,7 +115,7 @@ const handlerDel = ({ address_id }) => {
   toast.loading()
   delAddress({ address_id: address_id })
     .then((res) => {
-      toast.success({ msg: '删除成功' })
+      toast.success({ msg: proxy.t('deleteSuccess') })
       handleQuery()
     })
     .catch((err) => err)

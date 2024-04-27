@@ -21,7 +21,7 @@
       <div class="user-card">
         <div class="row1">
           <div class="row1">
-            {{$t('myBalance')}}&nbsp;({{$t('dollar')}})
+            {{ $t('myBalance') }}&nbsp;({{ $t('dollar') }})
             <icon-park
               color="#ffffff"
               :name="showBalance ? 'preview-close-one' : 'preview-open'"
@@ -36,9 +36,9 @@
           {{ balance }}
         </div>
         <div class="row3">
-          <div class="draw" @click.stop="handlerDraw">{{$t('draw')}}</div>
+          <div class="draw" @click.stop="handlerDraw">{{ $t('draw') }}</div>
           <div style="flex: 1" />
-          <div class="deposit" @click.stop="handlerTopUp">{{$t('recharge')}}</div>
+          <div class="deposit" @click.stop="handlerTopUp">{{ $t('recharge') }}</div>
         </div>
         <!-- <van-divider style="color: #ffffff" dashed /> -->
         <div class="grid grid-cols-2 mt-5">
@@ -46,11 +46,11 @@
             <div class="rows-amount" style="padding-right: 2.5rem">
               {{ userInfo.order_unreceived }}
             </div>
-            <span>{{$t('goodsNotReceived')}}</span>
+            <span>{{ $t('goodsNotReceived') }}</span>
           </div>
           <div class="row4-column" @click.stop="goMyOrders('0')">
             <div class="rows-amount">{{ userInfo.order_unpaid }}</div>
-            <span>{{$t('goodsNotPaid')}}</span>
+            <span>{{ $t('goodsNotPaid') }}</span>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ import { formatNumberWithCommas } from '@/utils/filter.js'
 import ListMenus from '@/components/ListMenus/index.vue'
 import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 import useUserStore from '@/stores/modules/user.js'
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 import toast from '@/utils/toast.js'
 const userStore = useUserStore()
 const userInfo = computed(() => {
@@ -85,7 +85,7 @@ const user_contacts = computed(() => {
   return userStore.userInfo?.email
 })
 const language = computed(() => {
-  return userStore.getLanguage()
+  return userStore.getLanguageName()
 })
 const router = useRouter()
 //  提现
@@ -168,7 +168,7 @@ const handlerSwitchShowBalance = () => {
   showBalance.value = !showBalance.value
 }
 // language
-const chooseLanguage=ref(null)
+const chooseLanguage = ref(null)
 // language
 const handlerMenuClick = (menu) => {
   if (menu.routeName) {
@@ -177,7 +177,7 @@ const handlerMenuClick = (menu) => {
   }
   switch (menu.type) {
     case 'language':
-      chooseLanguage.value.show=true
+      chooseLanguage.value.show = true
       break
     default:
       break
@@ -263,11 +263,10 @@ const handlerMenuClick = (menu) => {
         font-weight: 400;
         font-size: 1.2rem;
         line-height: 1.4rem;
-        letter-spacing: 0.5rem;
+        letter-spacing: 0.15rem;
         border-bottom-style: dashed;
         border-bottom-width: 2px; /* 或者你想要的任何值 */
         border-bottom-color: #ffffff;
-
         .draw {
           flex: 3;
           text-align: center;
@@ -276,7 +275,6 @@ const handlerMenuClick = (menu) => {
           border-radius: 0.2rem;
           padding: 0.4rem;
         }
-
         .deposit {
           flex: 3;
           text-align: center;

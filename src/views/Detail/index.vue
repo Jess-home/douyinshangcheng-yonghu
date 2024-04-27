@@ -105,7 +105,9 @@
         </div>
       </div>
       <div class="comment" ref="commentRef">
-        <div class="comment-title">{{ $t('userEvlauate') }}&nbsp;（{{ detail.reply_list?.length }}）</div>
+        <div class="comment-title">
+          {{ $t('userEvlauate') }}&nbsp;（{{ detail.reply_list?.length }}）
+        </div>
         <van-space v-if="detail.reply_list?.length" direction="vertical" size="0.5rem">
           <div class="comment-card" v-for="item in detail.reply_list">
             <div class="comment-user">
@@ -207,11 +209,13 @@
         <div class="total-number">${{ total }}</div>
       </div>
       <div class="button">
-        <van-button @click="handlerAddCart" style="flex: 8" block round>{{ $t('addToShopping') }}</van-button>
+        <van-button @click="handlerAddCart" style="flex: 8" block round>{{
+          $t('addToShopping')
+        }}</van-button>
         <div style="width: 1rem" />
-        <van-button @click="handlerCreateOrder" style="flex: 6" block round color="#191919"
-          >{{ $t('createOrder') }}</van-button
-        >
+        <van-button @click="handlerCreateOrder" style="flex: 6" block round color="#191919">{{
+          $t('createOrder')
+        }}</van-button>
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
@@ -244,18 +248,16 @@
   </div>
 </template>
 <script setup>
-import Product4 from '@/assets/image/product4.png'
-import Avatar from '@/assets/image/avatar.png'
 import HotShop from '@/views/Home/components/HotShop/index.vue'
+import ProductCard from '@/components/ProductCard/index.vue'
 import { useElementBounding } from '@vueuse/core'
 import useUserStore from '@/stores/modules/user'
 import toast from '@/utils/toast.js'
 import { getProductDetail, like } from '@/api/product.js'
-import { setCartNum, addCart } from '@/api/cart.js'
+import { addCart } from '@/api/cart.js'
 import { createOrder } from '@/api/order.js'
 import { multiply } from '@/utils/math.js'
-const { proxy } = getCurrentInstance();
-console.log(proxy)
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const router = useRouter()
 const total = computed(() => {
@@ -280,7 +282,6 @@ const imgs = computed(() => {
   }
   return []
 })
-const satisfaction = ref(5)
 const contentRef = ref(null)
 const productRef = ref(null)
 const productView = useElementBounding(productRef)
@@ -288,7 +289,6 @@ const commentRef = ref(null)
 const commentView = useElementBounding(commentRef)
 const detailRef = ref(null)
 const detailView = useElementBounding(detailRef)
-// const selected = ref("product");
 const selected = computed({
   get() {
     const array = [
@@ -412,7 +412,7 @@ const handlerCreateOrder = () => {
     })
     .catch((err) => {
       console.log(err)
-      toast.show({ msg:  proxy.t('loginFirst') })
+      toast.show({ msg: proxy.t('loginFirst') })
       router.push('/login')
     })
 }
@@ -432,7 +432,10 @@ onMounted(() => {
       detail.value = res.data
       detail.value.number = 1
       recommends.value = res.data.other
-      desc.value = res.data.goods.content.replace('/\/g', '')
+      if (res.data.goods?.content) {
+        desc.value = res.data.goods.content.replace('/\/g', '')
+      }
+      //  有规格的话
       if (detail.value.goods?.specList.length) {
         spec.value = detail.value.goods?.specList.map((item) => {
           return item.child[0]

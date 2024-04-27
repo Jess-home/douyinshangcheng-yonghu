@@ -18,6 +18,7 @@
           :placeholder="placeholder"
           :center="center"
           @click="handleClick"
+          :autocomplete="autoComplete"
         </van-field>
       </div>
       <slot name="right" />
@@ -72,6 +73,11 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: true
+  },
+  autoComplete:{
+    type: String,
+    required: false,
+    default: undefined
   }
 })
 

@@ -8,14 +8,14 @@
       {{ platform.name }}
     </div>
     <div class="custom-row row">
-      <van-button round block color="#191919" @click="hanlderLocation(platform.custom_service)"
-        >{{ $t('serviceLink') }}</van-button
-      >
+      <van-button round block color="#191919" @click="hanlderLocation(platform.custom_service)">{{
+        $t('serviceLink')
+      }}</van-button>
     </div>
     <div class="merchant-row row">
-      <van-button round block color="#191919" @click="hanlderLocation(platform.merchant_link)"
-        >{{ $t('platformSell') }}</van-button
-      >
+      <van-button round block color="#191919" @click="hanlderLocation(platform.merchant_link)">{{
+        $t('platformSell')
+      }}</van-button>
     </div>
   </div>
 </template>

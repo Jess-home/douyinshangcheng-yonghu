@@ -48,12 +48,12 @@ import NavBar from '@/components/CustomNavBar/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import { billList as list } from '@/api/user.js'
 import toast from '@/utils/toast.js'
-const {proxy} =getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const tabActive = ref('all')
 const tabs = ref([
   { value: 'all', name: proxy.t('all') },
   { value: 'recharge', name: proxy.t('recharge') },
-  { value: 'extract', name: proxy.t('draw')}
+  { value: 'extract', name: proxy.t('draw') }
 ])
 const data = ref([])
 const count = ref(0)

@@ -11,7 +11,7 @@
       <div class="welcome">{{ $t('welcomeToShop') }}</div>
       <div class="login-type">
         <van-space size="1rem">
-        {{ $t('accountLogin') }}
+          {{ $t('accountLogin') }}
         </van-space>
       </div>
       <div class="login-forms">
@@ -65,9 +65,7 @@
         <van-image @click="handlerSocialLogin" width="4rem" height="auto" :src="Google" />
       </div>
     </div> -->
-    <choose-language 
-      ref="chooseLanguage"
-    />
+    <choose-language ref="chooseLanguage" />
   </div>
 </template>
 <script setup name="Login">
@@ -79,12 +77,12 @@ import CustomInput from '@/components/Input/index.vue'
 import useUserStore from '@/stores/modules/user.js'
 import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 // import { register } from '@/api/user.js'
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const router = useRouter()
 const form = ref({
   account: undefined,
-  password: undefined,
+  password: undefined
 })
 const showPwd = ref(false)
 const goHome = () => {
@@ -111,12 +109,12 @@ const handlerForgetPwd = () => {
   router.push({ name: 'ForgotPassword' })
 }
 const handlerSocialLogin = () => {
-  toast.show({ msg: '暂未开放', duration: 2000 })
+  toast.show({ msg: proxy.t('notYetOpen'), duration: 2000 })
 }
 //  language
-const chooseLanguage=ref(null)
-const handlerChangeLanguage=()=>{
-  chooseLanguage.value.show=true
+const chooseLanguage = ref(null)
+const handlerChangeLanguage = () => {
+  chooseLanguage.value.show = true
 }
 //  language
 </script>
@@ -140,7 +138,7 @@ const handlerChangeLanguage=()=>{
       font-size: 1rem;
       color: #191919;
       line-height: 1.6rem;
-      .to-home-left{
+      .to-home-left {
         display: flex;
         flex-direction: row;
       }

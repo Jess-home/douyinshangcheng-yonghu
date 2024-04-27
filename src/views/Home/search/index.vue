@@ -42,7 +42,6 @@
 <script setup>
 import throttle from 'lodash/throttle'
 import NavBar from '@/components/CustomNavBar/index.vue'
-import empty from '@/assets/image/empty.png'
 import CustomInput from '@/components/Input/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
 import ProductCard from '@/components/ProductCard/horiz.vue'
@@ -112,7 +111,7 @@ const onLoad = async () => {
   refreshData.value.listLoading = false
 }
 const handleQuery = async () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   const res = await listData()
   data.value = res.data.list
   refreshData.value.disabled = false
@@ -125,7 +124,7 @@ const goDetail = (product) => {
   })
 }
 const init = () => {
-  toast.loading({ msg: '加载中...' })
+  toast.loading()
   Promise.all([
     topTenKey()
       .then((res) => res)

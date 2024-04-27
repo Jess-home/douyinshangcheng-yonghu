@@ -14,7 +14,7 @@ import ListMenus from '@/components/ListMenus/index.vue'
 import useUserStore from '@/stores/modules/user.js'
 import { showConfirmDialog } from 'vant'
 import toast from '@/utils/toast.js'
-const { proxy }=getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const menus = ref([
   // {
   //   name: '忘记密码',
@@ -48,7 +48,9 @@ const handlerMenuClick = (menu) => {
 const handlerCancel = () => {
   showConfirmDialog({
     title: proxy.t('quit'),
-    message: proxy.t('isSureToQuit')
+    message: proxy.t('isSureToQuit'),
+    cancelButtonText: proxy.t('cancel'),
+    confirmButtonText: proxy.t('confirm')
   })
     .then(() => {
       toast.loading()
