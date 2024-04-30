@@ -465,15 +465,4 @@ export default [
       keepAlive: true
     }
   },
-  //  test
-  {
-    path: '/test',
-    name: 'Test',
-    component: () => import('@/views/Test/index.vue'),
-    meta: {
-      title: '测试',
-      requireAuth: false,
-      keepAlive: true
-    }
-  }
 ]

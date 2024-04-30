@@ -51,7 +51,7 @@
         </custom-input>
       </div>
       <div class="bottom">
-        <van-button round block color="#191919" native-type="submit"> 提交 </van-button>
+        <van-button round block color="#191919" native-type="submit"> {{ $t('submit') }} </van-button>
       </div>
     </van-form>
   </div>
@@ -60,7 +60,10 @@
 import { resetPaypwd } from '@/api/user.js'
 import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
+import { useRoute } from 'vue-router';
+import useUserStore from '@/stores/modules/user';
 const { proxy } = getCurrentInstance()
+const userStore=useUserStore()
 const form = ref({
   oldpassword: undefined,
   newpassword: undefined,
@@ -89,6 +92,7 @@ const newPwdValidator = (val) => {
     return proxy.t('placeholderNewPassword')
   }
 }
+const router=useRouter()
 const handlerSubmit = () => {
   toast.loading()
   const _data = {
@@ -104,6 +108,7 @@ const handlerSubmit = () => {
       form.value.is_verify = '0'
       //  设置用户已设置过支付密码
       userStore.userInfo.have_pay = 1
+      router.back()
     })
     .catch((err) => err)
 }

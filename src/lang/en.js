@@ -96,7 +96,7 @@ export default {
   delete: 'Delete',
   deleteSuccess: 'Delete Success',
   settingSuccess: 'Setting Success',
-  addToShopping: 'Add to Shopping Cart',
+  addToShopping: 'Add to Cart',
   createOrder: 'Create Order',
   orderStatus: 'Order Status',
   orderCreateSuccess: 'Order Create Success',

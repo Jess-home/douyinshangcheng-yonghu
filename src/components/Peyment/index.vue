@@ -42,7 +42,10 @@ const userStore = useUserStore()
 const balance = computed(() => {
   return formatNumberWithCommas(userStore.userInfo.money)
 })
-const payPwd = ref(undefined)
+const payPwd = ref('')
+const cleanPwd=()=>{
+  payPwd.value=''
+}
 const cards = ref([
   {
     value: `${proxy.t('balance')} `,
@@ -61,6 +64,9 @@ watch(payPwd, (val) => {
   if (val.length === 6) {
     emit('verify', payPwd.value)
   }
+})
+defineExpose({
+  cleanPwd
 })
 </script>
 <style lang="scss" scoped>

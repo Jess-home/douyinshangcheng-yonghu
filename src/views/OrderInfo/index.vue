@@ -98,7 +98,7 @@
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
-      <payment :pay-data="orderData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
+      <payment ref="paymentRef" :pay-data="orderData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
     </van-action-sheet>
   </div>
   <custom-floating-panel ref="floatingPanel" :title="$t('pleaseChooseShippingAddress')">
@@ -178,7 +178,7 @@ const allTotal = computed(() => {
 const floatingPanel = ref(null)
 const router = useRouter()
 const showActionSheet = ref(false)
-
+const paymentRef=ref(null)
 const handlerPay = () => {
   if (!userStore.userInfo.have_pay) {
     showConfirmDialog({
@@ -266,7 +266,9 @@ const verifyPwd = (pwd) => {
     .then((res) => {
       payAction()
     })
-    .catch((err) => err)
+    .catch((err) => {
+      paymentRef.value.cleanPwd()
+    })
 }
 const payAction = () => {
   toast.loading()
@@ -279,7 +281,7 @@ const payAction = () => {
       toast.success({ msg: proxy.t('paySuccess') })
     })
     .catch((err) => {
-      toast.err({ msg: proxy.t('payFail') })
+      paymentRef.value.cleanPwd()
     })
 }
 const route = useRoute()

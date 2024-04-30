@@ -54,7 +54,7 @@
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
-      <payment :pay-data="payData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
+      <payment ref="paymentRef" :pay-data="payData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
     </van-action-sheet>
   </div>
   <custom-floating-panel ref="floatingPanel" :title="$t('pleaseChooseShippingAddress')">
@@ -134,6 +134,7 @@ const chooseAddress = (item) => {
   floatingPanel.value.show = false
 }
 const showActionSheet = ref(false)
+const paymentRef=ref(null)
 const payData = ref({})
 const handlerSubmitOrder = () => {
   if (!orderData.value.address) {
@@ -190,7 +191,9 @@ const verifyPwd = (pwd) => {
     .then((res) => {
       payAction()
     })
-    .catch((err) => err)
+    .catch((err) => {
+      paymentRef.value.cleanPwd()
+    })
 }
 const payAction = () => {
   toast.loading()
@@ -203,8 +206,8 @@ const payAction = () => {
       router.back()
       toast.success({ msg: proxy.t('paySuccess') })
     })
-    .catch((err) => {
-      toast.fail({ msg: proxy.t('payFail') })
+    .catch(err=>{
+      paymentRef.value.cleanPwd()
     })
 }
 onMounted(() => {
