@@ -243,5 +243,6 @@ export default {
   pleaseUploadProof: 'กรุณาอัปโหลดหลักฐาน',
   applySuccess: 'ยื่นคำขอเรียบร้อยแล้ว',
   'refund(noReturn)': 'ขอคืนเงิน (ไม่ต้องคืนสินค้า)',
-  'refundAndReturn': 'ขอคืนเงินและคืนสินค้า'
+  'refundAndReturn': 'ขอคืนเงินและคืนสินค้า',
+  'saveSuccess' : 'บันทึกสำเร็จ',
 }

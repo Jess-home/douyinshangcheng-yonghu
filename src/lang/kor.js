@@ -244,5 +244,6 @@ export default {
     pleaseUploadProof: '증명을 업로드해주세요',
     applySuccess: '신청이 성공적으로 완료되었습니다',
     'refund(noReturn)': '환불 (반품 불필요)',
-    'refundAndReturn': '환불 및 반품'
+    'refundAndReturn': '환불 및 반품',
+    'saveSuccess' : '저장 성공',
 }

@@ -74,10 +74,10 @@ const form = ref({
 })
 const mobileValidator = (val) => {
   if (!val) {
-    return '请填写手机号'
+    return proxy.t('placeholderMobilePhone')
   } else {
     if (!regMobile(val)) {
-      return '请填写正确的手机号'
+      return proxy.t('pleasFillCorrectMobilePhoneNumber')
     }
     return true
   }
@@ -87,7 +87,7 @@ const handlerPut = () => {
   toast.loading()
   addAddress(form.value)
     .then((res) => {
-      toast.success({ msg: '保存成功' })
+      toast.success({ msg: proxy.t('saveSuccess') })
       router.back()
     })
     .catch((err) => err)

@@ -242,5 +242,6 @@ export default {
   pleaseUploadProof: 'Please upload proof',
   applySuccess: 'Application successful',
   'refund(noReturn)': 'Refund (no return)',
-  'refundAndReturn': 'Refund and return'
+  'refundAndReturn': 'Refund and return',
+  'saveSuccess' : 'Save successful',
 }

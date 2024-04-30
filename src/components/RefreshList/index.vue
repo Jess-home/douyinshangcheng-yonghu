@@ -5,7 +5,7 @@
       :finished="_data.finished"
       :disabled="_data.disabled"
       :loading-text="$t('refreshing')"
-      :finished-text="$t('noMone')"
+      :finished-text="$t('noMore')"
       :immediate-check="false"
       @load="loadList"
     >

@@ -244,5 +244,6 @@ export default {
     pleaseUploadProof: '証拠をアップロードしてください',
     applySuccess: '申請が成功しました',
     'refund(noReturn)': '返金（返品不要）',
-    'refundAndReturn': '返金と返品'
+    'refundAndReturn': '返金と返品',
+    'saveSuccess' : '保存に成功しました',
 }

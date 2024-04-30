@@ -245,4 +245,5 @@ export default {
   applySuccess:'申请成功',
   'refund(noReturn)' :'我要退款(无需退货)',
   'refundAndReturn' : '我要退款(退货)',
+  'saveSuccess' : '保存成功',
 }
