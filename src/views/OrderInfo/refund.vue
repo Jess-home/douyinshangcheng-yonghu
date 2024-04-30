@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <nav-bar title="申请退款" />
+    <nav-bar :title="$t('appDrawBack')" />
     <van-form @submit="handlerSubmit">
       <div class="content">
-        <custom-input label="订单号" readonly :value="form.sn" />
+        <custom-input :label="$t('orderNo')" readonly :value="form.sn" />
         <custom-input
-          label="退款类型"
+          :label="$t('refundType')"
           readonly
           :value="form.typeName"
           @click="showChooseType = true"
@@ -15,7 +15,7 @@
           </template>
         </custom-input>
         <custom-input
-          label="货物状态"
+          :label="$t('productStatus')"
           readonly
           :value="form.statusName"
           @click="showChooseStatus = true"
@@ -25,33 +25,33 @@
           </template>
         </custom-input>
         <custom-input
-          label="退款金额"
+          :label="$t('refundAmount')"
           required
-          placeholder="请输入退款金额"
+          :placeholder="$t('pleaseFillRefundAmount')"
           type="number"
           :value="form.amount"
           @blur="(val) => (form.amount = val)"
           :rules="[{ validator: amountValidator, trigger: 'onSubmit' }]"
         />
         <custom-input
-          label="原因"
+          :label="$t('reason')"
           required
-          placeholder="请输入原因"
+          :placeholder="$t('pleaseFillReason')"
           :value="form.reason_type"
           @blur="(val) => (form.reason_type = val)"
           type="textarea"
-          :rules="[{ required: true, message: '请输入原因', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('pleaseFillReason'), trigger: 'onSubmit' }]"
         />
         <custom-input
-          label="说明"
+          :label="$t('explain')"
           required
-          placeholder="请输入说明"
+          :placeholder="$t('pleaseFillExplain')"
           :value="form.refund_explain"
           @blur="(val) => (form.refund_explain = val)"
           type="textarea"
-          :rules="[{ required: true, message: '请输入说明', trigger: 'onSubmit' }]"
+          :rules="[{ required: true, message: $t('pleaseFillExplain'), trigger: 'onSubmit' }]"
         />
-        <div class="uploader-label">附件</div>
+        <div class="uploader-label">{{ $t('attachment') }}</div>
         <van-uploader
           ref="uploadRef"
           v-model="fileList"
@@ -62,7 +62,7 @@
         </van-uploader>
       </div>
       <div class="bottom">
-        <van-button block round color="#191919" native-type="submit"> 提交 </van-button>
+        <van-button block round color="#191919" native-type="submit">{{ $t('submit') }}</van-button>
       </div>
     </van-form>
     <van-action-sheet v-model:show="showChooseType" :actions="types" @select="handlerChooseType" />
@@ -78,14 +78,15 @@ import { refundOrder } from '@/api/order.js'
 import { uploadFile } from '@/api/common.js'
 import toast from '@/utils/toast.js'
 import CustomInput from '@/components/Input/index.vue'
+const {proxy}=getCurrentInstance()
 const form = ref({
   order_id: undefined,
   sn: undefined,
   amount: undefined,
   service_type: '0',
-  typeName: '我要退款(无需退货)',
+  typeName: proxy.t('refund(noReturn)'),
   receiving_status: '0',
-  statusName: '未收到',
+  statusName: proxy.t('notReceived'),
   reason_type: undefined,
   refund_explain: undefined,
   images: undefined,
@@ -93,10 +94,10 @@ const form = ref({
 })
 const amountValidator = (val) => {
   if (!val) {
-    return '请输入退款金额'
+    return proxy.t('pleaseFillRefundAmount')
   } else {
     if (val < 0) {
-      return '退款金额不能为负数'
+      return proxy.t('refundAmountCannotBeNagtiative')
     } else {
       return true
     }
@@ -104,8 +105,8 @@ const amountValidator = (val) => {
 }
 const showChooseType = ref(false)
 const types = ref([
-  { name: '我要退款(无需退货)', value: '0' },
-  { name: '我要退货退款', value: '1' }
+  { name: proxy.t('refund(noReturn)'), value: '0' },
+  { name: proxy.t('refundAndReturn'), value: '1' }
 ])
 const handlerChooseType = (item) => {
   showChooseType.value = false
@@ -114,8 +115,8 @@ const handlerChooseType = (item) => {
 }
 const showChooseStatus = ref(false)
 const statuses = ref([
-  { name: '未收到', value: '0' },
-  { name: '已收到', value: '1' }
+  { name: proxy.t('notReceived'), value: '0' },
+  { name: proxy.t('received'), value: '1' }
 ])
 const handlerChooseStatus = (item) => {
   showChooseStatus.value = false
@@ -125,12 +126,12 @@ const handlerChooseStatus = (item) => {
 const fileList = ref([])
 const urls = ref([])
 const afterRead = (file) => {
-  toast.loading({ msg: '上传中...' })
+  toast.loading()
   const formData = new FormData()
   formData.append('file', file.file)
   uploadFile(formData)
     .then((res) => {
-      toast.success({ msg: '上传成功' })
+      toast.success({ msg: proxy.t('uploadSuccess') })
       urls.value.push(res.data.fullurl)
     })
     .catch((err) => {})
@@ -143,14 +144,14 @@ const route = useRoute()
 const router = useRouter()
 const handlerSubmit = () => {
   if (!urls.value.length) {
-    toast.show({ msg: '请上传证明附件' })
+    toast.show({ msg: proxy.t('pleaseUploadProof') })
     return
   }
   toast.loading()
   form.value.images = urls.value.join(',')
   refundOrder(form.value)
     .then((res) => {
-      toast.success({ msg: '申请成功' })
+      toast.success({ msg: proxy.t('applySuccess') })
       router.back()
     })
     .catch((err) => err)

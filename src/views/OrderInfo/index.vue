@@ -218,11 +218,11 @@ const handlerConfirmReceived = () => {
 }
 const confirmRefund = () => {
   if (orderData.value.refund_status !== 0) {
-    toast.show({ msg: '您已经提交了退款申请' })
+    toast.show({ msg: proxy.t('youSubmittedRefund') })
     return
   }
   showConfirmDialog({
-    message: '是否确认申请退款?',
+    message: proxy.t('confirmToApplyRefund'),
     cancelButtonText: proxy.t('cancel'),
     confirmButtonText: proxy.t('confirm')
   })
@@ -276,10 +276,10 @@ const payAction = () => {
     .then((res) => {
       showActionSheet.value = false
       router.back()
-      toast.success({ msg: '支付成功' })
+      toast.success({ msg: proxy.t('paySuccess') })
     })
     .catch((err) => {
-      toast.err({ msg: '支付失败' })
+      toast.err({ msg: proxy.t('payFail') })
     })
 }
 const route = useRoute()
