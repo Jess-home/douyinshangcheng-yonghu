@@ -34,7 +34,7 @@
             class="class-item"
             @click.stop="handlerClassClick(item)"
           >
-            {{ $t(item['name_en']) }}
+            {{ $t(item['name_en']) || item['name_en'] }}
           </div>
         </van-space>
       </div>
