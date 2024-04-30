@@ -217,7 +217,7 @@ export default {
   'computer':'电脑',
   'electrical equipment':'电器',
   'outdoors':'户外',
-  'family life ': '居家',
+  'family life': '居家',
   'health': '健康',
   "Men's clothing" : '男装',
   "Women's clothing" : '女装',

@@ -26,22 +26,35 @@ const handlerLanguageChoose = async (language) => {
   if (language.file_name === lang.file_name) {
     return
   }
-  const [err, isLogin] = await to(userStore.isLogin())
-  if (isLogin) {
-    //  更改后端用户语言
-    const [err, res] = await to(
-      setDefaultLanguage({
-        lang_id: language.id,
-        lang: language.file_name
-      })
-    )
-    if (err) {
-      //  后端默认语言失败
-      toast.fail({ msg: err.msg })
-      show.value = false
-      return
-    }
+  //  更改后端用户语言
+  const [err, res] = await to(
+    setDefaultLanguage({
+      lang_id: language.id,
+      lang: language.file_name
+    })
+)
+  if (err) {
+    //  后端默认语言失败
+    toast.fail({ msg: err.msg })
+    show.value = false
+    return
   }
+  // const [err, isLogin] = await to(userStore.isLogin())
+  // if (isLogin) {
+  //   //  更改后端用户语言
+  //   const [err, res] = await to(
+  //     setDefaultLanguage({
+  //       lang_id: language.id,
+  //       lang: language.file_name
+  //     })
+  //   )
+  //   if (err) {
+  //     //  后端默认语言失败
+  //     toast.fail({ msg: err.msg })
+  //     show.value = false
+  //     return
+  //   }
+  // }
   //  更改store
   userStore.setLanguage(language)
   setDetault(language)

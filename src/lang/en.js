@@ -215,7 +215,7 @@ export default {
   'computer':'Computer',
   'electrical equipment':'Electrical Equipment',
   'outdoors':'Outdoors',
-  'family life ': 'Family Life',
+  'family life': 'Family Life',
   'health': 'health',
   "Men's clothing" : "Men's clothing",
   "Women's clothing" : "Women's clothing",
