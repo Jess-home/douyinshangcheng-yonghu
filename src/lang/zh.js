@@ -213,5 +213,15 @@ export default {
   loading: '加载中',
   refreshing: '刷新中',
   noMore: '没有更多了',
-  releaseToRefresh: '释放刷新'
+  releaseToRefresh: '释放刷新',
+  'computer':'电脑',
+  'electrical equipment':'电器',
+  'outdoors':'户外',
+  'family life ': '居家',
+  'health': '健康',
+  "Men's clothing" : '男装',
+  "Women's clothing" : '女装',
+  'food': '美食',
+  'mobile phone': '手机',
+  'Toys': '玩具',
 }

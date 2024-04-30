@@ -211,5 +211,15 @@ export default {
   loading: 'Loading',
   refreshing: 'Refreshing',
   noMore: 'No more',
-  releaseToRefresh: 'Release to refresh'
+  releaseToRefresh: 'Release to refresh',
+  'computer':'Computer',
+  'electrical equipment':'Electrical Equipment',
+  'outdoors':'Outdoors',
+  'family life ': 'Family Life',
+  'health': 'health',
+  "Men's clothing" : "Men's clothing",
+  "Women's clothing" : "Women's clothing",
+  'food': 'food',
+  'mobile phone': 'Mobile Phone',
+  'Toys': 'Toys',
 }
