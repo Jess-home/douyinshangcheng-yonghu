@@ -4,6 +4,9 @@ import { getLocalLang } from '@/utils/auth.js'
 //  引入需要的语言包
 import en from '@/lang/en.js'
 import zh from '@/lang/zh.js'
+import jap from '@/lang/jap.js'
+import kor from '@/lang/kor.js'
+import thai from '@/lang/thai.js'
 
 //  系统默认语言
 export const default_lang = {
@@ -21,7 +24,10 @@ const i18n = createI18n({
   silentTranslationWarn: true, // 设置为true 会屏蔽翻译在控制台报出的警告
   messages: {
     en: en,
-    'zh-CN': zh
+    'zh-CN': zh,
+    'ri':jap,
+    'han':kor,
+    'tai':thai
   }
 })
 

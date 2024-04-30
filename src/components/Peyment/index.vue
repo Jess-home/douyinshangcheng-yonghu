@@ -13,7 +13,7 @@
     <div class="card-container" v-for="(card, index) in cards" :key="'card-' + index">
       <div class="card-item">
         <icon-park :name="card.icon" size="1.5rem" />
-        <span class="card-value">{{ card.value }}</span>
+        <span class="card-value">{{ card.value }} $ {{ balance }}</span>
       </div>
     </div>
     <div class="card-container card-container-center">
@@ -27,6 +27,7 @@
 </template>
 <script setup>
 import useUserStore from '@/stores/modules/user.js'
+import { formatNumberWithCommas } from '@/utils/filter.js'
 const { proxy } = getCurrentInstance()
 defineProps({
   payData: {
@@ -38,10 +39,13 @@ defineProps({
   }
 })
 const userStore = useUserStore()
+const balance = computed(() => {
+  return formatNumberWithCommas(userStore.userInfo.money)
+})
 const payPwd = ref(undefined)
 const cards = ref([
   {
-    value: `${proxy.t('balance')} ($2.345,00)`,
+    value: `${proxy.t('balance')} `,
     icon: 'wallet-two'
   }
   // {

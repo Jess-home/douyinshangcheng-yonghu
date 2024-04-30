@@ -19,7 +19,7 @@
             :class="categorey?.category_id === item.category_id ? 'selected-tag' : ''"
             @click.stop="handlerCategoreyClick(item)"
           >
-            {{ item.name }}
+            {{ $t(item['name_en']) }}
           </div>
         </van-space>
       </div>

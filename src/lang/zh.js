@@ -167,6 +167,8 @@ export default {
   paymentevidence: '支付凭证',
   pleaseChooseChargeNetwork: '请选择充值网络',
   copied: '已复制',
+  copyFail:'复制失败',
+  notAllowCopy:'非https协议不支持该操作',
   pleaseChooseSameNetworkCoin: '请选择与提币平台一致的网络',
   notSupportDexBscHeco: '暂不支持通过去中心化交易所(DEX)、币安智能链(BSC)及火币 生态链(HECO)的充币',
   uploading: '上传中',

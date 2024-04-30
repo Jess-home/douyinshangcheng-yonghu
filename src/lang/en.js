@@ -165,6 +165,8 @@ export default {
   paymentevidence: 'Payment Evidence',
   pleaseChooseChargeNetwork: 'Please choose charge network',
   copied: 'Copied',
+  copyFail:'Copy Fail',
+  notAllowCopy:'This operation is not supported by non-HTTPS protocol',
   pleaseChooseSameNetworkCoin: 'Please choose the same network as the withdrawal platform',
   notSupportDexBscHeco: 'Not support DEX, BSC, and HECO for deposit',
   uploading: 'Uploading',

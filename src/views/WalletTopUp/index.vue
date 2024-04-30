@@ -143,8 +143,13 @@ const handlerCopy = async () => {
     toast.show({ msg: proxy.t('pleaseChooseChargeNetwork') })
     return
   }
-  await navigator.clipboard.writeText(form.value.blockchain)
-  toast.success({ msg: proxy.t('copied') })
+  try {
+    await navigator.clipboard.writeText(form.value.blockchain)
+    toast.success({ msg: proxy.t('copied') })
+  } catch (error) {
+    console.log(error)
+    toast.show({ msg: proxy.t('copyFail')+','+proxy.t('notAllowCopy') })
+  }
 }
 const getBlockchain = () => {
   toast.loading()

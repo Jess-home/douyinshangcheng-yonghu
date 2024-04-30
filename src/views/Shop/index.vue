@@ -32,7 +32,7 @@
             :key="item.category_id"
             @click.stop="handlerClassClick(item)"
           >
-            {{ item.name }}
+            {{ $t(item['name_en']) }}
           </div>
         </van-space>
       </div>
