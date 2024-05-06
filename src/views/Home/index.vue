@@ -1,10 +1,10 @@
 <template>
   <div class="container safari_only">
-    <div class="home-header">
+    <div class="home-header" @click.stop="handlerChooseLanguage">
       <van-image :src="tiktok" class="tiktok-img" />
-      <div class="header-imgs" @click.stop="handlerChooseLanguage">
-        <van-space size="0.2rem">
-          <icon-park name="translate" size="1.8rem" />
+      <div class="header-imgs">
+        <van-space size="0.4rem">
+          {{ $t('language') }}
           <icon-park name="earth" size="1.8rem" />
         </van-space>
       </div>

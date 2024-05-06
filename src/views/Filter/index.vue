@@ -8,7 +8,17 @@
     <div class="content">
       <div class="user-info">
         <div class="user-avatar">
-          <van-image :src="userInfo.avatar || Avatar" round width="4rem" />
+          <van-image 
+            :src="userInfo.avatar || Avatar"
+             round width="4rem" 
+             @click="handlerChooseAvatar"
+          />
+          <van-uploader 
+            v-show="uploadShow"
+            ref="uploaderRef"
+            v-model="fileList"
+            :after-read="afterRead"
+          />
           <div class="user-tips">
             {{ userInfo.username }}
             <div class="welcome">
@@ -74,8 +84,35 @@ import { formatNumberWithCommas } from '@/utils/filter.js'
 import ListMenus from '@/components/ListMenus/index.vue'
 import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 import useUserStore from '@/stores/modules/user.js'
+import toast from '@/utils/toast.js'
+import to from 'await-to-js'
+import { uploadFile } from '@/api/common.js'
+import { profile } from '@/api/user.js'
 const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
+const fileList=ref([])
+const uploadShow=ref(false)
+const uploaderRef=ref(null)
+const handlerChooseAvatar=()=>{
+  uploaderRef.value.chooseFile()
+}
+const afterRead=async(file)=>{
+  toast.loading()
+  const formData = new FormData()
+  formData.append('file', file.file)
+  const [err1, res1] = await to(uploadFile(formData))
+  if(err1){
+    toast.fail({ msg: err1.msg })
+    return
+  }
+  const [err2,res2]=await to(profile({ avatar: res1.data.fullurl }))
+  if(err2){
+    toast.fail({ msg: err2.msg })
+    return
+  }
+  toast.success({msg:res2.msg})
+  location.reload()
+}
 const userInfo = computed(() => {
   return userStore.userInfo || {}
 })
@@ -184,7 +221,6 @@ const handlerMenuClick = (menu) => {
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');
-
 .container {
   padding: 0;
   overflow-y: hidden;
