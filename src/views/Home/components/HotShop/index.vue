@@ -2,7 +2,7 @@
   <div class="hot-shop-container">
     <div class="hot-shop-info">
       <div class="shop-info-left">
-        <van-image round width="3.8rem" height="auto" :src="shop.mer_avatar" />
+        <van-image round width="3.6rem" height="3.6rem" :src="shop.mer_avatar" />
         <div class="show-info-name">
           {{ shop.mer_name }}
           <div class="show-info-fans">{{ shop.follow_count }}&nbsp;{{ $t('fans') }}</div>

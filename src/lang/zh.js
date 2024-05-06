@@ -51,6 +51,7 @@ export default {
   myOrders: '我的订单',
   fundRecord: '资金记录',
   partnership: '伙伴关系',
+  merchantIn:'商家入驻',
   platformName: '跨境电商',
   serviceLink: '客服链接',
   platformSell: '平台卖家端',

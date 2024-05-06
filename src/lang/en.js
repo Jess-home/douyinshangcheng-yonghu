@@ -50,6 +50,7 @@ export default {
   myOrders: 'My Orders',
   fundRecord: 'Fund Record',
   partnership: 'Partnership',
+  merchantIn:'Merchant Entry',
   platformName: 'Cross-border E-commerce',
   serviceLink: 'Service Link',
   platformSell: 'Platform Seller',

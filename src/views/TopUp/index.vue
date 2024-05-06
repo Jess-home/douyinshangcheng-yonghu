@@ -15,11 +15,13 @@ const goRecord = () => {
 }
 </script>
 <template>
-  <NavBar :title="$t('recharge')">
+  <nav-bar :title="$t('recharge')">
     <template #right>
-      <div @click="goRecord" style="padding-right: 1rem; font-size: 1.2rem">{{ $t('record') }}</div>
+      <div @click="goRecord" style="font-size: 1.2rem; padding-right: 1rem;">
+        {{ $t('record') }}
+      </div>
     </template>
-  </NavBar>
+  </nav-bar>
   <main class="mx-3">
     <div class="flex justify-center items-center mt-10">
       <img alt="" class="w-3/4" src="@/assets/icons/yan.png" />

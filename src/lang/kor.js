@@ -51,6 +51,7 @@ export default {
     myOrders: '내 주문',
     fundRecord: '자금 기록',
     partnership: '파트너십',
+    merchantIn:'상인 입점',
     platformName: '국제 전자 상거래',
     serviceLink: '고객 지원 링크',
     platformSell: '플랫폼 판매자',

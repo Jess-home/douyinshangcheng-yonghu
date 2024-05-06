@@ -198,6 +198,7 @@
             v-for="item in recommends"
             :key="item.name"
             :product="item"
+            @click.stop="handlerRecomendDetail(item)"
           />
         </div>
         <van-empty v-else style="padding: 0" image-size="6rem" :description="$t('noRecord')" />
@@ -369,7 +370,11 @@ const payInfo = ref({
 })
 const showActionSheet = ref(false)
 const payPwd = ref(undefined)
-
+const handlerRecomendDetail=item=>{
+  router.push({
+    path: `/detail/${item.product_id}/${item.mer_id}`
+  })
+}
 const handlerAddCart = () => {
   userStore
     .isLogin()
@@ -421,7 +426,7 @@ const showPay = () => {
   showActionSheet.value = true
 }
 const route = useRoute()
-onMounted(() => {
+const query=()=>{
   toast.loading()
   const _params = route.params
   getProductDetail({
@@ -443,9 +448,20 @@ onMounted(() => {
       }
     })
     .finally(() => {
+      if(productRef.value&&selected.value!=='product'){
+        productRef.value.scrollIntoView({ behavior: 'smooth' })
+      }
       toast.close()
     })
-})
+}
+watch(
+  ()=>route.params.product,
+  query,
+  {
+    immediate: false
+  }
+)
+onMounted(query)
 </script>
 <style lang="scss" scoped>
 @import url('@/assets/style/main.scss');

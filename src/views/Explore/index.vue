@@ -57,7 +57,7 @@
             />
           </van-space>
         </div>
-        <van-empty v-else :description="$t('noProduct')"> </van-empty>
+        <van-empty v-else :description="$t('noProducts')"> </van-empty>
       </div>
     </div>
   </div>

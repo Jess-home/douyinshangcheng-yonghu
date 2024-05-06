@@ -51,6 +51,7 @@ export default {
     myOrders: '私の注文',
     fundRecord: '資金記録',
     partnership: 'パートナーシップ',
+    merchantIn:'店舗入店',
     platformName: 'クロスボーダーコマース',
     serviceLink: 'サービスリンク',
     platformSell: 'プラットフォームセラー',

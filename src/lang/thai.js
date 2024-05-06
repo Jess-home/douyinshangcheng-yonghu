@@ -50,6 +50,7 @@ export default {
     myOrders: 'คำสั่งซื้อของฉัน',
     fundRecord: 'บันทึกเงินทุน',
     partnership: 'พันธมิตร',
+    merchantIn:'การเข้าร่วมการค้าของผู้ประกอบการ',
     platformName: 'การค้าข้ามประเทศ',
     serviceLink: 'ลิงก์บริการ',
     platformSell: 'ผู้ขายบนแพลตฟอร์ม',

@@ -54,9 +54,9 @@
           </div>
         </div>
       </div>
-      <div class="user-board">
+      <!-- <div class="user-board">
         <van-image :src="PersonCenterBoard" widht="100%" />
-      </div>
+      </div> -->
       <div class="user-menus">
         <list-menus :menus="menus1" @click="handlerMenuClick" />
         <div style="height: 0.5rem" />
@@ -70,13 +70,11 @@
 <script name="Filter" setup>
 import NavBar from '@/components/CustomNavBar/index.vue'
 import Avatar from '@/assets/image/avatar.png'
-import PersonCenterBoard from '@/assets/image/person-center-board.png'
 import { formatNumberWithCommas } from '@/utils/filter.js'
 import ListMenus from '@/components/ListMenus/index.vue'
 import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 import useUserStore from '@/stores/modules/user.js'
 const { proxy } = getCurrentInstance()
-import toast from '@/utils/toast.js'
 const userStore = useUserStore()
 const userInfo = computed(() => {
   return userStore.userInfo || {}
@@ -125,7 +123,7 @@ const menus1 = ref([
   //   routeName: 'MyFavourite'
   // },
   {
-    name: proxy.t('partnership'),
+    name: proxy.t('merchantIn'),
     iconName: 'chart-graph',
     routeName: 'Platform'
   },
@@ -309,7 +307,7 @@ const handlerMenuClick = (menu) => {
     }
 
     .user-menus {
-      padding-top: 0.2rem;
+      padding-top: 0.5rem;
 
       ::v-deep(.menu-container) {
         padding: 0.8rem 0;
