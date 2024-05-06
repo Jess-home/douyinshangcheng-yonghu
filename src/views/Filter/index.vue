@@ -10,7 +10,7 @@
         <div class="user-avatar">
           <van-image 
             :src="userInfo.avatar || Avatar"
-             round width="4rem" 
+             round width="3.8rem" height="3.8rem"
              @click="handlerChooseAvatar"
           />
           <van-uploader 
