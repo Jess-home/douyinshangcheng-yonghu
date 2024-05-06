@@ -82,7 +82,7 @@ import AppHeader from '@/components/CustomNavBar/index.vue'
 import CustomInput from '@/components/Input/index.vue'
 import toast from '@/utils/toast.js'
 import { resetpwd } from '@/api/user.js'
-import { regMobile } from '@/utils/regExp.js'
+// import { regMobile } from '@/utils/regExp.js'
 import useUserStore from '@/stores/modules/user.js'
 const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
@@ -99,9 +99,9 @@ const mobileValidator = (val) => {
   if (!val) {
     return proxy.t('')
   } else {
-    if (!regMobile(val)) {
-      return proxy.t('pleasFillCorrectMobilePhoneNumber')
-    }
+    // if (!regMobile(val)) {
+    //   return proxy.t('pleasFillCorrectMobilePhoneNumber')
+    // }
     return true
   }
 }

@@ -59,7 +59,7 @@
 import CustomInput from '@/components/Input/index.vue'
 import { addAddress, getAddressInfo } from '@/api/user.js'
 import toast from '@/utils/toast.js'
-import { regMobile } from '@/utils/regExp.js'
+// import { regMobile } from '@/utils/regExp.js'
 const { proxy } = getCurrentInstance()
 const form = ref({
   name: undefined,
@@ -76,9 +76,9 @@ const mobileValidator = (val) => {
   if (!val) {
     return proxy.t('placeholderMobilePhone')
   } else {
-    if (!regMobile(val)) {
-      return proxy.t('pleasFillCorrectMobilePhoneNumber')
-    }
+    // if (!regMobile(val)) {
+    //   return proxy.t('pleasFillCorrectMobilePhoneNumber')
+    // }
     return true
   }
 }
