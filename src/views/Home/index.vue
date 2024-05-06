@@ -1,8 +1,8 @@
 <template>
   <div class="container safari_only">
-    <div class="home-header" @click.stop="handlerChooseLanguage">
+    <div class="home-header">
       <van-image :src="tiktok" class="tiktok-img" />
-      <div class="header-imgs">
+      <div class="header-imgs" @click.stop="handlerChooseLanguage">
         <van-space size="0.4rem">
           {{ $t('language') }}
           <icon-park name="earth" size="1.8rem" />

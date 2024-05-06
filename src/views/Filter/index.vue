@@ -10,7 +10,7 @@
         <div class="user-avatar">
           <van-image 
             :src="userInfo.avatar || Avatar"
-             round width="3.8rem" height="3.8rem"
+             round width="4rem" height="4rem"
              @click="handlerChooseAvatar"
           />
           <van-uploader 
@@ -111,7 +111,8 @@ const afterRead=async(file)=>{
     return
   }
   toast.success({msg:res2.msg})
-  location.reload()
+  userStore.userInfo.avatar=res1.data.fullurl
+  // location.reload()
 }
 const userInfo = computed(() => {
   return userStore.userInfo || {}
