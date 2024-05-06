@@ -246,4 +246,13 @@ export default {
   'refund(noReturn)': 'ขอคืนเงิน (ไม่ต้องคืนสินค้า)',
   'refundAndReturn': 'ขอคืนเงินและคืนสินค้า',
   'saveSuccess' : 'บันทึกสำเร็จ',
+  comment: 'รีวิว',
+  commented: 'รีวิวแล้ว',
+  addComment: 'เพิ่มรีวิว',
+  youCommented: 'คุณทำการรีวิวแล้ว',
+  productScore: 'คะแนนสินค้า',
+  serviceScore: 'คะแนนบริการ',
+  postageScore: 'คะแนนการส่งสินค้า',
+  pics: 'รูป',
+  commentNotNull: 'เนื้อหาของรีวิวต้องไม่ว่างเปล่า',
 }

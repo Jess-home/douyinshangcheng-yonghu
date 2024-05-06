@@ -72,6 +72,17 @@ export default [
       keepAlive: true
     }
   },
+  {
+    path: '/comment',
+    name: 'Comment',
+    component: () => import('@/views/comment/index.vue'),
+    meta: {
+      title: 'comment',
+      lang:'addComment',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
   //  退款申请
   {
     path: '/refund/:id?/:sn?/:product_ids?/:amount?',

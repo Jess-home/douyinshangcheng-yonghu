@@ -4,7 +4,7 @@
       <van-image :src="tiktok" class="tiktok-img" />
       <div class="header-imgs" @click.stop="handlerChooseLanguage">
         <van-space size="0.4rem">
-          {{ $t('language') }}
+          {{ language }}
           <icon-park name="earth" size="1.8rem" />
         </van-space>
       </div>
@@ -58,7 +58,7 @@
         </van-swipe>
         <van-empty v-else :description="$t('noProducts')"> </van-empty>
       </div>
-      <div class="hot-product hot-shop">
+      <!-- <div class="hot-product hot-shop">
         <div class="hot-product-title">
           <div class="title-icon">HOT</div>
           <div class="title-words">{{ $t('hotShop') }}</div>
@@ -78,8 +78,23 @@
             </div>
           </van-swipe-item>
         </van-swipe>
+      </div> -->
+      <div class="hot-product hot-shop">
+        <div class="hot-product-title">
+          <div class="title-icon">RECOMEND</div>
+          <div class="title-words">{{ $t('recommend') }}</div>
+        </div>
+        <van-space style="margin-top: 0.5rem;" direction="vertical" size="0.5rem">
+          <product-horiz-card 
+            v-for="(item, index) in recommends"
+            :key="index+'recommend'"
+            :product="item"
+            @click="goDetail(item)"
+          />
+        </van-space>
       </div>
     </div>
+    <van-back-top right="5vw" bottom="7vh" />
   </div>
   <choose-language ref="chooseLanguage" />
   <AppTabbar />
@@ -89,14 +104,18 @@ import tiktok from '@/assets/image/titok-wholesale.png'
 import CustomInput from '@/components/Input/index.vue'
 import homeBoard from '@/assets/image/home-board.png'
 import ProductCard from '@/components/ProductCard/index.vue'
-import HotShop from './components/HotShop/index.vue'
+import ProductHorizCard from '@/components/ProductCard/horiz.vue'
+// import HotShop from './components/HotShop/index.vue'
 import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
-import { banner, product, hotShop } from '@/api/home.js'
+import { banner, product } from '@/api/home.js'
+import { search  } from '@/api/product.js'
 import { splitArray } from '@/utils/tool.js'
 import toast from '@/utils/toast.js'
 import useBasicData from '@/stores/modules/basicData.js'
+import useUserStore from '@/stores/modules/user.js'
 import AppTabbar from '@/components/AppTabbar/index.vue'
 const basicData = useBasicData()
+const userStore = useUserStore()
 // language
 const chooseLanguage = ref(null)
 const handlerChooseLanguage = () => {
@@ -107,7 +126,8 @@ const swipeImgs = ref([homeBoard, homeBoard])
 const categories = ref([])
 const selectedClass = ref({})
 const hotProducts = ref([])
-const hotShops = ref([])
+// const hotShops = ref([])
+const recommends = ref([])
 const router = useRouter()
 const goSearch = () => {
   router.push({ name: 'Search' })
@@ -133,6 +153,9 @@ const goDetail = (product) => {
     path: `/detail/${product.product_id}/${product.mer_id}`
   })
 }
+const language = computed(() => {
+  return userStore.getLanguageName()
+})
 onMounted(async () => {
   toast.loading()
   const responses1 = await Promise.all([
@@ -155,12 +178,17 @@ onMounted(async () => {
     })
       .then((res) => res)
       .catch((err) => err),
-    hotShop()
-      .then((res) => res)
-      .catch((err) => err)
+    search({
+      page: 1,
+      limit: 100,
+    }).then(res=>res).catch(err=>err)
+    // hotShop()
+    //   .then((res) => res)
+    //   .catch((err) => err)
   ])
   hotProducts.value = splitArray(responses2[0].data.list, 4)
-  hotShops.value = [responses2[1].data.list, responses2[1].data.list]
+  // hotShops.value = [responses2[1].data.list, responses2[1].data.list]
+  recommends.value = responses2[1].data.list
   toast.close()
 })
 </script>

@@ -1,7 +1,9 @@
 <template>
   <div class="list-menus-container">
-    <menu-item v-for="item in menus" :key="item.name" :menu="item" @click="hanlderClick(item)" />
-    <!-- <div v-for="item in menus" :key="item.name">{{ item.name }}</div> -->
+    <menu-item 
+      v-for="item in menus" :key="item.name" 
+      :menu="item" @click="hanlderClick(item)" 
+    />
   </div>
 </template>
 <script setup>

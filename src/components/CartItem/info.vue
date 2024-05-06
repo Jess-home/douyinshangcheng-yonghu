@@ -12,7 +12,15 @@
         <div class="spec">{{ product.spec || $t('noSpec') }}</div>
       </div>
       <div class="number">数量: &nbsp;{{ product.product_num }}</div>
-      <div class="total">总计: &nbsp;${{ product.total_price }}</div>
+      <div class="last-row">
+        <div>总计: &nbsp;${{ product.total_price }}</div>
+        <van-button 
+          size="small" color="#191919" round
+          @click.stop="handlerAddComment"
+        >
+          {{ $t(product.is_reply?'commented':'comment') }}
+        </van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +31,13 @@ const props = defineProps({
     required: true
   }
 })
+const emit=defineEmits(['addComment'])
+const handlerAddComment=()=>{
+  if(props.product.is_reply){
+    return
+  }
+  emit('addComment',props.product)
+}
 </script>
 <style lang="scss" scoped>
 .cart-item-container {
@@ -73,8 +88,12 @@ const props = defineProps({
       justify-content: space-between;
       align-items: center;
     }
-    .total {
+    .last-row{
       padding-top: 0.8rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 }

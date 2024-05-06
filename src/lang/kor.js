@@ -247,4 +247,13 @@ export default {
     'refund(noReturn)': '환불 (반품 불필요)',
     'refundAndReturn': '환불 및 반품',
     'saveSuccess' : '저장 성공',
+    comment: '평가',
+    commented: '평가 완료',
+    addComment: '평가 추가',
+    youCommented: '평가를 완료했습니다',
+    productScore: '제품 평점',
+    serviceScore: '서비스 평점',
+    postageScore: '배송 평점',
+    pics: '사진',
+    commentNotNull: '평가 내용은 비워둘 수 없습니다',
 }

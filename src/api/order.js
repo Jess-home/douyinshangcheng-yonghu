@@ -77,3 +77,12 @@ export function refundOrder(data) {
     data: data
   })
 }
+
+
+export function comment(data) {
+  return serivce.request({
+    url: '/api/order/comment',
+    method: 'post',
+    data: data
+  })
+}

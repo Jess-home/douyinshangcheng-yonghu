@@ -247,4 +247,13 @@ export default {
     'refund(noReturn)': '返金（返品不要）',
     'refundAndReturn': '返金と返品',
     'saveSuccess' : '保存に成功しました',
+    comment: 'レビュー',
+    commented: 'レビュー済み',
+    addComment: 'レビューを追加',
+    youCommented: 'レビューを行いました',
+    productScore: '商品評価',
+    serviceScore: 'サービス評価',
+    postageScore: '送料評価',
+    pics: '写真',
+    commentNotNull: 'レビュー内容は空にできません',
 }

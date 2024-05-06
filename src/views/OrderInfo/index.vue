@@ -23,6 +23,7 @@
           v-for="(item, index) in orderData.products"
           :key="index + 'product'"
           :product="item"
+          @add-comment="handlerComment"
         >
         </cart-item>
       </div>
@@ -131,7 +132,7 @@ const buttons = ref([
   { name: proxy.t('payNow'), statuses: ['0'], value: 'pay', color: '#191919' },
   { name: proxy.t('cancel'), statuses: ['0'], value: 'cancel', type: 'default' },
   { name: proxy.t('confirmReceived'), statuses: ['2'], value: 'confirmReceived', type: 'success' },
-  { name: proxy.t('appDrawBack'), statuses: ['1', '2', '3', '4'], value: 'refund', type: 'danger' }
+  { name: proxy.t('appDrawBack'), statuses: ['1', '2', '3', '4'], value: 'refund', type: 'danger' },
 ])
 const _buttons = computed(() => {
   return buttons.value.filter((item) => {
@@ -139,7 +140,6 @@ const _buttons = computed(() => {
   })
 })
 const handlerDeal = (type) => {
-  console.log(type)
   switch (type) {
     case 'pay': // 付款
       handlerPay()
@@ -239,6 +239,17 @@ const confirmRefund = () => {
       })
     })
     .catch(() => {})
+}
+const handlerComment=item=>{
+  router.push(
+    { 
+      name: 'Comment', 
+      query:{data: JSON.stringify({
+        order_id:orderData.value.order_id,
+        good:item
+      }) }
+    }
+  )
 }
 const cancel = () => {
   toast.loading()

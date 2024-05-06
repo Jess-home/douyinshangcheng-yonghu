@@ -108,11 +108,11 @@
         <div class="comment-title">
           {{ $t('userEvlauate') }}&nbsp;（{{ detail.reply_list?.length }}）
         </div>
-        <van-space v-if="detail.reply_list?.length" direction="vertical" size="0.5rem">
+        <van-space fill v-if="detail.reply_list?.length" direction="vertical" size="0.5rem">
           <div class="comment-card" v-for="item in detail.reply_list">
             <div class="comment-user">
               <van-image width="2rem" :src="item.avatar" round />
-              <span style="padding-left: 0.5rem">{{ item.nicknam }}</span>
+              <span style="padding-left: 0.5rem">{{ item.nickname }}</span>
             </div>
             <div class="comment-satisfaction">
               <van-rate
@@ -125,7 +125,7 @@
               <span style="padding-left: 0.5rem">{{ $t('orderCompleted') }}</span>
             </div>
             <div class="words-rows">
-              {{ tiem.comment }}
+              {{ item.comment }}
             </div>
             <div class="comment-pics">
               <van-space size="1rem">
@@ -134,7 +134,7 @@
                   v-for="(item1, index) in item.pics"
                   :key="index + 'comment-pic'"
                 >
-                  <van-image width="100%" height="auto" :src="item1" />
+                  <van-image width="6rem" height="6rem" :src="item1" />
                 </div>
               </van-space>
             </div>
@@ -440,6 +440,14 @@ const query=()=>{
       if (res.data.goods?.content) {
         desc.value = res.data.goods.content.replace('/\/g', '')
       }
+      if(res.data.reply_list.length){
+        detail.value.reply_list=res.data.reply_list.map(item=>{
+          item.pics=item.pics.split(',').map(pic=>{
+            return pic.replace('/\/g', '')
+          })
+          return item
+        })
+      }
       //  有规格的话
       if (detail.value.goods?.specList.length) {
         spec.value = detail.value.goods?.specList.map((item) => {
@@ -586,7 +594,7 @@ onMounted(query)
     .comment {
       // padding-bottom: 0.5rem;
       .comment-title {
-        // padding-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
         font-weight: 400;
         font-size: 1rem;
         color: #191919;

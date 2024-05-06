@@ -245,4 +245,13 @@ export default {
   'refund(noReturn)': 'Refund (no return)',
   'refundAndReturn': 'Refund and return',
   'saveSuccess' : 'Save successful',
+  comment: 'Review',
+  commented: 'Reviewed',
+  addComment: 'Add Review',
+  youCommented: "You've Reviewed",
+  productScore: 'Product Rating',
+  serviceScore: 'Service Rating',
+  postageScore: 'Shipping Rating',
+  pics: 'Pictures',
+  commentNotNull: 'Review content cannot be empty', 
 }

@@ -2,7 +2,7 @@
   <div class="menu-container">
     <div class="menu-side">
       <icon-park :name="menu.iconName" class="ml-2" size="1.8rem" style="padding-right: 0.8rem" />
-      {{ menu.name }}
+      {{ $t(menu.name) }}
     </div>
     <div class="menu-side">
       <span style="padding-right: 0.8rem">{{ menu.rightName }}</span>

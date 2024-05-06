@@ -146,12 +146,14 @@ const balance = computed(() => {
 })
 const menus1 = ref([
   {
-    name: proxy.t('myOrders'),
+    // name: proxy.t('myOrders'),
+    name:'myOrders',
     iconName: 'order',
     routeName: 'MyPurchases'
   },
   {
-    name: proxy.t('fundRecord'),
+    // name: proxy.t('fundRecord'),
+    name:'fundRecord',
     iconName: 'funds',
     routeName: 'CapitalRecord'
   },
@@ -161,17 +163,20 @@ const menus1 = ref([
   //   routeName: 'MyFavourite'
   // },
   {
-    name: proxy.t('merchantIn'),
+    // name: proxy.t('merchantIn'),
+    name:'merchantIn',
     iconName: 'chart-graph',
     routeName: 'Platform'
   },
   {
-    name: proxy.t('helpAndSupport'),
+    // name: proxy.t('helpAndSupport'),
+    name:'helpAndSupport',
     iconName: 'help',
     routeName: 'HelpAndSupport'
   },
   {
-    name: proxy.t('lawAndPolicy'),
+    // name: proxy.t('lawAndPolicy'),
+    name:'lawAndPolicy',
     iconName: 'shield',
     routeName: 'Law'
   }
@@ -179,19 +184,22 @@ const menus1 = ref([
 const menus2 = ref([
   {
     type: 'language',
-    name: proxy.t('language'),
+    // name: proxy.t('language'),
+    name:'language',
     iconName: 'earth',
     // routeName: 'Language',
     rightName: language
   },
   {
     type: 'language',
-    name: proxy.t('shippingAddress'),
+    // name: proxy.t('shippingAddress'),
+    name:'shippingAddress',
     iconName: 'local',
     routeName: 'Address'
   },
   {
-    name: proxy.t('setting'),
+    // name: proxy.t('setting'),
+    name:'setting',
     iconName: 'setting-two',
     routeName: 'Setting'
   }

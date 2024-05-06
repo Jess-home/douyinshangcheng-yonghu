@@ -19,11 +19,13 @@ import { setDefaultLanguage } from '@/api/user.js'
 import toast from '@/utils/toast.js'
 const userStore = useUserStore()
 const basicData = useBasicData()
-const lang = userStore.setting.lang
+const lang = computed(() => {
+  return userStore.setting.lang
+})
 const show = ref(false)
 const languages = ref([])
 const handlerLanguageChoose = async (language) => {
-  if (language.file_name === lang.file_name) {
+  if (language.file_name === lang.value.file_name) {
     return
   }
   //  更改后端用户语言
@@ -83,7 +85,7 @@ const _getLanguages = () => {
       //  如果本地存储了语言,则默认语言以本地为准
       if (lang) {
         languages.value.forEach((item) => {
-          if (item.file_name === lang.file_name) {
+          if (item.file_name === lang.value.file_name) {
             item.is_default = 1
           } else {
             item.is_default = 0
