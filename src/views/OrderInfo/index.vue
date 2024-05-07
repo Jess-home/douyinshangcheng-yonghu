@@ -44,15 +44,22 @@
       <div class="content-item">
         <list-tile :title="$t('orderStatus')" :arrow="false" :value="status" />
       </div>
-      <div class="delivery content-item">
-        {{ hasDeliveryInfo ? $t('logisticsInformation') : $t('noLogisticsInformation') }}
-        <list-tile
-          v-for="item in orderData.delivery"
-          :key="item"
-          :title="$t('freight')"
-          :arrow="false"
-          :value="orderData.delivery"
-        />
+      <div class="content-item delivery">
+        <div class="delivery-title">
+          {{ hasDeliveryInfo ? $t('logisticsInformation') : $t('noLogisticsInformation') }}
+          <div>
+            {{ _deliveries.length ? _deliveries[0]['delivery_no']:'' }}
+          </div>
+        </div>
+        <van-steps v-if="_deliveries.length" direction="vertical" active-color="#191919" :active="0">
+          <van-step
+            v-for="item in _deliveries"
+            :key="item.id"
+          >
+            <h3>{{ item.mark }}</h3>
+            <p>{{ item.updatetime }}</p>
+          </van-step>
+        </van-steps>
       </div>
     </div>
     <div class="bottom">
@@ -124,7 +131,9 @@ import { order_statuses } from '@/utils/constants.js'
 import useUserStore from '@/stores/modules/user.js'
 const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
-const orderData = ref({})
+const orderData = ref({
+})
+const _deliveries=ref([])
 const status = computed(() => {
   const _status = order_statuses.find((item) => item.value === orderData.value.status + '')
   return _status?.name
@@ -302,6 +311,7 @@ onMounted(() => {
   detail({ order_id: route.params.id })
     .then((res) => {
       orderData.value = res.data
+      _deliveries.value=res.data.delivery
     })
     .catch((err) => err)
     .finally(() => {
@@ -352,6 +362,13 @@ onMounted(() => {
     }
     .delivery {
       padding-top: 1rem;
+      .delivery-title{
+        padding-bottom: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   }
   .bottom {

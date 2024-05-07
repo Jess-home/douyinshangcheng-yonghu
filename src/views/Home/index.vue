@@ -133,6 +133,9 @@ const goSearch = () => {
   router.push({ name: 'Search' })
 }
 const handlerClassClick = (item) => {
+  if(item===selectedClass.value){
+    return
+  }
   toast.loading()
   product({
     category_id: item.category_id,

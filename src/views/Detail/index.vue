@@ -463,7 +463,7 @@ const query=()=>{
     })
 }
 watch(
-  ()=>route.params.product,
+  ()=>route.params.product, 
   query,
   {
     immediate: false

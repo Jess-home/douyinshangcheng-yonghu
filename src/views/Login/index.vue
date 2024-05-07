@@ -6,7 +6,10 @@
           <icon-park name="left" size="1.6rem" />
           &nbsp; {{ $t('backToHome') }}
         </div>
-        <icon-park @click="handlerChangeLanguage" name="earth" size="1.6rem" />
+        <van-space size="0.25rem">
+          {{ language }}
+          <icon-park @click="handlerChangeLanguage" name="earth" size="1.6rem" />
+        </van-space>
       </div>
       <div class="welcome">{{ $t('welcomeToShop') }}</div>
       <div class="login-type">
@@ -79,6 +82,9 @@ import ChooseLanguage from '@/components/ChooseLanguage/index.vue'
 // import { register } from '@/api/user.js'
 const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
+const language = computed(() => {
+  return userStore.getLanguageName()
+})
 const router = useRouter()
 const form = ref({
   account: undefined,
