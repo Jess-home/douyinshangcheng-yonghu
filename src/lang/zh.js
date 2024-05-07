@@ -64,6 +64,7 @@ export default {
   setting: '设置',
   product: '商品',
   allProducts: '全部商品',
+  evaluate: '评论',
   comment:'评价',
   commented:'已评价',
   addComment: '添加评价',

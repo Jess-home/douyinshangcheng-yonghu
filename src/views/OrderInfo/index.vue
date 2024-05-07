@@ -23,6 +23,7 @@
           v-for="(item, index) in orderData.products"
           :key="index + 'product'"
           :product="item"
+          :comment="orderData.status===3||orderData.status===4"
           @add-comment="handlerComment"
         >
         </cart-item>
@@ -297,7 +298,6 @@ const payAction = () => {
 }
 const route = useRoute()
 onMounted(() => {
-  console.log(route.params)
   toast.loading()
   detail({ order_id: route.params.id })
     .then((res) => {

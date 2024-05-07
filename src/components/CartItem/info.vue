@@ -15,6 +15,7 @@
       <div class="last-row">
         <div>总计: &nbsp;${{ product.total_price }}</div>
         <van-button 
+          v-if="comment"
           size="small" color="#191919" round
           @click.stop="handlerAddComment"
         >
@@ -29,6 +30,11 @@ const props = defineProps({
   product: {
     type: Object,
     required: true
+  },
+  comment:{
+    type:Boolean,
+    required:false,
+    default:false
   }
 })
 const emit=defineEmits(['addComment'])
