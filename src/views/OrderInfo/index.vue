@@ -51,7 +51,10 @@
             {{ _deliveries.length ? _deliveries[0]['delivery_no']:'' }}
           </div>
         </div>
-        <van-steps v-if="_deliveries.length" direction="vertical" active-color="#191919" :active="0">
+        <van-steps 
+          v-if="_deliveries.length" direction="vertical" 
+          active-color="#191919" :active="0"
+        >
           <van-step
             v-for="item in _deliveries"
             :key="item.id"
@@ -67,29 +70,6 @@
         {{ $t('total') }}：
         <div class="total-number">${{ allTotal }}</div>
       </div>
-      <!-- <div v-if="canPay" class="buttons">
-          <van-button 
-            block round color="#191919"
-            @click="handlerPay"
-          >
-            立即付款
-          </van-button>
-          <div style="width:1rem;" />
-          <van-button 
-            round block
-            @click="handlerCancel"
-          >
-            取消
-          </van-button>
-        </div>
-        <div v-if="canReceived" class="buttons">
-          <van-button 
-            block round color="#191919"
-            @click="handlerConfirmReceived"
-          >
-            确认收货
-          </van-button>
-        </div> -->
       <div class="buttons">
         <van-space size="0.25rem">
           <van-button
@@ -107,7 +87,10 @@
       </div>
     </div>
     <van-action-sheet :overlay="false" :round="false" v-model:show="showActionSheet">
-      <payment ref="paymentRef" :pay-data="orderData" @close="() => (showActionSheet = false)" @verify="verifyPwd" />
+      <payment 
+        ref="paymentRef" :pay-data="orderData" 
+        @close="() => (showActionSheet = false)" @verify="verifyPwd" 
+      />
     </van-action-sheet>
   </div>
   <custom-floating-panel ref="floatingPanel" :title="$t('pleaseChooseShippingAddress')">

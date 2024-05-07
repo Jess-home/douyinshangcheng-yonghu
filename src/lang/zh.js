@@ -78,7 +78,7 @@ export default {
   unitPrice: '单价',
   stock: '库存',
   sutTotal: '小计',
-  total: '总',
+  total: '总价',
   payNow: '立即付款',
   confirmPassword: '密码确认',
   pleaseChooseLanguage: '请选择语言',
