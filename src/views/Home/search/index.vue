@@ -70,7 +70,7 @@ const clearSearch = () => {
     queryParams.value.page = 1
     queryParams.value.title = null
     selectKey.value = null
-    handleQuery()
+    // handleQuery()
   }
 }
 
@@ -93,6 +93,8 @@ const listData = async () => {
   total.value = res.data.total
   if (res.data.list.length < queryParams.value.limit) {
     refreshData.value.finished = true
+  }else{
+    refreshData.value.finished = false
   }
   return res
 }
