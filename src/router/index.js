@@ -1,5 +1,5 @@
 // 从Vue Router中导入必要的函数
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 import i18n from '@/lang/index.js'
 
@@ -35,7 +35,7 @@ const routes = [...defaultRouterList, ...asyncRouterList]
 // 使用Vue Router的createRouter函数创建路由实例
 const router = createRouter({
   // 使用web history模式并设置基本URL
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes, // 将路由数组传递给路由实例
   scrollBehavior() {
     // 定义路由的滚动行为

@@ -7,12 +7,13 @@ import zh from '@/lang/zh.js'
 import jap from '@/lang/jap.js'
 import kor from '@/lang/kor.js'
 import thai from '@/lang/thai.js'
+import vn from '@/lang/vn.js'
 
 //  系统默认语言
 export const default_lang = {
-  language_name: '中文',
-  chinese_name: '中文',
-  file_name: 'zh-CN'
+  language_name: 'English',
+  chinese_name: '英文',
+  file_name: 'en'
 }
 
 // 本地语言环境获取
@@ -27,7 +28,8 @@ const i18n = createI18n({
     'zh-CN': zh,
     'ri':jap,
     'han':kor,
-    'tai':thai
+    'tai':thai,
+	'vn':vn
   }
 })
 

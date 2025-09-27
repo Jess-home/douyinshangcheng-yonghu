@@ -34,7 +34,7 @@ const menus = ref([
   {
     name: proxy.t('customerService'),
     iconName: 'headset-one',
-    routeName: 'Service'
+    routeName: 'Services'
   }
 ])
 const router = useRouter()

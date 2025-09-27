@@ -2,9 +2,9 @@ import i18n from '@/lang/index.js'
 
 //  系统默认语言
 export const default_lang = {
-  language_name: '中文',
-  chinese_name: '中文',
-  file_name: 'zh-CN'
+  language_name: 'English',
+  chinese_name: '英文',
+  file_name: 'en'
 }
 
 export const order_statuses = [

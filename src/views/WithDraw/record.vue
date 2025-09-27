@@ -28,7 +28,7 @@
         </div>
         <div class="flex flex-col justify-around items-stretch basis-2/5">
           <div class="flex flex-row justify-between mx-1 text-red">
-            {{ $t('recharge') }}
+            {{ $t('draw') }}
             <span class="text-base font-medium flex flex-col">
               {{ item.extract_price }}
             </span>

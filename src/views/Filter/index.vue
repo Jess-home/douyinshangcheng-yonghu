@@ -208,7 +208,14 @@ const goNotification = () => {
   router.push({ name: 'Notification' })
 }
 const showBalance = ref(false)
+//每次打开页面执行
+onActivated(() => {
+  useUserStore()
+    .getInfo()
+})
+
 const handlerSwitchShowBalance = () => {
+	
   showBalance.value = !showBalance.value
 }
 // language

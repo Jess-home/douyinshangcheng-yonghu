@@ -31,6 +31,14 @@ export function search(data) {
   })
 }
 
+export function searchs(data) {
+  return service({
+    url: `/api/product/searchs`,
+    method: 'get',
+    params: data
+  })
+}
+
 export function like(data) {
   return service({
     url: `/api/product/like`,

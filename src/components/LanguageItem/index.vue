@@ -1,7 +1,7 @@
 <template>
   <div class="language-container">
     <div class="left">
-      {{ language.language_name }}-{{ language.chinese_name }}
+      {{ language.language_name }}
       <div class="chn">{{ language.file_name }}</div>
     </div>
     <div v-if="language.is_default === 1" class="right">

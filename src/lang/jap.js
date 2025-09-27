@@ -18,10 +18,10 @@ export default {
     register: '登録',
     registerSuccess: '登録成功',
     notYetOpen: 'まだ開いていない',
-    familyName: '姓',
-    placeholderFamilyName: '姓を入力してください',
-    givenName: '名',
-    placeholderGivenName: '名前を入力してください',
+    familyName: 'アカウント',
+    placeholderFamilyName: 'アカウントを入力してください',
+    givenName: 'お名前',
+    placeholderGivenName: 'お名前を入力してください',
     email: 'Eメール',
     placeholderEmail: 'Eメールを入力してください',
     pleasFillCorrectEmail: '正しいEメールを入力してください',
@@ -256,4 +256,7 @@ export default {
     postageScore: '送料評価',
     pics: '写真',
     commentNotNull: 'レビュー内容は空にできません',
+	realname:'名前',
+	pleaserealname:'お名前を入力してください',
+	dianpu:'店'
 }

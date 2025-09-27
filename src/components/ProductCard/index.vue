@@ -12,7 +12,7 @@
         {{ product.goods?.title }}
       </div>
       <div class="product-popular">
-        <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.goods?.real_sales }}</div>
+        <div>{{ $t('sales') }}&nbsp;&nbsp;{{ product.sales }}</div>
         <div>{{ product.click }} {{ $t('seen') }}</div>
       </div>
     </div>

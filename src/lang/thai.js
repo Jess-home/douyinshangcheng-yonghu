@@ -18,10 +18,10 @@ export default {
     register: 'ลงทะเบียน',
     registerSuccess: 'ลงทะเบียนสำเร็จ',
     notYetOpen: 'ยังไม่เปิด',
-    familyName: 'นามสกุล',
-    placeholderFamilyName: 'กรุณาใส่นามสกุล',
+    familyName: 'หมายเลขบัญชี',
+    placeholderFamilyName: 'กรุณากรอกหมายเลขบัญชีของคุณ',
     givenName: 'ชื่อ',
-    placeholderGivenName: 'กรุณาใส่ชื่อ',
+    placeholderGivenName: 'กรุณากรอกชื่อของคุณ',
     email: 'อีเมล',
     placeholderEmail: 'กรุณาใส่อีเมล',
     pleasFillCorrectEmail: 'กรุณาใส่อีเมลที่ถูกต้อง',
@@ -255,4 +255,7 @@ export default {
   postageScore: 'คะแนนการส่งสินค้า',
   pics: 'รูป',
   commentNotNull: 'เนื้อหาของรีวิวต้องไม่ว่างเปล่า',
+  realname:'ชื่อ',
+  pleaserealname:'กรุณากรอกชื่อของคุณ',
+  dianpu:'ร้านค้า'
 }

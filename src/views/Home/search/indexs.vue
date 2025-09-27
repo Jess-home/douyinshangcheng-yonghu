@@ -5,10 +5,11 @@
       <div class="filter-row">
         <custom-input style="flex: 1" :value="queryParams.title" @blur="blurTitleInput">
           <template #left>
+			
             <icon-park name="search" size="1.8rem" />
 			<select name="type" @change="tou" >
 				<option value="1">{{$t('product')}}</option>
-				<option value="2">{{$t('dianpu')}}</option>
+				<option value="2" selected>{{$t('dianpu')}}</option>
 			</select>
           </template>
           <template #right>
@@ -32,7 +33,7 @@
     </div>
     <refresh-list class="content" :data="refreshData" @refresh="onRefresh" @load="onLoad">
       <van-space v-if="data.length" direction="vertical" size="0.9rem">
-        <product-card
+        <product-cards
           v-for="(item, index) in data"
           :key="index"
           :product="item"
@@ -48,8 +49,9 @@ import throttle from 'lodash/throttle'
 import NavBar from '@/components/CustomNavBar/index.vue'
 import CustomInput from '@/components/Input/index.vue'
 import RefreshList from '@/components/RefreshList/index.vue'
-import ProductCard from '@/components/ProductCard/horiz.vue'
-import { topTenKey, search as list } from '@/api/product.js'
+// import ProductCard from '@/components/ProductCard/horiz.vue'
+import ProductCards from '@/components/ProductCard/horizs.vue'
+import { topTenKey, searchs as list } from '@/api/product.js'
 import toast from '@/utils/toast.js'
 import { useRouter } from 'vue-router'
 const keys = ref([])
@@ -138,10 +140,12 @@ const handleQuery = async () => {
 }
 const router = useRouter()
 const goDetail = (product) => {
-  router.push({
-    path: `/detail/${product.product_id}/${product.mer_id}`
-  })
+  // router.push({
+  //   path: `/detail/${product.product_id}/${product.mer_id}`
+  // })
+   router.push({ name: 'Shop', params: { id: product.mer_id } })
 }
+
 const init = () => {
   toast.loading()
   Promise.all([

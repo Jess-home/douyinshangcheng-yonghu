@@ -55,14 +55,7 @@
             />
           </template>
         </custom-input>
-        <custom-input
-          :required="true"
-          :label="$t('email')"
-          :placeholder="$t('placeholderEmail')"
-          :value="form.email"
-          @blur="(val) => (form.email = val)"
-          :rules="[{ validator: validatorEmail, trigger: 'onSubmit' }]"
-        />
+        
         <custom-input
           :required="true"
           :label="$t('mobile')"
@@ -70,7 +63,19 @@
           :value="form.mobile"
           @blur="(val) => (form.mobile = val)"
           :rules="[{ validator: validatorMobile, trigger: 'onSubmit' }]"
-        />
+        >
+		<template #left>
+			<div @click="showquhao = !showquhao">+{{form.quhao}} <span style="font-weight: 100;color: #858585;font-size: 10px;">∨</span></div>
+		</template>
+		</custom-input>
+		<custom-input
+		  :required="false"
+		  :label="$t('email')"
+		  :placeholder="$t('placeholderEmail')"
+		  :value="form.email"
+		  @blur="(val) => (form.email = val)"
+		  :rules="[{ validator: validatorEmail, trigger: 'onSubmit' }]"
+		/>
       </div>
       <div class="bottom">
         <van-button round block color="#191919" native-type="submit">{{
@@ -78,6 +83,7 @@
         }}</van-button>
       </div>
     </van-form>
+	<van-action-sheet v-model:show="showquhao" :actions="quhaolist" @select="onSelectquhao"/>
   </div>
 </template>
 <script setup>
@@ -86,13 +92,27 @@ import toast from '@/utils/toast.js'
 import CustomInput from '@/components/Input/index.vue'
 import {  regEmail } from '@/utils/regExp.js'
 const { proxy } = getCurrentInstance()
+
+const showquhao = ref(false);
+const quhaolist = ref([{ name: '+84',value:'84' },
+					{ name: '+852',value:'852' },
+					{ name: '+81',value:'81' },
+					{ name: '+82',value:'82' },
+					{ name: '+1',value:'1' },
+					{ name: '+66',value:'66' }]);
+const onSelectquhao = (item) => {
+  showquhao.value = false;
+  form.value.quhao = item.value;
+};
+
 const form = ref({
   username: undefined,
   nickname: undefined,
   password: undefined,
   repPwd: undefined,
   email: undefined,
-  mobile: undefined
+  mobile: undefined,
+  quhao: '84'
 })
 const showPwd = ref(false)
 const showRepPwd = ref(false)
@@ -107,6 +127,7 @@ const validatorRepeatPwd = (val) => {
   }
 }
 const validatorEmail = (val) => {
+	return true
   if (!val) {
     return proxy.t('placeholderEmail')
   } else {

@@ -8,7 +8,7 @@
       {{ platform.name }}
     </div>
     <div class="custom-row row">
-      <van-button round block color="#191919" @click="hanlderLocation(platform.custom_service)">{{
+      <van-button round block color="#191919" @click="router.push('/services')">{{
         $t('serviceLink')
       }}</van-button>
     </div>
@@ -23,6 +23,7 @@
 import { platformInfo } from '@/api/home.js'
 import toast from '@/utils/toast.js'
 import Navbar from '@/components/CustomNavBar/index.vue'
+const router = useRouter();
 const platform = ref({})
 const hanlderLocation = (val) => {
   // console.log(val)

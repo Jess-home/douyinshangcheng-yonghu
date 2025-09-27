@@ -29,6 +29,15 @@
           :rules="[{ validator: priceValidator, trigger: 'onSubmit' }]"
         />
         <template v-if="form.extract_type === 0">
+			<custom-input
+			  :label="$t('realname')"
+			  :placeholder="$t('pleaserealname')"
+			  required
+			  defa
+			  :value="form.real_name"
+			  @blur="(val) => (form.real_name = val)"
+			  :rules="[{ required: true, message: $t('pleaserealname'), trigger: 'onSubmit' }]"
+			/>
           <custom-input
             :label="$t('bankCardNo')"
             :placeholder="$t('placeholderBankCardNo')"
@@ -136,7 +145,8 @@ const form = ref({
   blockchain: undefined,
   network: undefined,
   bank_card: undefined,
-  bank_name: undefined
+  bank_name: undefined,
+  real_name:undefined
 })
 const priceLabel = computed(() => {
   const _val = multiply(info.value.service_charge || 0.03, 100).toFixed(2) + '%'
@@ -160,6 +170,7 @@ const handlerChooseType = (val) => {
   form.vaue.netwrok = undefined
   form.value.bank_card = undefined
   form.value.bank_name = undefined
+  form.value.real_name = undefined
   showChooseType.value = false
 }
 const cards = computed(() => {
@@ -167,7 +178,8 @@ const cards = computed(() => {
     return info.value.card_list.map((item) => {
       return {
         name: item.bank_name,
-        value: item.bank_card
+        value: item.bank_card,
+		real_name: item.real_name
       }
     })
   }
@@ -180,6 +192,7 @@ const handlerShowChooseCard = () => {
 const handlerChooseCard = (val) => {
   form.value.bank_card = val.value
   form.value.bank_name = val.name
+  form.value.real_name = val.real_name
   showChooseCard.value = false
 }
 const nets = ref([{ network: 'USDT-TRC20' }, { network: 'USDT-ERC20' }])

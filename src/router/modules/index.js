@@ -349,6 +349,17 @@ export default [
       keepAlive: true
     }
   },
+  //列表页---店铺搜索
+  {
+    path: '/searchs',
+    name: 'Searchs',
+    component: () => import('@/views/Home/search/indexs.vue'),
+    meta: {
+      title: 'searchs',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
   //popular product
   {
     path: '/popular', // 子路由的路径为空表示它是默认子路由
@@ -460,6 +471,16 @@ export default [
     path: '/service',
     name: 'Service',
     component: () => import('@/views/Service/index.vue'),
+    meta: {
+      title: '客服',
+      requireAuth: false,
+      keepAlive: true
+    }
+  },
+  {
+    path: '/services',
+    name: 'Services',
+    component: () => import('@/views/Service/indexs.vue'),
     meta: {
       title: '客服',
       requireAuth: false,

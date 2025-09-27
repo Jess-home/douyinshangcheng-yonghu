@@ -44,3 +44,11 @@ export function platformInfo() {
     method: 'get'
   })
 }
+
+export function get_shops_kfs(data) {
+  return service.request({
+    url: `/api/user/get_shops_kf`,
+    method: 'get',
+	 params: data
+  })
+}

@@ -18,8 +18,8 @@ export default {
     register: '가입',
     registerSuccess: '가입 성공',
     notYetOpen: '아직 개방되지 않음',
-    familyName: '성',
-    placeholderFamilyName: '성을 입력하세요',
+    familyName: '계정',
+    placeholderFamilyName: '계정을 입력하세요',
     givenName: '이름',
     placeholderGivenName: '이름을 입력하세요',
     email: '이메일',
@@ -256,4 +256,7 @@ export default {
     postageScore: '배송 평점',
     pics: '사진',
     commentNotNull: '평가 내용은 비워둘 수 없습니다',
+	realname:'이름',
+	  pleaserealname:'이름을 입력하세요',
+	  dianpu:'가게'
 }

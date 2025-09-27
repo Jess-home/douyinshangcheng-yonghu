@@ -156,6 +156,7 @@ const handlerSubmitOrder = () => {
   toast.loading()
   const _data = {
     address_id: orderData.value.address.address_id,
+	chu_id: orderData.value.chu_id,
     cart_ids: orderData.value.product.map((item) => item.cart_id).join(','),
     product_id: orderData.value.product.map((item) => item.product_id).join(','),
     number: orderData.value.product.map((item) => item.number).join(','),

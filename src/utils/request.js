@@ -4,6 +4,8 @@ import { tansParams } from '@/utils/tool.js'
 import cache from '@/utils/cache.js'
 import useUserStore from '@/stores/modules/user.js'
 import toast from '@/utils/toast.js'
+import { getLocalLang } from '@/utils/auth.js'
+import { default_lang } from '@/utils/constants.js'
 
 // 是否显示重新登录
 export const isRelogin = { show: false }
@@ -65,6 +67,15 @@ service.interceptors.request.use(
         }
       }
     }
+	const lang = getLocalLang() || default_lang
+	
+	if (lang) {
+	    // if (lang !== 'zh-CN' && lang !== 'zh-cn') {
+	    //     config.headers.lang = 'en';
+	    // } else {
+	        config.headers.lang = lang.file_name;
+	    // }
+	}
     return config
   },
   (error) => {
@@ -98,7 +109,7 @@ service.interceptors.response.use(
       //  如果已经登录了,除了提示还要返回登录页面
       if (isLogin) {
         await useUserStore().invalidToken()
-        location.href = '/login'
+        location.href = '/#/login'
       }
       return Promise.reject(error)
     } else {

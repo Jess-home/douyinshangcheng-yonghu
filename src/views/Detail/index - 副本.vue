@@ -206,11 +206,9 @@
     </div>
     <div class="bottom">
       <div class="total-price">
-       <van-button @click="goService" style="flex: 8" block round color="#191919">{{
-         $t('customerService')
-       }}</van-button>
+        {{ $t('total') }}
+        <div class="total-number">${{ total }}</div>
       </div>
-	   <div style="width: 1rem" />
       <div class="button">
         <van-button @click="handlerAddCart" style="flex: 8" block round>{{
           $t('addToShopping')
@@ -269,7 +267,6 @@ const total = computed(() => {
   }
   return 0
 })
-
 const detail = ref({})
 const isLike = computed(() => {
   return detail.value.is_like ? true : false
@@ -378,12 +375,6 @@ const handlerRecomendDetail=item=>{
     path: `/detail/${item.product_id}/${item.mer_id}`
   })
 }
-const product_id = useRoute().params.mer
-
-const goService = () => {
-	console.log(product_id)
-  router.push({ name: `Service`, query:{pid:`${product_id}`} })
-}
 const handlerAddCart = () => {
   userStore
     .isLogin()
@@ -393,8 +384,7 @@ const handlerAddCart = () => {
         mer_id: detail.value.mer_id,
         product_id: detail.value.product_id,
         num: detail.value.number,
-        spec: spec.value.join('|'),
-		id:detail.value.id
+        spec: spec.value.join('|')
       })
         .then((res) => {
           toast.success({ msg: res.msg })
@@ -417,8 +407,7 @@ const handlerCreateOrder = () => {
         spec: spec.value.join('|'),
         product_id: detail.value.product_id,
         number: detail.value.number,
-        mer_id: detail.value.mer_id,
-		id:detail.value.id
+        mer_id: detail.value.mer_id
       })
         .then((res) => {
           toast.success({ msg: proxy.t('orderCreateSuccess') })
