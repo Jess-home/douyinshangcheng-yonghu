@@ -53,7 +53,7 @@ export default {
   partnership: 'Quan hệ đối tác',
   merchantIn:'Đăng ký người bán',
   platformName: 'Thương mại xuyên biên giới',
-  serviceLink: 'Địch vụ khách hàng',
+  serviceLink: 'CSKH',
   platformSell: 'Hệ thống bán hàng',
   helpAndSupport: 'Trợ giúp và hỗ trợ',
   lawAndPolicy: 'Pháp luật và chính sách',
